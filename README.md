@@ -100,7 +100,7 @@ summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
 summaryWTH(df.clim,env.id = 'env',statistic = 'quantile',probs = c(.20,.76,.90))
 ```
 
-## **Module II: Build of the Environmental Covariable Matrix**
+## **Module II: Building Environmental Covariable Matrices**
 
 - Mean-centered and scaled matrix
 ```{r}
@@ -130,39 +130,50 @@ W.matrix(df.cov = df.clim,by.interval = F,QC = T)
 ```{r}
 W.matrix(df.cov = df.clim,by.interval = F,QC = T,sd.tol = 3)
 ```
-## We can perform a Quality Control (QC) based on the maximum sd tolered
+- We can perform a Quality Control (QC) based on the maximum sd tolered
+```{r}
 W.matrix(df.cov = df.clim,by.interval = F,QC = T,sd.tol = 2)
+```
 
-
-## and creat for specific variables
+- and creat for specific variables
+```{r}
 id.var = c('T2M_MAX','T2M_MIN','T2M')
 W.matrix(df.cov = df.clim,var.id = id.var)
+```
 
-## or combine with summaryWTH by using is.processed=T
+- or even combine with summaryWTH by using is.processed=T
+```{r}
 data<-summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
 W.matrix(df.cov = data,is.processed = T)
+```
 
+## Environmental Typologies based on Cardinal Limits
 
-################ Environmental Typologies based on Cardinal Limits #############
-
+```{r}
 EnvTyping(x = df.clim,env.id = 'env',var.id='T2M')
+```
 
-# or by.intervals (generic time intervals)
+- Typologies by.intervals (generic time intervals)
+```{r}
 EnvTyping(x = df.clim,env.id = 'env',var.id='T2M',by.interval = T)
+```
 
-# or by.intervals (specific time intervals)
+- Typologies by.intervals (specific time intervals)
+```{r}
 EnvTyping(x = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.window = c(0,15,35,65,90,120))
+```
 
-
-# or by.intervals (specific time intervals and with specific names
+- Typologies by.intervals (specific time intervals and with specific names
+```{r}
 names.window = c('1-intial growing','2-leaf expansion I','3-leaf expansion II',
                  '4-flowering','5-grain filling','6-maturation')
 out<-EnvTyping(x = df.clim,env.id = 'env',var.id='T2M',by.interval = T,
                time.window = c(0,15,35,65,90,120),
                names.window = names.window)
+```{r}
 
-# plots: talvez fazer uma funcao pra gerar o plot....
-
+- OBS: some possible plots with ggplot2....
+```{r}
 # plot 1: enviromental variables panel
 require(ggplot2)
 ggplot() + 
@@ -205,37 +216,39 @@ ggplot() +
         legend.position = 'bottom')
 
 
+```
 
-# for more than one variable, we can use the quantiles for all environments
+- For more than one variable, we can use the quantiles for all environments
+```{r}
 EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',by.interval = T)
+```
 
-
-# We can define the cardinals for each variable
+- We can define the cardinals for each variable
+```{r}
 (cardinals= list(T2M=c(0,9,22,32,45),PRECTOT=c(0,5,10),WS2M=c(0,1,5)))
 
 EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),
           cardinals = cardinals,env.id='env')
 
+```
+However, we do not always have ecophysiological information about the best possible cardinals ... so we use quantiles!
+If quantiles = NULL, 1%, 25%, 50%, 99% is assumed
 
-#However, we do not always know about cardinals ...
-# so for variables without a cardinal, NULL is assumed and therefore 
-# the quantile delimited in quantiles () is run. 
-# If quantiles = NULL, 1%, 25%, 50%, 99% is assumed
-
+```{r}
 (cardinals= list(T2M=c(0,9,22,32,45),PRECTOT=c(0,5,10),WS2M=NULL))
 EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),
           cardinals = cardinals,env.id='env')
+```
 
-# and all analyses can also be run considering centered on the mean and scaled x ~ N (0.1)
+- and all analyses can also be run considering centered on the mean and scaled x ~ N (0.1)
+```{r}
 EnvTyping(x=df.clim,var.id = 'PRECTOT',env.id='env',scale = T)
+EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',scale = T) # or
+```{r}
 
-EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',scale = T)
+## **Module III> Prediction-based reaction norm models**
 
-
-
-################ Prediction-based reaction norm models   #######################
-#' We provide Genomic and Envirotypic kernels for reaction norm prediction
-#' After generate the kernels, the user must use the BGGE package to run the models
+We provide Genomic and Envirotypic kernels for reaction norm prediction. After generate the kernels, the user must use the BGGE package[https://github.com/italo-granato/BGGE] to run the models
 
 # returns benchmark main effect model: Y = fixed + G
 MM <- get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MM')
