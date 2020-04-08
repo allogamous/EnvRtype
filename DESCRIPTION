@@ -1,0 +1,11 @@
+Package: EnvRtype
+Type: Package
+Title: Envirotyping Tools for Multi-Environment Analysis of Breeding Trials
+Version: 0.1.0
+Author: Germano Costa Neto and Roberto Fritsche Neto
+Maintainer: Germano Costa Neto <germano.cneto@usp.br>
+Description: Provide tools for collecting environmental data from GIS-based platforms,enabling environmental characterization studies, providing environmental relatedness kinships and kernels for genomic prediction of reaction norms.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
