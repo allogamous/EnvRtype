@@ -1,6 +1,7 @@
 # EnvRtype: a tool for envirotyping analysis and genomic prediction of reaction norm
 
-Autors: Germano Costa Neto, Roberto Fritsche Neto
+Autors: Allogamous Plant Breeding Lab (University of São Paulo, ESALQ/USP, Brazil)
+Manteiner: Germano Costa Neto <germano.cneto@usp.br>
 
 ## **Background**
 
