@@ -1,0 +1,44 @@
+---
+title: "EnvRtype: a tool for envirotyping analysis and genomic prediction of reaction norm"
+author: "Germano Costa Neto & Roberto Fritsche Neto"
+output:
+  html_document:
+    toc: true
+    #  word_document:
+    #   reference_docx: C:/Users/germano/Documents/Doutorado/Material_Methods/Teste/my-styles2.docx
+---
+# Background
+
+Envirotyping-based data has proven useful in identifying the environmental drivers of
+phenotypic adaptation in plant breeding. Combined with phenotyping and genotyping data, the use of envirotyping data may leverage the molecular breeding strategies to cope with environmental changing scenarios. Over the last 10 years, this data has been incorporated in genomic-enabled prediction models aiming to better model genotype x environment interaction (GE) as a function of reaction norm.  However, there is difficult for most breeders to deal with the interplay between envirotyping, ecophysiology, and genetics. Here we present the EnvRtype R package as a new instrument developed to facilitate the interplay between envirotyping and genomic prediction. This package offers three modules: (1) collection and processing tools; (2) environmental characterization;(3) build of ecophysiological enriched genomic prediction models accounting for three different structures of reaction norm. Here we focus our efforts to present a practical use of EnvRtype package in supporting the genome-wide prediction of reaction norms.
+
+# Install
+
+```{r}
+#library(devtools)
+#install_github("allogamous/EnvRtype")
+```
+
+
+
+# Features and Functionality
+
+EnvRtype consists of the following three modules, which collectively generate a simple workflow to collect, process and integrated envirotyping into genomic prediction in multiple environments.
+
+## Environmental Sensing Module (ES)
+
+
+## Environmental Characterization Module (EC)
+
+
+## Reaction Norm Module (RN)
+
+
+
+## Examples of use
+
+200 hybrids over 4 environments
+To demonstrate the package functions, we used a set of 452 tropical maize single-crosses provided by Helix Sementes®, Brazil. Hybrids were obtained from crosses between 128 inbred lines and were evaluated for grain yield (GY) and plant height (PH). Field trials were carried out using a randomized complete block design with two replicates each, allocated across five sites for GY and three for PH during the growing season of 2015.
+
+Inbred lines were genotyped via the Affymetrix® Axiom® Maize Genotyping Array (Unterseer et al. 2014) with 660K SNP markers. Quality control for SNPs was made based on call rate (CR), in which all markers with any missing data point were excluded, and minor allele frequency (MAF) procedures, in which markers with a low level of polymorphism (MAF <0.05) were removed. Hybrid genotypes were scored by an allelic combination of homozygous markers of parental lines. After quality control, 37,625 SNP were used to compare the imputation methods.
+
