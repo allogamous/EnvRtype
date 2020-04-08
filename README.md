@@ -298,8 +298,34 @@ dim(H$envCov) # environmental relationship
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
+
+- Parametrization by K_W = WW'/ncol(W)
+```{r}
+H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=FALSE)
+dim(H)
+dim(H$varCov) # variable relationship
+dim(H$envCov) # environmental relationship
+
+
+#env.plots(H$envCov,row.dendrogram = T,col.dendrogram = T) # superheat
+superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
+
+```
+
+- Parametrization by K_W = WW'/diag( WW'), resulting in diag(K_W) = 1
+```{r}
+H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=TRUE)
+dim(H)
+dim(H$varCov) # variable relationship
+dim(H$envCov) # environmental relationship
+
+
+#env.plots(H$envCov,row.dendrogram = T,col.dendrogram = T) # superheat
+superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
+
+```
 _________________________________________
-**Attetion**:
+**Attention**:
 K_G = list of genomic kernels;
 K_E = list of environmental kernels;
 reaction = TRUE, build the haddamard's product between genomic and envirotype-based kernels;
