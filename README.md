@@ -24,13 +24,11 @@ install_github("allogamous/EnvRtype")
 
 EnvRtype consists of the following three modules, which collectively generate a simple workflow to collect, process and integrated envirotyping into genomic prediction in multiple environments.
 
-## Environmental Sensing Module (ES)
+- Environmental Sensing Module (ES)
 
+- Environmental Characterization Module (EC)
 
-## Environmental Characterization Module (EC)
-
-
-## Reaction Norm Module (RN)
+- Reaction Norm Module (RN)
 
 
 
@@ -254,7 +252,7 @@ EnvTyping(x=df.clim,var.id = 'PRECTOT',env.id='env',scale = T)
 EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',scale = T) # or
 ```
 
-## **Module III> Prediction-based reaction norm models**
+## **Module III: Prediction-based reaction norm models**
 
 We provide Genomic and Envirotypic kernels for reaction norm prediction. After generate the kernels, the user must use the BGGE package[https://github.com/italo-granato/BGGE] to run the models
 
