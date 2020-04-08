@@ -80,9 +80,10 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel
     if(!model_b == 'MM') Kgs<-K[-grep(names(K),pattern='GE')]
     if(model_b == 'MM') Kgs <- K
     f <- length(Kgs)
+    Ngen <- gsub(names(Kgs),pattern = 'KG_',replacement = '')
     K_ge<-c()
     for(j in 1:f) K_ge[[j]]<-ReacTK2(K.gen = Kgs,K.env = K_E[[j]],namesE = names(K_E)[j])
-    names(K_ge) <- paste0('KGE_',names(Kgs),names(K_E))
+    names(K_ge) <- paste0('KGE_',Ngen,names(K_E))
     K_f <- Map(c,c(K_f,K_ge))
     #if(model_b == 'MDs') K_f<-K_f[-grep(names(K_f),pattern = 'GEE')]
   }
@@ -110,8 +111,8 @@ ReacTK2 <- function(K.gen,K.env,namesE){
   Ngen <- gsub(names(K.gen),pattern = 'KG_',replacement = '')
   out<-c()
   for(j in 1:t){
-    out <- Map(c,c(out,A=list(ReacTk(K.gen = K.gen[[j]]$Kernel,K.env = K.env))))
-    names(out)[j] = paste0('KGE_',Ngen[j],namesE)
+    out <- Map(c,c(out,ReacTk(K.gen = K.gen[[j]]$Kernel,K.env = K.env)))
+    #names(out)[j] = paste0('KGE_',Ngen[j],namesE)
   }
   return(out)
 }

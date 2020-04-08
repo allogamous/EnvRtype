@@ -64,8 +64,8 @@ EnvKernel <-function(df.cov,Y=NULL, is.scaled=T, sd.tol = 1,
 
   O <- tcrossprod(df.cov)#/ncol(df.cov)  # env.relatedness kernel from covariates
   H <- crossprod(df.cov)#/nrow(df.cov)   # covariable relatedness kernel from covariates
-  O <- O + diag(1E-4,nrow=nrow(O),ncol=ncol(O))
-  H <- H + diag(1E-4,nrow=nrow(H),ncol=ncol(H))
+  O <- O + diag(1E-3,nrow=nrow(O),ncol=ncol(O))
+  H <- H + diag(1E-3,nrow=nrow(H),ncol=ncol(H))
   if(isTRUE(bydiag)){
     O <- O/diag(O)
     H <- H/diag(H)
