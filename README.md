@@ -266,8 +266,7 @@ Y <- maizeYield
 G <- maizeG
 df.clim <- maizeWTH
 
-```{r}
-
+```
 - returns benchmark main effect model: Y = fixed + G
 
 ```{r}
