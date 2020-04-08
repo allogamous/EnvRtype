@@ -6,11 +6,24 @@
 #' @param df.cov matrix. Data from environmental variables (or markers) per environment (or combinations of genotype-environment)
 #' @param is.scaled boolean. If environmental data is mean-centered and scaled (default = TRUE), assuming x~N(0,1)
 #' @param sd.tol numeric. Maximum standard deviation value for quality control. Coluns above this value are eliminated
-
-
+#' @param Y data.frame. Phenotypic data set containing environment id, genotype id and trait value.
+#' @param merge boolean. if TRUE, the environmental covariables are merged with Y to build a n x n dimension env.kernel.
+#' @param bydiag boolean. If TRUE, the parametrization by WW'/diag(WW') is applied. If FALSE, WW'/ncol(W)
+#' @param gaussian boolean. If TRUE, uses the gaussian kernel parametrization for W, where envCov = exp(-h*d/q)
+#' @param h.gaussian numeric. If gaussian = TRUE, returns the h parameter for exp(-h*d/q)
+#'
 EnvKernel <-function(df.cov,Y=NULL, is.scaled=T, sd.tol = 1,
                      tol=1E-3,bydiag=FALSE,merge=FALSE,
-                     env.id=NULL){
+                     env.id=NULL,gaussian=FALSE, h.gaussian=NULL){
+
+  gaussian <- function(x,h=NULL){
+    d<-as.matrix(dist(x,upper = T,diag = T))
+    q <- median(d)
+    if(is.null(h)) h <- 1
+
+    return(exp(-h*d/q))
+  }
+
 
   envK = function(df.cov,df.pheno,skip=3,env.id){
     df.pheno <-data.frame(df.pheno)
@@ -41,6 +54,12 @@ EnvKernel <-function(df.cov,Y=NULL, is.scaled=T, sd.tol = 1,
   if(isTRUE(merge)){
     if(is.null(env.id)) env.id <- 'env'
     df.cov <- envK(df.cov = df.cov,df.pheno=Y,env.id=env.id)
+  }
+  if(isTRUE(gaussian)){
+    O <- gaussian(x = df.cov,h=h.gaussian)
+    H <- gaussian(x = t(df.cov),h=h.gaussian)
+    return(list(varCov=H,envCov=O))
+
   }
 
   O <- tcrossprod(df.cov)#/ncol(df.cov)  # env.relatedness kernel from covariates

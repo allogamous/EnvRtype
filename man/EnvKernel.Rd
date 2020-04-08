@@ -12,15 +12,27 @@ EnvKernel(
   tol = 0.001,
   bydiag = FALSE,
   merge = FALSE,
-  env.id = NULL
+  env.id = NULL,
+  gaussian = FALSE,
+  h.gaussian = NULL
 )
 }
 \arguments{
 \item{df.cov}{matrix. Data from environmental variables (or markers) per environment (or combinations of genotype-environment)}
 
+\item{Y}{data.frame. Phenotypic data set containing environment id, genotype id and trait value.}
+
 \item{is.scaled}{boolean. If environmental data is mean-centered and scaled (default = TRUE), assuming x~N(0,1)}
 
 \item{sd.tol}{numeric. Maximum standard deviation value for quality control. Coluns above this value are eliminated}
+
+\item{bydiag}{boolean. If TRUE, the parametrization by WW'/diag(WW') is applied. If FALSE, WW'/ncol(W)}
+
+\item{merge}{boolean. if TRUE, the environmental covariables are merged with Y to build a n x n dimension env.kernel.}
+
+\item{gaussian}{boolean. If TRUE, uses the gaussian kernel parametrization for W, where envCov = exp(-h*d/q)}
+
+\item{h.gaussian}{numeric. If gaussian = TRUE, returns the h parameter for exp(-h*d/q)}
 }
 \description{
 Returns environmental kinships for reaction norm models. Output is a list containing the objects varCov kinship for environmental variables and envCov kinshp for environmental relatedness
