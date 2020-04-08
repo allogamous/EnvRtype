@@ -26,16 +26,14 @@ EnvRtype consists of the following three modules, which collectively generate a 
 
 
 
-## Examples of use
-
-#'##############################################################################
-#' Basic tutorial for EnvRtype package
-#' gcneto april 08 2020
-#'##############################################################################
+# Examples of use
+```{r}
 library(devtools)
 install_github('allogamous/EnvRtype')
 require(EnvRtype)
-############# Collecting daily weather from GIS data soruces  ##################
+```
+## **Module I Collecting and Processing Environmental Data**
+```{r}
 lat = c(-13.05,-12.32,-18.34,-18.90,-23.03) # vector of latitude WGS84
 lon = c(-56.05,-55.42,-46.31,-49.56,-51.02) # vector of lontitude WGS84
 env = c("NM","SO","PM","IP","SE")           # vector of environment/site ID
@@ -43,22 +41,26 @@ plant.date = c("2015-02-15",'2015-02-13', # vector of start period
                "2015-02-26","2015-03-01",
                '2015-02-19') 
 harv.date =rep("2015-06-15",5) # vector of end period
+```
 
-
-
-
+So we can use this information to collect weather data from NASAPOWER:
+```{r}
 df.clim <- get_weather(env.id = env,lat = lat,lon = lon,
                        start.day = plant.date,end.day = harv.date)
+                       
 
 head(df.clim)
-############# Basic processing of get_weather()  ###############################
 
+```
+### Basic processing of get_weather() 
+```{r}
 df.clim <-processWTH(x = df.clim,lon = 'LON',lat = 'LAT',env.id = 'env',download.ALT = TRUE,country = 'BRA')
-
-############# Basic summary statistics for environmental data ##################
-
+```
+## Basic summary statistics for environmental data
+```{r}
 summaryWTH(df.clim)
 summaryWTH(df.clim,env.id = 'env')
+```
 
 ### Summary a particular environmental variable
 summaryWTH(df.clim,env.id = 'env',var.id = 'T2M')
