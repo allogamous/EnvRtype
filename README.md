@@ -300,32 +300,32 @@ superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 ```
 _________________________________________
 **Attetion**:
-K_G = list of genomic kernels
-K_E = list of environmental kernels
-reaction = TRUE, build the haddamard's product between genomic and envirotype-based kernels
+K_G = list of genomic kernels;
+K_E = list of environmental kernels;
+reaction = TRUE, build the haddamard's product between genomic and envirotype-based kernels;
 reaction = FALSE, but K_E != NULL, only random environmental effects using K_E are incorporated in the model
 
 _______________________________________
 
-- returns benchmark main effect model: Y = fixed + W + G
+- returns benchmark main effect model plus random environmental covariables: Y = fixed + W + G
 
 ```{r}
 EMM <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = F,model = 'E-MM') # or model = MM
 ```
-- returns benchmark main GxE deviation model: Y = fixed + G + W + GE
+- returns benchmark main GxE deviation model plus random environmental covariables: Y = fixed + G + W + GE
 
 ```{r}
 EMDs <-get_kernel(K_G = list(G=G),Y = Y,K_E = list(W=H$envCov),reaction = F,model = 'MDs') # or model = MDs
 
 ```
 
-- returns benchmark main effect model: Y = fixed + W + G + GW
+- returns reaction norm model: Y = fixed + W + G + GW
 
 ```{r}
 RN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model = 'E-MM')
 
 ```
-- returns benchmark main effect model: Y = fixed + W + G + GW + GE
+- returns a full reaction norm model with GE and GW kernels: Y = fixed + W + G + GW + GE
 
 ```{r}
 fullRN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model = 'E-MDs')
