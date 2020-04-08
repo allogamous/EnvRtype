@@ -1,6 +1,6 @@
 # EnvRtype: a tool for envirotyping analysis and genomic prediction of reaction norm
 
-Autors: Allogamous Plant Breeding Lab (University of São Paulo, ESALQ/USP, Brazil)
+Autors: Allogamous Plant Breeding Lab (University of São Paulo, ESALQ/USP, Brazil) [http://www.genetica.esalq.usp.br/en/lab/allogamous-plant-breeding-laboratory]
 
 Manteiner: Germano Costa Neto <germano.cneto@usp.br>
 
