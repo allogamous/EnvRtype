@@ -324,6 +324,20 @@ dim(H$envCov) # environmental relationship
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
+
+
+- Gaussian parametrization by K_W =  exp(-hd/q), which d = dist(W), q = median(d) and h = gaussian parameter (default = 1)
+```{r}
+H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',gaussian=TRUE)
+dim(H)
+dim(H$varCov) # variable relationship
+dim(H$envCov) # environmental relationship
+
+
+#env.plots(H$envCov,row.dendrogram = T,col.dendrogram = T) # superheat
+superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
+
+```
 _________________________________________
 **Attention**:
 K_G = list of genomic kernels;
