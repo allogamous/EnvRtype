@@ -43,7 +43,7 @@ plant.date = c("2015-02-15",'2015-02-13', # vector of start period
 harv.date =rep("2015-06-15",5) # vector of end period
 ```
 
-So we can use this information to collect weather data from NASAPOWER:
+- So we can use this information to collect weather data from NASAPOWER:
 ```{r}
 df.clim <- get_weather(env.id = env,lat = lat,lon = lon,
                        start.day = plant.date,end.day = harv.date)
@@ -76,47 +76,60 @@ summaryWTH(df.clim,env.id = 'env',by.interval = T)
 ```{r}
 summaryWTH(df.clim,env.id = 'env',by.interval = T,time.window = c(0,14,35,60,90,120))
 ```
-### Summary by time intervals given by time.window and names.window
+- Summary by time intervals given by time.window and names.window
+```{r}
 summaryWTH(df.clim,env.id = 'env',by.interval = T,
            time.window = c(0,14,35,60,90,120),
            names.window = c('P-E','E-V1','V1-V4','V4-VT','VT-GF','GF-PM'))
 
-
-### Returns only mean values
+```
+- Returns only mean values
+```{r}
 summaryWTH(df.clim,env.id = 'env',statistic = 'mean')
-
-### Returns only sum values
+```
+- Returns only sum values
+```{r}
 summaryWTH(df.clim,env.id = 'env',statistic = 'sum')
-
-### Returns quantile values (default = 25%, 50% and 75%)
+```
+- Returns quantile values (default = 25%, 50% and 75%)
+```
 summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
-
-### or specific quantiles (e.g., 20%, 76% and 90%)
+```
+- For specific quantiles (e.g., 20%, 76% and 90%)
+```{r}
 summaryWTH(df.clim,env.id = 'env',statistic = 'quantile',probs = c(.20,.76,.90))
+```
 
+## **Module II: Build of the Environmental Covariable Matrix**
 
-############### Build of the Environmental Covariable Matrix  ##################
-
-### Mean-centered and scaled matrix
+- Mean-centered and scaled matrix
+```{r}
 W.matrix(df.cov = df.clim,by.interval = F)
-
-## same as SummaryWTH, we can add time.windows
+```
+- same as SummaryWTH, we can add time.windows
+```{r}
 W.matrix(df.cov = df.clim,by.interval = T,
          time.window = c(0,14,35,60,90,120))
-
-## and select the statistic to be used
+```
+- Select the statistic to be used
+```{r}
 W.matrix(df.cov = df.clim,by.interval = T,statistic = 'mean',
          time.window = c(0,14,35,60,90,120))
+         
 
 W.matrix(df.cov = df.clim,by.interval = T,statistic = 'quantile',
          time.window = c(0,14,35,60,90,120))
 
-## We can perform a Quality Control (QC) based on the maximum sd tolered
+```
+
+- We can perform a Quality Control (QC) based on the maximum sd tolered
+```{r}
 W.matrix(df.cov = df.clim,by.interval = F,QC = T)
-
-## We can perform a Quality Control (QC) based on the maximum sd tolered
+```
+- We can perform a Quality Control (QC) based on the maximum sd tolered
+```{r}
 W.matrix(df.cov = df.clim,by.interval = F,QC = T,sd.tol = 3)
-
+```
 ## We can perform a Quality Control (QC) based on the maximum sd tolered
 W.matrix(df.cov = df.clim,by.interval = F,QC = T,sd.tol = 2)
 
