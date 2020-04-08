@@ -62,16 +62,20 @@ summaryWTH(df.clim)
 summaryWTH(df.clim,env.id = 'env')
 ```
 
-### Summary a particular environmental variable
+- Summary a particular environmental variable
+
+```{r}
 summaryWTH(df.clim,env.id = 'env',var.id = 'T2M')
-summaryWTH(df.clim,env.id = 'env',var.id = c('T2M','T2M_MAX'))
-
-### Summary by time intervals (e.g., phenology)
+summaryWTH(df.clim,env.id = 'env',var.id = c('T2M','T2M_MAX')) # or more than one
+```
+- Summary by time intervals (e.g., phenology)
+```{r}
 summaryWTH(df.clim,env.id = 'env',by.interval = T)
-
-### Summary by time intervals given by time.window
+```
+- Summary by time intervals given by time.window
+```{r}
 summaryWTH(df.clim,env.id = 'env',by.interval = T,time.window = c(0,14,35,60,90,120))
-
+```
 ### Summary by time intervals given by time.window and names.window
 summaryWTH(df.clim,env.id = 'env',by.interval = T,
            time.window = c(0,14,35,60,90,120),
