@@ -1,9 +1,15 @@
-# **Background**
+# EnvRtype: a tool for envirotyping analysis and genomic prediction of reaction norm
+
+Autors: Germano Costa Neto, Roberto Fritsche Neto
+
+## **Background**
 
 Envirotyping-based data has proven useful in identifying the environmental drivers of
 phenotypic adaptation in plant breeding. Combined with phenotyping and genotyping data, the use of envirotyping data may leverage the molecular breeding strategies to cope with environmental changing scenarios. Over the last 10 years, this data has been incorporated in genomic-enabled prediction models aiming to better model genotype x environment interaction (GE) as a function of reaction norm.  However, there is difficult for most breeders to deal with the interplay between envirotyping, ecophysiology, and genetics. Here we present the EnvRtype R package as a new instrument developed to facilitate the interplay between envirotyping and genomic prediction. This package offers three modules: (1) collection and processing tools; (2) environmental characterization;(3) build of ecophysiological enriched genomic prediction models accounting for three different structures of reaction norm. Here we focus our efforts to present a practical use of EnvRtype package in supporting the genome-wide prediction of reaction norms.
 
-# **Install**
+
+
+## **Install**
 
 ```{r}
 library(devtools)
@@ -12,7 +18,7 @@ install_github("allogamous/EnvRtype")
 
 
 
-# **Features and Functionality**
+## **Features and Functionality**
 
 EnvRtype consists of the following three modules, which collectively generate a simple workflow to collect, process and integrated envirotyping into genomic prediction in multiple environments.
 
@@ -26,7 +32,7 @@ EnvRtype consists of the following three modules, which collectively generate a 
 
 
 
-# Examples of use
+## Examples of use
 ```{r}
 library(devtools)
 install_github('allogamous/EnvRtype')
@@ -244,54 +250,93 @@ EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),
 ```{r}
 EnvTyping(x=df.clim,var.id = 'PRECTOT',env.id='env',scale = T)
 EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',scale = T) # or
-```{r}
+```
 
 ## **Module III> Prediction-based reaction norm models**
 
 We provide Genomic and Envirotypic kernels for reaction norm prediction. After generate the kernels, the user must use the BGGE package[https://github.com/italo-granato/BGGE] to run the models
 
-# returns benchmark main effect model: Y = fixed + G
+- Toy Example: genomic prediction for grain yield in tropical maize
+```{r}
+data("maizeYield") # 150 maize hybrids over 5 environments (grain yield data)
+data("maizeG")     # GRM for maizeYield
+data('maizeWTH')   # weather data for maize Yield
+
+Y <- maizeYield
+G <- maizeG
+df.clim <- maizeWTH
+
+```{r}
+
+- returns benchmark main effect model: Y = fixed + G
+
+```{r}
 MM <- get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MM')
-
-# returns benchmark main GxE deviation model: Y = fixed + G +GE
+```
+- returns benchmark main GxE deviation model: Y = fixed + G +GE
+```{r}
 MDs <-get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MDs')
+```
+- obtaining environmental variables based on quantiles
 
-
+```{r}
 W.cov<-W.matrix(df.cov = df.clim,by.interval = T,statistic = 'quantile',
                 time.window = c(0,14,35,60,90,120))
 dim(W.cov)
 
-# Creating Env Kernels from W matrix and Y dataset
+```
+
+- Creating Env Kernels from W matrix and Y dataset
+
+```{r}
 H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env')
 dim(H)
 dim(H$varCov) # variable relationship
 dim(H$envCov) # environmental relationship
 
+
 #env.plots(H$envCov,row.dendrogram = T,col.dendrogram = T) # superheat
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
-# K_G = list of genomic kernels
-# K_E = list of environmental kernels
-# reaction = TRUE, build the haddamard's product between genomic and envirotype-based kernels
-# reaction = FALSE, but K_E != NULL, only random environmental effects using K_E are incorporated in the model
+```
+_________________________________________
+**Attetion**:
+K_G = list of genomic kernels
+K_E = list of environmental kernels
+reaction = TRUE, build the haddamard's product between genomic and envirotype-based kernels
+reaction = FALSE, but K_E != NULL, only random environmental effects using K_E are incorporated in the model
 
+_______________________________________
 
-# returns benchmark main effect model: Y = fixed + W + G
+- returns benchmark main effect model: Y = fixed + W + G
+
+```{r}
 EMM <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = F,model = 'E-MM') # or model = MM
+```
+- returns benchmark main GxE deviation model: Y = fixed + G + W + GE
 
-# returns benchmark main GxE deviation model: Y = fixed + G + W + GE
+```{r}
 EMDs <-get_kernel(K_G = list(G=G),Y = Y,K_E = list(W=H$envCov),reaction = F,model = 'MDs') # or model = MDs
 
+```
 
-# returns benchmark main effect model: Y = fixed + W + G + GW
+- returns benchmark main effect model: Y = fixed + W + G + GW
+
+```{r}
 RN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model = 'E-MM')
 
-# returns benchmark main effect model: Y = fixed + W + G + GW + GE
+```
+- returns benchmark main effect model: Y = fixed + W + G + GW + GE
+
+```{r}
 fullRN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model = 'E-MDs')
 
+```
 
-# Advanced options:
-# lets build again the W matrix
+- Advanced options:
+**lets build again the W matrix**
+
+```{r}
 W.cov<-W.matrix(df.cov = df.clim,by.interval = T,statistic = 'quantile',
                 time.window = c(0,14,35,60,90,120))
 
@@ -306,3 +351,5 @@ T.cov<- EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',for
 EMM <-get_kernel(K_G = list(G=G),K_E = list(W=W.cov,ET=T.cov), Y = Y,reaction = F,model = 'E-MM',size_E = 'environment')
 EMM$KE_W # kernel from W
 EMM$KE_ET # kernel from T (envirotype)
+
+```
