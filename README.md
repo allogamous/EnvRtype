@@ -1,4 +1,3 @@
-theme: jekyll-theme-hacker
 
 # EnvRtype: a tool for envirotyping analysis and genomic prediction of reaction norm
 
