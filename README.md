@@ -44,7 +44,7 @@ df.clim <- get_weather(env.id = env,lat = lat,lon = lon,
                        
 
 df.clim <- get_weather(env.id = env,lat = lat,lon = lon,
-                       start.day = plant.date,end.day = harv.date,asdatamframe=T) # returns a dataframe
+                       start.day = plant.date,end.day = harv.date,asdataframe = T) # returns a dataframe
 head(df.clim)
 
 ```
