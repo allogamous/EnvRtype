@@ -16,24 +16,6 @@ EnvKernel <-function(df.cov,Y=NULL, is.scaled=T, sd.tol = 1,
                      tol=1E-3,bydiag=FALSE,merge=FALSE,
                      env.id=NULL,gaussian=FALSE, h.gaussian=NULL){
 
-  gaussian <- function(x,h=NULL){
-    d<-as.matrix(dist(x,upper = T,diag = T))
-    q <- median(d)
-    if(is.null(h)) h <- 1
-
-    return(exp(-h*d/q))
-  }
-
-
-  envK = function(df.cov,df.pheno,skip=3,env.id){
-    df.pheno <-data.frame(df.pheno)
-    df.cov <-data.frame(df.cov)
-    df.cov$env <- as.factor(rownames(df.cov))
-    W <- as.matrix(merge(df.pheno,df.cov, by=env.id)[,-c(1:skip)])
-    return(W)
-  }
-
-
   if(!is.matrix(df.cov)){stop('df.cov must be a matrix')}
   if(isFALSE(is.scaled)){
     Amean <- df.cov-apply(df.cov,2,mean)+tol
@@ -61,21 +43,37 @@ EnvKernel <-function(df.cov,Y=NULL, is.scaled=T, sd.tol = 1,
     return(list(varCov=H,envCov=O))
 
   }
+  if(isFALSE(gaussian)){
+    O <- tcrossprod(df.cov)#/ncol(df.cov)  # env.relatedness kernel from covariates
+    H <- crossprod(df.cov)#/nrow(df.cov)   # covariable relatedness kernel from covariates
+    O <- O + diag(1E-3,nrow=nrow(O),ncol=ncol(O))
+    H <- H + diag(1E-3,nrow=nrow(H),ncol=ncol(H))
+    if(isTRUE(bydiag)){
+      O <- O/diag(O)
+      H <- H/diag(H)
+    }
+    if(isFALSE(bydiag)){
+      O <- O/ncol(df.cov)
+      H <- H/nrow(df.cov)
+    }
 
-  O <- tcrossprod(df.cov)#/ncol(df.cov)  # env.relatedness kernel from covariates
-  H <- crossprod(df.cov)#/nrow(df.cov)   # covariable relatedness kernel from covariates
-  O <- O + diag(1E-3,nrow=nrow(O),ncol=ncol(O))
-  H <- H + diag(1E-3,nrow=nrow(H),ncol=ncol(H))
-  if(isTRUE(bydiag)){
-    O <- O/diag(O)
-    H <- H/diag(H)
+    return(list(varCov=H,envCov=O))
   }
-  if(isFALSE(bydiag)){
-    O <- O/ncol(df.cov)
-    H <- H/nrow(df.cov)
-  }
-
-
-  return(list(varCov=H,envCov=O))
 }
 
+gaussian <- function(x,h=NULL){
+  d<-as.matrix(dist(x,upper = T,diag = T))
+  q <- median(d)
+  if(is.null(h)) h <- 1
+
+  return(exp(-h*d/q))
+}
+
+
+envK = function(df.cov,df.pheno,skip=3,env.id){
+  df.pheno <-data.frame(df.pheno)
+  df.cov <-data.frame(df.cov)
+  df.cov$env <- as.factor(rownames(df.cov))
+  W <- as.matrix(merge(df.pheno,df.cov, by=env.id)[,-c(1:skip)])
+  return(W)
+}
