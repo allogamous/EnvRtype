@@ -24,7 +24,7 @@
 get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
                            start.day = NULL,end.day = NULL,
                            variables.names = NULL, dir.path = NULL,
-                           save=FALSE,asdataframe=FALSE,temporal.scale = 'DAILY'){
+                           save=FALSE,asdataframe=TRUE,temporal.scale = 'DAILY'){
   cat('------------------------------------------------ \n')
   cat('ATTENTION: This function requires internet access \n')
   cat('------------------------------------------------  \n')
@@ -82,6 +82,7 @@ get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
   names(.C) = env.id
   #' if asdataframe is true, df_convert function will be used
   if(isTRUE(asdataframe)) .C = plyr::ldply(.C)
+  names(.C)[names(.C) %in% '.id'] = 'env'
 
   return(.C)
 }
