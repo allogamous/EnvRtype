@@ -36,7 +36,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel
   #'----------------------------------------------------------------------------
   #' getting genomic kernels (see BGGE)
   #'----------------------------------------------------------------------------
-
+  Y <- droplevels(Y)
   K = getK(Y = Y, setKernel = K_G, model = model_b,intercept.random = intercept.random);
   names(K)   <- paste0('KG_',names(K))
   #'----------------------------------------------------------------------------
@@ -77,14 +77,19 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel
   #' Envirotype-enriched models (for GE+E effects)
   #'----------------------------------------------------------------------------
   if(isTRUE(reaction)){
-    if(!model_b == 'MM') Kgs<-K[-grep(names(K),pattern='GE')]
-    if(model_b == 'MM') Kgs <- K
-    f <- length(Kgs)
-    K_ge<-c()
-    for(j in 1:f) K_ge[[j]]<-ReacTK2(K.gen = Kgs,K.env = K_E[[j]],namesE = names(K_E)[j])
-    names(K_ge) <- paste0('KGE_',names(Kgs),names(K_E))
-    K_f <- Map(c,c(K_f,K_ge))
-    #if(model_b == 'MDs') K_f<-K_f[-grep(names(K_f),pattern = 'GEE')]
+    Zg <- model.matrix(~0+gid,Y)
+    ng <- length(K_G)
+    Ng<-names(K_G)
+    for(i in 1:ng) K_G[[i]] <-tcrossprod(Zg%*%K_G[[i]])
+    ne <- length(K_E)
+    A<-c()
+    nome<-c()
+    Ne<-names(K_E)
+    for(g in 1:ng){for(e in 1:ne) {A <- cbind(A,list(K_G[[g]]*K_E[[e]])); nome <- c(nome,paste0('KGE_',Ng[g],Ne[e]))}}
+    K_GE <- c()
+    for(ge in 1:length(A)) K_GE[[ge]] <- list(Kernel=A[[ge]],Type='D')
+    names(K_GE) <- nome
+    K_f <- Map(c,c(K,K_e,K_GE))
   }
 
   if(isTRUE(intercept.random)) K_f<-K_f[-grep(names(K_f),pattern = 'GE_Gi')]
@@ -101,18 +106,3 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel
   cat("----------------------------------------------------- \n")
   return(K_f)
 }
-
-ReacTk <- function(K.gen,K.env) return(list(Kernel=K.gen*K.env,type='D'))
-
-ReacTK2 <- function(K.gen,K.env,namesE){
-
-  t <- length(K.gen)
-  Ngen <- gsub(names(K.gen),pattern = 'KG_',replacement = '')
-  out<-c()
-  for(j in 1:t){
-    out <- Map(c,c(out,A=list(ReacTk(K.gen = K.gen[[j]]$Kernel,K.env = K.env))))
-    names(out)[j] = paste0('KGE_',Ngen[j],namesE)
-  }
-  return(out)
-}
-

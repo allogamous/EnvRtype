@@ -13,7 +13,7 @@ get_weather(
   variables.names = NULL,
   dir.path = NULL,
   save = FALSE,
-  asdataframe = FALSE,
+  asdataframe = TRUE,
   temporal.scale = "DAILY"
 )
 }
