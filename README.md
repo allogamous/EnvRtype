@@ -1,7 +1,8 @@
 
 # EnvRtype: a tool for envirotyping analysis and genomic prediction considering reaction norms
 
-Authors: (Allogamous Plant Breeding Lab (University of São Paulo, ESALQ/USP, Brazil))[http://www.genetica.esalq.usp.br/en/lab/allogamous-plant-breeding-laboratory]
+Authors: Allogamous Plant Breeding Lab (University of São Paulo, ESALQ/USP, Brazil)\
+[http://www.genetica.esalq.usp.br/en/lab/allogamous-plant-breeding-laboratory]
 
 Developer: Germano Costa Neto <germano.cneto@usp.br>
 
@@ -230,7 +231,7 @@ EnvTyping(df.cov = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',scal
 
 ## **Module III: Prediction-based reaction norm models**
 
-We provide Genomic and Envirotypic kernels for reaction norm prediction. After generate the kernels, the user must use the BGGE package[https://github.com/italo-granato/BGGE] to run the models
+We provide Genomic and Envirotypic kernels for reaction norm prediction. After generate the kernels, the user must use the BGGE package [https://github.com/italo-granato/BGGE] to run the models
 
 - Toy Example: genomic prediction for grain yield in tropical maize
 ```{r}
@@ -245,12 +246,18 @@ df.clim <- maizeWTH
 ```
 - Returns benchmark main effect model: 
 
-<img align="center" width="100" height="14" src="/fig/mod1.png">
+<p align="center">
+  <img width="120" height="18" src="D:/Allogamous_packages/EnvRtype/fig/mod1.png">
+</p>
 
 ```{r}
 MM <- get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MM')
 ```
-- Returns benchmark main GxE deviation model: $$Y = fixed + G +GE$$
+- Returns benchmark main GxE deviation model:
+
+<p align="center">
+  <img width="160" height="18" src="D:/Allogamous_packages/EnvRtype/fig/mod2.png">
+</p>
 
 ```{r}
 MDs <-get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MDs')
@@ -275,7 +282,11 @@ dim(H$envCov) # environmental relationship
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
-- Parametrization by $$K_W = WW'/ncol(W)$$
+- Parametrization by 
+
+<p align="center">
+  <img width="110" height="50" src="D:/Allogamous_packages/EnvRtype/fig/mod3.png">
+</p>
 
 ```{r}
 H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=FALSE)
@@ -287,7 +298,13 @@ dim(H$envCov) # environmental relationship
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
-- Parametrization by $$K_W = WW'/diag( WW')$$ resulting in diag(K_W) = 1
+- Parametrization by 
+
+<p align="center">
+  <img width="130" height="50" src="D:/Allogamous_packages/EnvRtype/fig/mod4.png">
+</p>
+
+resulting in diag(K_W) = 1
 
 ```{r}
 H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=TRUE)
@@ -299,7 +316,13 @@ dim(H$envCov) # environmental relationship
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
-- Gaussian parametrization by $$K_W =  exp(-hd/q)$$ which d = dist(W), q = median(d) and h = gaussian parameter (default = 1)
+- Gaussian parametrization by 
+
+<p align="center">
+  <img width="130" height="50" src="D:/Allogamous_packages/EnvRtype/fig/mod5.png">
+</p>
+
+which d = dist(W), q = median(d) and h = gaussian parameter (default = 1)
 
 ```{r}
 H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',gaussian=TRUE)
@@ -321,25 +344,41 @@ reaction = FALSE, but K_E != NULL, only random environmental effects using K_E a
 
 **________________________________________________________________________________________________________**  
 
-- Returns benchmark main effect model plus random environmental covariables: $$Y = fixed + G + W$$
+- Returns benchmark main effect model plus random environmental covariables:
+
+<p align="center">
+  <img width="140" height="18" src="D:/Allogamous_packages/EnvRtype/fig/mod6.png">
+</p>
 
 ```{r}
 EMM <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = F,model = 'E-MM') # or model = MM
 ```
-- Returns benchmark main GxE deviation model plus random environmental covariables: $$Y = fixed + G + W + GE$$
+- Returns benchmark main GxE deviation model plus random environmental covariables: 
+
+<p align="center">
+  <img width="180" height="18" src="D:/Allogamous_packages/EnvRtype/fig/mod7.png">
+</p>
 
 ```{r}
 EMDs <-get_kernel(K_G = list(G=G),Y = Y,K_E = list(W=H$envCov),reaction = F,model = 'MDs') # or model = MDs
 
 ```
-- Returns reaction norm model: $$Y = fixed + G + W + GW$$
+- Returns reaction norm model: 
+
+<p align="center">
+  <img width="200" height="18" src="D:/Allogamous_packages/EnvRtype/fig/mod8.png">
+</p>
 
 ```{r}
 RN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model = 'E-MM')
 
 ```
 
-- Returns a full reaction norm model with GE and GW kernels: $$Y = fixed + W + G + GW + GE$$
+- Returns a full reaction norm model with GE and GW kernels: 
+
+<p align="center">
+  <img width="220" height="18" src="D:/Allogamous_packages/EnvRtype/fig/mod9.png">
+</p>
 
 ```{r}
 fullRN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model = 'E-MDs')
@@ -367,3 +406,4 @@ EMM$KE_ET # kernel from T (envirotype)
 ```
 
 
+<img align="right" width="100" height="100" src="D:/Allogamous_packages/EnvRtype/fig/logo_alogamas.png">
