@@ -243,12 +243,12 @@ G <- maizeG
 df.clim <- maizeWTH
 
 ```
-- Returns benchmark main effect model: $$ Y = fixed + G $$
+- Returns benchmark main effect model: $$Y = fixed + G$$
 
 ```{r}
 MM <- get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MM')
 ```
-- Returns benchmark main GxE deviation model: $$ Y = fixed + G +GE $$
+- Returns benchmark main GxE deviation model: $$Y = fixed + G +GE$$
 
 ```{r}
 MDs <-get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MDs')
@@ -273,7 +273,7 @@ dim(H$envCov) # environmental relationship
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
-- Parametrization by $$ K_W = WW'/ncol(W) $$
+- Parametrization by $$K_W = WW'/ncol(W)$$
 
 ```{r}
 H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=FALSE)
@@ -285,7 +285,7 @@ dim(H$envCov) # environmental relationship
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
-- Parametrization by $$ K_W = WW'/diag( WW') $$ resulting in diag(K_W) = 1
+- Parametrization by $$K_W = WW'/diag( WW')$$ resulting in diag(K_W) = 1
 
 ```{r}
 H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=TRUE)
@@ -297,7 +297,7 @@ dim(H$envCov) # environmental relationship
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
-- Gaussian parametrization by $$ K_W =  exp(-hd/q) $$ which d = dist(W), q = median(d) and h = gaussian parameter (default = 1)
+- Gaussian parametrization by $$K_W =  exp(-hd/q)$$ which d = dist(W), q = median(d) and h = gaussian parameter (default = 1)
 
 ```{r}
 H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',gaussian=TRUE)
@@ -309,35 +309,35 @@ dim(H$envCov) # environmental relationship
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
-**________________________________________________________________________________________________________**\
+**________________________________________________________________________________________________________**  
 
 **Attention**:\
 K_G = list of genomic kernels;\
 K_E = list of environmental kernels;\
 reaction = TRUE, build the haddamard's product between genomic and envirotype-based kernels;\
-reaction = FALSE, but K_E != NULL, only random environmental effects using K_E are incorporated in the model\
+reaction = FALSE, but K_E != NULL, only random environmental effects using K_E are incorporated in the model  
 
-**________________________________________________________________________________________________________**\
+**________________________________________________________________________________________________________**  
 
-- Returns benchmark main effect model plus random environmental covariables: $$ Y = fixed + G + W $$
+- Returns benchmark main effect model plus random environmental covariables: $$Y = fixed + G + W$$
 
 ```{r}
 EMM <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = F,model = 'E-MM') # or model = MM
 ```
-- Returns benchmark main GxE deviation model plus random environmental covariables: $$ Y = fixed + G + W + GE $$
+- Returns benchmark main GxE deviation model plus random environmental covariables: $$Y = fixed + G + W + GE$$
 
 ```{r}
 EMDs <-get_kernel(K_G = list(G=G),Y = Y,K_E = list(W=H$envCov),reaction = F,model = 'MDs') # or model = MDs
 
 ```
-- Returns reaction norm model: $$ Y = fixed + G + W + GW $$
+- Returns reaction norm model: $$Y = fixed + G + W + GW$$
 
 ```{r}
 RN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model = 'E-MM')
 
 ```
 
-- Returns a full reaction norm model with GE and GW kernels: $$ Y = fixed + W + G + GW + GE $$
+- Returns a full reaction norm model with GE and GW kernels: $$Y = fixed + W + G + GW + GE$$
 
 ```{r}
 fullRN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model = 'E-MDs')
