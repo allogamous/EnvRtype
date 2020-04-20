@@ -7,7 +7,7 @@ Developer: Germano Costa Neto <germano.cneto@usp.br>
 
 ## **Background**
 
-Environmental typing (envirotyping) has proven useful in identifying the non-genetic drivers of phenotypic adaptation in plant breeding. Combined with phenotyping and genotyping data, the use of envirotyping data may leverage the molecular breeding strategies to cope with environmental changing scenarios. Over the last ten years, this data has been incorporated in genomic-enabled prediction models aiming to better model genotype x environment interaction (GE) as a function of reaction norm. However, there is difficult for most breeders to deal with the interplay between envirotyping, ecophysiology, and genetics. Here we present the EnvRtype R package as a new instrument developed to facilitate the interplay between envirotyping and genomic prediction. This package offers three modules: (1) collection and processing tools, (2) environmental characterization, (3) build of ecophysiological enriched genomic prediction models accounting for three different structures of reaction norm. Here we focus our efforts to present a practical use of EnvRtype package in supporting the genome-wide prediction of reaction norms. We provide a intuitive framework to integrate different reaction norm models in Bayesian Genomic Genotype x Environment Interaction (BGGE) package.
+Environmental typing (envirotyping) has proven useful in identifying the non-genetic drivers of phenotypic adaptation in plant breeding. Combined with phenotyping and genotyping data, the use of envirotyping data may leverage the molecular breeding strategies to cope with environmental changing scenarios. Over the last ten years, this data has been incorporated in genomic-enabled prediction models aiming to better model genotype x environment interaction (GE) as a function of reaction norm. However, there is difficult for most breeders to deal with the interplay between envirotyping, ecophysiology, and genetics. Here we present the EnvRtype R package as a new toolkit developed to facilitate the interplay between envirotyping and genomic prediction. This package offers three modules: (1) collection and processing data set, (2) environmental characterization, (3) build of ecophysiological enriched genomic prediction models accounting for three different structures of reaction norm. Here we focus our efforts to present a practical use of EnvRtype package in supporting the genome-wide prediction of reaction norms. We provide a intuitive framework to integrate different reaction norm models in Bayesian Genomic Genotype x Environment Interaction (BGGE) package.
 
 ## **Features and Functionality**
 
@@ -31,9 +31,9 @@ require(EnvRtype)
 lat = c(-13.05,-12.32,-18.34,-18.90,-23.03) # vector of latitude WGS84
 lon = c(-56.05,-55.42,-46.31,-49.56,-51.02) # vector of lontitude WGS84
 env = c("NM","SO","PM","IP","SE")           # vector of environment/site ID
-plant.date = c("2015-02-15",'2015-02-13', # vector of start period
+plant.date = c("2015-02-15","2015-02-13", # vector of start period
                "2015-02-26","2015-03-01",
-               '2015-02-19') 
+               "2015-02-19") 
 harv.date =rep("2015-06-15",5) # vector of end period
 ```
 
@@ -48,7 +48,7 @@ df.clim <- get_weather(env.id = env,lat = lat,lon = lon,
 head(df.clim)
 
 ```
-### Basic processing of get_weather() 
+- Basic processing of get_weather() 
 ```{r}
 df.clim <-processWTH(x = df.clim,lon = 'LON',lat = 'LAT',env.id = 'env',download.ALT = TRUE,country = 'BRA')
 ```
@@ -102,7 +102,7 @@ summaryWTH(df.clim,env.id = 'env',statistic = 'quantile',probs = c(.20,.76,.90))
 ```{r}
 W.matrix(df.cov = df.clim,by.interval = F)
 ```
-- same as SummaryWTH, we can add time.windows
+- Same as summaryWTH, we can add time.windows
 ```{r}
 W.matrix(df.cov = df.clim,by.interval = T,
          time.window = c(0,14,35,60,90,120))
@@ -131,13 +131,13 @@ W.matrix(df.cov = df.clim,by.interval = F,QC = T,sd.tol = 3)
 W.matrix(df.cov = df.clim,by.interval = F,QC = T,sd.tol = 2)
 ```
 
-- and creat for specific variables
+- Create for specific variables
 ```{r}
 id.var = c('T2M_MAX','T2M_MIN','T2M')
 W.matrix(df.cov = df.clim,var.id = id.var)
 ```
 
-- or even combine with summaryWTH by using is.processed=T
+- Or even combine with summaryWTH by using is.processed=T
 ```{r}
 data<-summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
 W.matrix(df.cov = data,is.processed = T)
@@ -146,27 +146,27 @@ W.matrix(df.cov = data,is.processed = T)
 ## Environmental Typologies based on Cardinal Limits
 
 ```{r}
-EnvTyping(x = df.clim,env.id = 'env',var.id='T2M')
+EnvTyping(df.cov = df.clim,env.id = 'env',var.id='T2M')
 ```
 
 - Typologies by.intervals (generic time intervals)
 ```{r}
-EnvTyping(x = df.clim,env.id = 'env',var.id='T2M',by.interval = T)
+EnvTyping(df.cov = df.clim,env.id = 'env',var.id='T2M',by.interval = T)
 ```
 
 - Typologies by.intervals (specific time intervals)
 ```{r}
-EnvTyping(x = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.window = c(0,15,35,65,90,120))
+EnvTyping(df.cov = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.window = c(0,15,35,65,90,120))
 ```
 
-- Typologies by.intervals (specific time intervals and with specific names
+- Typologies by.intervals (specific time intervals and with specific names)
 ```{r}
 names.window = c('1-intial growing','2-leaf expansion I','3-leaf expansion II',
                  '4-flowering','5-grain filling','6-maturation')
-out<-EnvTyping(x = df.clim,env.id = 'env',var.id='T2M',by.interval = T,
+out<-EnvTyping(df.cov = df.clim,env.id = 'env',var.id='T2M',by.interval = T,
                time.window = c(0,15,35,65,90,120),
                names.window = names.window)
-```{r}
+```
 
 - OBS: some possible plots with ggplot2....
 ```{r}
@@ -216,30 +216,30 @@ ggplot() +
 
 - For more than one variable, we can use the quantiles for all environments
 ```{r}
-EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',by.interval = T)
+EnvTyping(df.cov = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',by.interval = T)
 ```
 
 - We can define the cardinals for each variable
 ```{r}
 (cardinals= list(T2M=c(0,9,22,32,45),PRECTOT=c(0,5,10),WS2M=c(0,1,5)))
 
-EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),
+EnvTyping(df.cov = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),
           cardinals = cardinals,env.id='env')
 
 ```
-However, we do not always have ecophysiological information about the best possible cardinals ... so we use quantiles!
+- However, we do not always have ecophysiological information about the best possible cardinals ... so we use quantiles!
 If quantiles = NULL, 1%, 25%, 50%, 99% is assumed
 
 ```{r}
 (cardinals= list(T2M=c(0,9,22,32,45),PRECTOT=c(0,5,10),WS2M=NULL))
-EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),
+EnvTyping(df.cov = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),
           cardinals = cardinals,env.id='env')
 ```
 
-- and all analyses can also be run considering centered on the mean and scaled x ~ N (0.1)
+- All analyses can also be run considering centered on the mean and scaled x ~ N (0.1)
 ```{r}
-EnvTyping(x=df.clim,var.id = 'PRECTOT',env.id='env',scale = T)
-EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',scale = T) # or
+EnvTyping(df.cov = df.clim,var.id = 'PRECTOT',env.id='env',scale = T)
+EnvTyping(df.cov = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',scale = T) 
 ```
 
 ## **Module III: Prediction-based reaction norm models**
@@ -257,16 +257,16 @@ G <- maizeG
 df.clim <- maizeWTH
 
 ```
-- returns benchmark main effect model: Y = fixed + G
+- Returns benchmark main effect model: $$ Y = fixed + G $$
 
 ```{r}
 MM <- get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MM')
 ```
-- returns benchmark main GxE deviation model: Y = fixed + G +GE
+- Returns benchmark main GxE deviation model: $$ Y = fixed + G +GE $$
 ```{r}
 MDs <-get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MDs')
 ```
-- obtaining environmental variables based on quantiles
+- Obtaining environmental variables based on quantiles
 
 ```{r}
 W.cov<-W.matrix(df.cov = df.clim,by.interval = T,statistic = 'quantile',
@@ -289,7 +289,7 @@ superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
 
-- Parametrization by K_W = WW'/ncol(W)
+- Parametrization by $$ K_W = WW'/ncol(W) $$
 ```{r}
 H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=FALSE)
 dim(H)
@@ -302,7 +302,7 @@ superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
 
-- Parametrization by K_W = WW'/diag( WW'), resulting in diag(K_W) = 1
+- Parametrization by $$ K_W = WW'/diag( WW') $$ resulting in diag(K_W) = 1
 ```{r}
 H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=TRUE)
 dim(H)
@@ -316,7 +316,7 @@ superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 ```
 
 
-- Gaussian parametrization by K_W =  exp(-hd/q), which d = dist(W), q = median(d) and h = gaussian parameter (default = 1)
+- Gaussian parametrization by $$ K_W =  exp(-hd/q) $$ which d = dist(W), q = median(d) and h = gaussian parameter (default = 1)
 ```{r}
 H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',gaussian=TRUE)
 dim(H)
@@ -328,34 +328,34 @@ dim(H$envCov) # environmental relationship
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
-_________________________________________
-**Attention**:
-K_G = list of genomic kernels;
-K_E = list of environmental kernels;
-reaction = TRUE, build the haddamard's product between genomic and envirotype-based kernels;
-reaction = FALSE, but K_E != NULL, only random environmental effects using K_E are incorporated in the model
+**________________________________________________________________________________________________________**\
 
-_______________________________________
+**Attention**:\
+K_G = list of genomic kernels;\
+K_E = list of environmental kernels;\
+reaction = TRUE, build the haddamard's product between genomic and envirotype-based kernels;\
+reaction = FALSE, but K_E != NULL, only random environmental effects using K_E are incorporated in the model\
+**________________________________________________________________________________________________________**\
 
-- returns benchmark main effect model plus random environmental covariables: Y = fixed + W + G
+- Returns benchmark main effect model plus random environmental covariables: $$ Y = fixed + G + W $$
 
 ```{r}
 EMM <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = F,model = 'E-MM') # or model = MM
 ```
-- returns benchmark main GxE deviation model plus random environmental covariables: Y = fixed + G + W + GE
+- Returns benchmark main GxE deviation model plus random environmental covariables: $$ Y = fixed + G + W + GE $$
 
 ```{r}
 EMDs <-get_kernel(K_G = list(G=G),Y = Y,K_E = list(W=H$envCov),reaction = F,model = 'MDs') # or model = MDs
 
 ```
 
-- returns reaction norm model: Y = fixed + W + G + GW
+- Returns reaction norm model: $$ Y = fixed + G + W + GW $$
 
 ```{r}
 RN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model = 'E-MM')
 
 ```
-- returns a full reaction norm model with GE and GW kernels: Y = fixed + W + G + GW + GE
+- Returns a full reaction norm model with GE and GW kernels: $$ Y = fixed + W + G + GW + GE $$
 
 ```{r}
 fullRN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model = 'E-MDs')
