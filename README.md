@@ -247,7 +247,7 @@ df.clim <- maizeWTH
 - Returns benchmark main effect model: 
 
 <p align="center">
-  <img width="120" height="18" src="D:/Allogamous_packages/EnvRtype/fig/mod1.png">
+  <img width="120" height="18" src="/fig/mod1.png">
 </p>
 
 ```{r}
@@ -256,7 +256,7 @@ MM <- get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MM')
 - Returns benchmark main GxE deviation model:
 
 <p align="center">
-  <img width="160" height="18" src="D:/Allogamous_packages/EnvRtype/fig/mod2.png">
+  <img width="160" height="18" src="/fig/mod2.png">
 </p>
 
 ```{r}
@@ -285,7 +285,7 @@ superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 - Parametrization by 
 
 <p align="center">
-  <img width="110" height="50" src="D:/Allogamous_packages/EnvRtype/fig/mod3.png">
+  <img width="110" height="50" src="/fig/mod3.png">
 </p>
 
 ```{r}
@@ -301,7 +301,7 @@ superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 - Parametrization by 
 
 <p align="center">
-  <img width="130" height="50" src="D:/Allogamous_packages/EnvRtype/fig/mod4.png">
+  <img width="130" height="50" src="/fig/mod4.png">
 </p>
 
 resulting in diag(K_W) = 1
@@ -319,7 +319,7 @@ superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 - Gaussian parametrization by 
 
 <p align="center">
-  <img width="130" height="50" src="D:/Allogamous_packages/EnvRtype/fig/mod5.png">
+  <img width="130" height="50" src="/fig/mod5.png">
 </p>
 
 which d = dist(W), q = median(d) and h = gaussian parameter (default = 1)
@@ -347,7 +347,7 @@ reaction = FALSE, but K_E != NULL, only random environmental effects using K_E a
 - Returns benchmark main effect model plus random environmental covariables:
 
 <p align="center">
-  <img width="140" height="18" src="D:/Allogamous_packages/EnvRtype/fig/mod6.png">
+  <img width="140" height="18" src="/fig/mod6.png">
 </p>
 
 ```{r}
@@ -356,7 +356,7 @@ EMM <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = F,mode
 - Returns benchmark main GxE deviation model plus random environmental covariables: 
 
 <p align="center">
-  <img width="180" height="18" src="D:/Allogamous_packages/EnvRtype/fig/mod7.png">
+  <img width="180" height="18" src="/fig/mod7.png">
 </p>
 
 ```{r}
@@ -366,7 +366,7 @@ EMDs <-get_kernel(K_G = list(G=G),Y = Y,K_E = list(W=H$envCov),reaction = F,mode
 - Returns reaction norm model: 
 
 <p align="center">
-  <img width="200" height="18" src="D:/Allogamous_packages/EnvRtype/fig/mod8.png">
+  <img width="200" height="18" src="/fig/mod8.png">
 </p>
 
 ```{r}
@@ -377,7 +377,7 @@ RN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model
 - Returns a full reaction norm model with GE and GW kernels: 
 
 <p align="center">
-  <img width="220" height="18" src="D:/Allogamous_packages/EnvRtype/fig/mod9.png">
+  <img width="220" height="18" src="/fig/mod9.png">
 </p>
 
 ```{r}
@@ -406,4 +406,4 @@ EMM$KE_ET # kernel from T (envirotype)
 ```
 
 
-<img align="right" width="100" height="100" src="D:/Allogamous_packages/EnvRtype/fig/logo_alogamas.png">
+<img align="right" width="100" height="100" src="/fig/logo_alogamas.png">
