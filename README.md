@@ -59,7 +59,6 @@ summaryWTH(df.clim,env.id = 'env')
 ```
 
 - Summary a particular environmental variable
-
 ```{r}
 summaryWTH(df.clim,env.id = 'env',var.id = 'T2M')
 summaryWTH(df.clim,env.id = 'env',var.id = c('T2M','T2M_MAX')) # or more than one
@@ -88,7 +87,7 @@ summaryWTH(df.clim,env.id = 'env',statistic = 'mean')
 summaryWTH(df.clim,env.id = 'env',statistic = 'sum')
 ```
 - Returns quantile values (default = 25%, 50% and 75%)
-```
+```{r}
 summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
 ```
 - For specific quantiles (e.g., 20%, 76% and 90%)
@@ -130,13 +129,11 @@ W.matrix(df.cov = df.clim,by.interval = F,QC = T,sd.tol = 3)
 ```{r}
 W.matrix(df.cov = df.clim,by.interval = F,QC = T,sd.tol = 2)
 ```
-
 - Create for specific variables
 ```{r}
 id.var = c('T2M_MAX','T2M_MIN','T2M')
 W.matrix(df.cov = df.clim,var.id = id.var)
 ```
-
 - Or even combine with summaryWTH by using is.processed=T
 ```{r}
 data<-summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
@@ -148,17 +145,14 @@ W.matrix(df.cov = data,is.processed = T)
 ```{r}
 EnvTyping(df.cov = df.clim,env.id = 'env',var.id='T2M')
 ```
-
 - Typologies by.intervals (generic time intervals)
 ```{r}
 EnvTyping(df.cov = df.clim,env.id = 'env',var.id='T2M',by.interval = T)
 ```
-
 - Typologies by.intervals (specific time intervals)
 ```{r}
 EnvTyping(df.cov = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.window = c(0,15,35,65,90,120))
 ```
-
 - Typologies by.intervals (specific time intervals and with specific names)
 ```{r}
 names.window = c('1-intial growing','2-leaf expansion I','3-leaf expansion II',
@@ -167,7 +161,6 @@ out<-EnvTyping(df.cov = df.clim,env.id = 'env',var.id='T2M',by.interval = T,
                time.window = c(0,15,35,65,90,120),
                names.window = names.window)
 ```
-
 - OBS: some possible plots with ggplot2....
 ```{r}
 # plot 1: enviromental variables panel
@@ -186,8 +179,6 @@ ggplot() +
         legend.title = element_text(size=17),
         strip.background = element_rect(fill="gray95",size=1),
         legend.position = 'bottom')
-
-
 
 # plot 2: distribution of envirotypes
 ggplot() + 
@@ -211,14 +202,11 @@ ggplot() +
         strip.background = element_rect(fill="gray95",size=1),
         legend.position = 'bottom')
 
-
 ```
-
 - For more than one variable, we can use the quantiles for all environments
 ```{r}
 EnvTyping(df.cov = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',by.interval = T)
 ```
-
 - We can define the cardinals for each variable
 ```{r}
 (cardinals= list(T2M=c(0,9,22,32,45),PRECTOT=c(0,5,10),WS2M=c(0,1,5)))
@@ -229,13 +217,11 @@ EnvTyping(df.cov = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),
 ```
 - However, we do not always have ecophysiological information about the best possible cardinals ... so we use quantiles!
 If quantiles = NULL, 1%, 25%, 50%, 99% is assumed
-
 ```{r}
 (cardinals= list(T2M=c(0,9,22,32,45),PRECTOT=c(0,5,10),WS2M=NULL))
 EnvTyping(df.cov = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),
           cardinals = cardinals,env.id='env')
 ```
-
 - All analyses can also be run considering centered on the mean and scaled x ~ N (0.1)
 ```{r}
 EnvTyping(df.cov = df.clim,var.id = 'PRECTOT',env.id='env',scale = T)
@@ -263,6 +249,7 @@ df.clim <- maizeWTH
 MM <- get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MM')
 ```
 - Returns benchmark main GxE deviation model: $$ Y = fixed + G +GE $$
+
 ```{r}
 MDs <-get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MDs')
 ```
@@ -274,7 +261,6 @@ W.cov<-W.matrix(df.cov = df.clim,by.interval = T,statistic = 'quantile',
 dim(W.cov)
 
 ```
-
 - Creating Env Kernels from W matrix and Y dataset
 
 ```{r}
@@ -283,46 +269,41 @@ dim(H)
 dim(H$varCov) # variable relationship
 dim(H$envCov) # environmental relationship
 
-
 #env.plots(H$envCov,row.dendrogram = T,col.dendrogram = T) # superheat
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
-
 - Parametrization by $$ K_W = WW'/ncol(W) $$
+
 ```{r}
 H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=FALSE)
 dim(H)
 dim(H$varCov) # variable relationship
 dim(H$envCov) # environmental relationship
 
-
 #env.plots(H$envCov,row.dendrogram = T,col.dendrogram = T) # superheat
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
-
 - Parametrization by $$ K_W = WW'/diag( WW') $$ resulting in diag(K_W) = 1
+
 ```{r}
 H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=TRUE)
 dim(H)
 dim(H$varCov) # variable relationship
 dim(H$envCov) # environmental relationship
 
-
 #env.plots(H$envCov,row.dendrogram = T,col.dendrogram = T) # superheat
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 
 ```
-
-
 - Gaussian parametrization by $$ K_W =  exp(-hd/q) $$ which d = dist(W), q = median(d) and h = gaussian parameter (default = 1)
+
 ```{r}
 H <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',gaussian=TRUE)
 dim(H)
 dim(H$varCov) # variable relationship
 dim(H$envCov) # environmental relationship
-
 
 #env.plots(H$envCov,row.dendrogram = T,col.dendrogram = T) # superheat
 superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
@@ -335,6 +316,7 @@ K_G = list of genomic kernels;\
 K_E = list of environmental kernels;\
 reaction = TRUE, build the haddamard's product between genomic and envirotype-based kernels;\
 reaction = FALSE, but K_E != NULL, only random environmental effects using K_E are incorporated in the model\
+
 **________________________________________________________________________________________________________**\
 
 - Returns benchmark main effect model plus random environmental covariables: $$ Y = fixed + G + W $$
@@ -348,13 +330,13 @@ EMM <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = F,mode
 EMDs <-get_kernel(K_G = list(G=G),Y = Y,K_E = list(W=H$envCov),reaction = F,model = 'MDs') # or model = MDs
 
 ```
-
 - Returns reaction norm model: $$ Y = fixed + G + W + GW $$
 
 ```{r}
 RN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model = 'E-MM')
 
 ```
+
 - Returns a full reaction norm model with GE and GW kernels: $$ Y = fixed + W + G + GW + GE $$
 
 ```{r}
@@ -362,8 +344,7 @@ fullRN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,m
 
 ```
 
-- Advanced options:
-**lets build again the W matrix**
+- Advanced options: **lets build again the W matrix**
 
 ```{r}
 W.cov<-W.matrix(df.cov = df.clim,by.interval = T,statistic = 'quantile',
