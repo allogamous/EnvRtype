@@ -245,7 +245,7 @@ df.clim <- maizeWTH
 ```
 - Returns benchmark main effect model: 
 
-![\Large $$Y = fixed + G$$]{https://latex.codecogs.com/gif.latex?%24%24Y%20%3D%20fixed%20&plus;%20G%24%24}
+![](/fig/mod1.png)
 
 ```{r}
 MM <- get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MM')
@@ -365,3 +365,5 @@ EMM$KE_W # kernel from W
 EMM$KE_ET # kernel from T (envirotype)
 
 ```
+
+
