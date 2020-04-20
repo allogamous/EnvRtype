@@ -406,4 +406,4 @@ EMM$KE_ET # kernel from T (envirotype)
 ```
 
 
-<img align="right" width="120" height="100" src="/fig/logo_alogamas.png">
+<img align="right" width="110" height="100" src="/fig/logo_alogamas.png">
