@@ -243,7 +243,9 @@ G <- maizeG
 df.clim <- maizeWTH
 
 ```
-- Returns benchmark main effect model: $$Y = fixed + G$$
+- Returns benchmark main effect model: 
+
+<img src="https://latex.codecogs.com/gif.latex?$$Y&space;=&space;fixed&space;&plus;&space;G$$" title="$$Y = fixed + G$$" />
 
 ```{r}
 MM <- get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MM')
