@@ -231,7 +231,7 @@ EnvTyping(df.cov = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',scal
 
 ## **Module III: Prediction-based reaction norm models**
 
-We provide Genomic and Envirotypic kernels for reaction norm prediction. After generate the kernels, the user must use the BGGE package [https://github.com/italo-granato/BGGE] to run the models
+We provide Genomic and Envirotypic kernels for reaction norm prediction. After generate the kernels, the user must use the [BGGE](https://github.com/italo-granato/BGGE) package to run the models
 
 - Toy Example: genomic prediction for grain yield in tropical maize
 ```{r}
