@@ -7,9 +7,7 @@ Manteiner: [Germano Costa Neto](https://github.com/gcostaneto)
 
 [Simplified Tutorial (R script)](https://raw.githubusercontent.com/allogamous/EnvRtype/master/tutorial_script_R.R)
 
-<p align="center">
-  <img width="130" height="50" src="https://cdn.mathpix.com/snip/images/EF7z9LWR-Nc9t3Fecw9VF41FVUEOt4R1WCfwjcxSEho.original.fullsize.png">
-</p>
+
 
 
 
