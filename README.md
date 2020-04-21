@@ -21,6 +21,7 @@ EnvRtype consists of the following three modules, which collectively generate a 
   * [Environmental Typologies based on Cardinal Limits](#sub-heading)
 - [Reaction Norm Module (RN)](#heading)
 
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
 
 ## Install
 ```{r}
