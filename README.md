@@ -409,5 +409,18 @@ EMM$KE_eT # kernel from T (envirotype)
 
 ```
 
+- Integration with **BGGE package**
 
+```{r}
+require(BGGE)
+
+ ne <- as.vector(table(maizeYield$env))
+      fit <- BGGE(y = maizeYield$value,
+                  K = EMM,
+                  ne = ne,
+                  ite = 1000,
+                  burn = 100,
+                  thin = 2,
+                  verbose = TRUE)
+```
 <img align="right" width="110" height="100" src="/fig/logo_alogamas.png">
