@@ -41,11 +41,11 @@ harv.date =rep("2015-06-15",5) # vector of end period
 - So we can use this information to collect weather data from NASAPOWER:
 ```{r}
 df.clim <- get_weather(env.id = env,lat = lat,lon = lon,
-                       start.day = plant.date,end.day = harv.date) # returns a list of dataframes
-                       
+                       start.day = plant.date,end.day = harv.date, asdataframe = F) # returns a list of dataframes by environments
 
 df.clim <- get_weather(env.id = env,lat = lat,lon = lon,
-                       start.day = plant.date,end.day = harv.date,asdataframe = T) # returns a dataframe
+                       start.day = plant.date,end.day = harv.date) # returns a dataframe with all environments by default
+                       
 head(df.clim)
 
 ```

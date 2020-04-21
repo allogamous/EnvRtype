@@ -9,7 +9,7 @@
 #' @param env.id character. Identification of the site or environment.
 #' @param DOY numeric. Julian day. DOY column as benchmark (from get_weather)
 #' @param download.ALT boolean. Default as TRUE, to download Altitude data from SRTM database of CGIAR.
-#' @param country character. ID for country. Default is 'BRA'. For more detais see getData() from raster package.
+#' @param country character. ID for country. Default is 'BRA'. For more details see getData() and ccode() from raster package.
 
 #' @importFrom raster getData
 

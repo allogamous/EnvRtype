@@ -25,7 +25,7 @@ EnvTyping <- function(df.cov,var.id,env.id,cardinals=NULL,days.id=NULL,
   require(doParallel)
 
 
-  if(isTRUE(scale)) df.cov[,var.id] <- scale(x[,var.id],center = T,scale = T)
+  if(isTRUE(scale)) df.cov[,var.id] <- scale(df.cov[,var.id],center = T,scale = T)
 
   .GET <- meltWTH(.GeTw = df.cov,days = days.id,
                      by.interval = by.interval,
