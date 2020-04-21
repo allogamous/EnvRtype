@@ -16,22 +16,25 @@
 
 #'----------------------------------------------------------------------------------------
 get_kernel <-function(K_E = NULL,                    #' environmental kernel
-                        K_G,                           #' genotypic kernel (p x p genotypes)
-                        Y,                            #' phenotypic dataframe
-                        model = NULL,  #' family model c('MM','MDs','E-MM','E-MDs'),
-                        reaction=FALSE,
-                        intercept.random = FALSE,      #' insert genomic random intercept)
-                        size_E = NULL#c('full','environment'),
-                        ){
+                      K_G,                           #' genotypic kernel (p x p genotypes)
+                      Y,                            #' phenotypic dataframe
+                      model = NULL,  #' family model c('MM','MDs','EMM','EMDs','RNMM','RNMDs'),
+                      intercept.random = FALSE,      #' insert genomic random intercept)
+                      size_E = NULL#c('full','environment'),
+                      ){
   #'----------------------------------------------------------------------------
   #' Start Step
-#  Y <- data.frame(env=Y[,env.id],gid=Y[,gen.id],value=Y[,trait.id])
+  #  Y <- data.frame(env=Y[,env.id],gid=Y[,gen.id],value=Y[,trait.id])
   if (is.null(K_G))   stop('Missing the list of genomic kernels')
   if (!require(BGGE)) install.packages("BGGE");require(BGGE)
-  if(!any(model %in% c("MM","MDs",'E-MM','E-MDs'))) stop("Model not specified. Choose between MM or MDs")
+  # if(!any(model %in% c("MM","MDs",'E-MM','E-MDs'))) stop("Model not specified. Choose between MM or MDs")
   if(is.null(model)) model <- 'MM'
-  if(model == 'MM' | model =='E-MM')     model_b <- 'MM'
-  if(model == 'MDs'| model == 'E-MDs')   model_b <- 'MDs'
+  if(model == 'MM'){reaction <- FALSE; model_b <- 'MM';K_E=NULL}
+  if(model == 'MDs'){reaction <- FALSE; model_b <-'MDs';K_E=NULL}
+  if(model == 'EMM'){reaction <- FALSE; model_b <- 'MM'}
+  if(model == 'EMDs'){reaction <- FALSE; model_b <-'MDs'}
+  if(model == 'RNMM'){reaction <- TRUE; model_b <- 'MM'}
+  if(model == 'RNMDs'){reaction <- TRUE; model_b <- 'MDs'}
 
   #'----------------------------------------------------------------------------
   #' getting genomic kernels (see BGGE)
@@ -43,18 +46,22 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel
   #' If K_E is null, return benchmark genomic model
   #'----------------------------------------------------------------------------
   if(is.null(K_E)){
-    cat("----------------------------------------------------- \n")
-    cat('ATTENTION \n')
-    cat('No K_E kernel was provided \n')
-    cat('Environment effects assumed as fixed \n')
-    cat("----------------------------------------------------- \n")
-    cat(paste0('Model: ',model_b,'\n'))
-    cat(paste0('Reaction Norm for E effects: ',FALSE,'\n'))
-    cat(paste0('Reaction Norm for GxE effects: ',reaction,'\n'))
-    cat(paste0('Intercept random: ',intercept.random,'\n'))
-    cat(paste0("Kernels used: ",length(K),'\n'))
-    cat("----------------------------------------------------- \n")
+    if(isFALSE(reaction)){
+      cat("----------------------------------------------------- \n")
+      cat('ATTENTION \n')
+      cat('No K_E kernel was provided \n')
+      cat('Environment effects assumed as fixed \n')
+      cat("----------------------------------------------------- \n")
+      cat(paste0('Model: ',model_b,'\n'))
+      cat(paste0('Reaction Norm for E effects: ',FALSE,'\n'))
+      cat(paste0('Reaction Norm for GxE effects: ',reaction,'\n'))
+      cat(paste0('Intercept random: ',intercept.random,'\n'))
+      cat(paste0("Kernels used: ",length(K),'\n'))
+      cat("----------------------------------------------------- \n")
+      return(K)
+    }
     return(K)
+
   }
   #'----------------------------------------------------------------------------
   #' Envirotype-enriched models (for E effects)
@@ -106,3 +113,4 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel
   cat("----------------------------------------------------- \n")
   return(K_f)
 }
+

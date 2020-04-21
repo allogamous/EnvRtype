@@ -12,9 +12,13 @@
 #' @param gaussian boolean. If TRUE, uses the gaussian kernel parametrization for W, where envCov = exp(-h*d/q)
 #' @param h.gaussian numeric. If gaussian = TRUE, returns the h parameter for exp(-h*d/q)
 #'
+
 EnvKernel <-function(df.cov,Y=NULL, is.scaled=T, sd.tol = 1,
                      tol=1E-3,bydiag=FALSE,merge=FALSE,
                      env.id=NULL,gaussian=FALSE, h.gaussian=NULL){
+
+  nr<-nrow(df.cov)
+  nc <-ncol(df.cov)
 
   if(!is.matrix(df.cov)){stop('df.cov must be a matrix')}
   if(isFALSE(is.scaled)){
@@ -46,29 +50,29 @@ EnvKernel <-function(df.cov,Y=NULL, is.scaled=T, sd.tol = 1,
   if(isFALSE(gaussian)){
     O <- tcrossprod(df.cov)#/ncol(df.cov)  # env.relatedness kernel from covariates
     H <- crossprod(df.cov)#/nrow(df.cov)   # covariable relatedness kernel from covariates
-    O <- O + diag(1E-3,nrow=nrow(O),ncol=ncol(O))
-    H <- H + diag(1E-3,nrow=nrow(H),ncol=ncol(H))
     if(isTRUE(bydiag)){
-      O <- O/diag(O)
-      H <- H/diag(H)
+      O <- O/(sum(diag(O))/nc) + diag(1e-2, nrow(O))
+      H <- H/(sum(diag(H))/nr) + diag(1e-2, nrow(H))
     }
     if(isFALSE(bydiag)){
-      O <- O/ncol(df.cov)
-      H <- H/nrow(df.cov)
+      O <- O/nc + diag(1e-2, nrow(O))
+      H <- H/nr + diag(1e-2, nrow(H))
     }
 
-    return(list(varCov=H,envCov=O))
+
   }
+  return(list(varCov=H,envCov=O))
 }
 
+
+
 gaussian <- function(x,h=NULL){
-  d<-as.matrix(dist(x,upper = T,diag = T))
+  d<-as.matrix(dist(x,upper = T,diag = T))^2
   q <- median(d)
   if(is.null(h)) h <- 1
 
   return(exp(-h*d/q))
 }
-
 
 envK = function(df.cov,df.pheno,skip=3,env.id){
   df.pheno <-data.frame(df.pheno)
