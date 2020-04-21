@@ -28,6 +28,8 @@ library(devtools)
 install_github('allogamous/EnvRtype')
 require(EnvRtype)
 ```
+<!-- toc -->
+
 # Environmental Sensing Module (ES)
 ```{r}
 lat = c(-13.05,-12.32,-18.34,-18.90,-23.03) # vector of latitude WGS84
