@@ -15,11 +15,11 @@ Environmental typing (envirotyping) has proven useful in identifying the non-gen
 
 EnvRtype consists of the following three modules, which collectively generate a simple workflow to collect, process and integrated envirotyping into genomic prediction in multiple environments.
 
-- [Environmental Sensing Module (ES)](#Environmental Sensing Module (ES))
-  * [Basic summary statistics for environmental data](#Basic summary statistics for environmental data)
-- [Environmental Characterization Module (EC)](#Environmental Characterization Module (EC))
-  * [Environmental Typologies based on Cardinal Limits](#Environmental Typologies based on Cardinal Limits)
-- [Reaction Norm Module (RN)](#Reaction Norm Module (RN))
+- [Environmental Sensing Module (ES)](#heading)
+  * [Basic summary statistics for environmental data](#sub-heading)
+- [Environmental Characterization Module (EC)](#heading)
+  * [Environmental Typologies based on Cardinal Limits](#sub-heading)
+- [Reaction Norm Module (RN)](#heading)
 
 
 ## Install
