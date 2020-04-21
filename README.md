@@ -7,7 +7,7 @@ Manteiner: [Germano Costa Neto](https://github.com/gcostaneto)
 
 [Simplified Tutorial (R script)](https://raw.githubusercontent.com/allogamous/EnvRtype/master/tutorial_script_R.R)
 
-## **Background**
+## Background
 
 Environmental typing (envirotyping) has proven useful in identifying the non-genetic drivers of phenotypic adaptation in plant breeding. Combined with phenotyping and genotyping data, the use of envirotyping data may leverage the molecular breeding strategies to cope with environmental changing scenarios. Over the last ten years, this data has been incorporated in genomic-enabled prediction models aiming to better model genotype x environment interaction (GE) as a function of reaction norm. However, there is difficult for most breeders to deal with the interplay between envirotyping, ecophysiology, and genetics. Here we present the EnvRtype R package as a new toolkit developed to facilitate the interplay between envirotyping and genomic prediction. This package offers three modules: (1) collection and processing data set, (2) environmental characterization, (3) build of ecophysiological enriched genomic prediction models accounting for three different structures of reaction norm. Here we focus our efforts to present a practical use of EnvRtype package in supporting the genome-wide prediction of reaction norms. We provide a intuitive framework to integrate different reaction norm models in Bayesian Genomic Genotype x Environment Interaction (BGGE) package.
 
@@ -15,11 +15,11 @@ Environmental typing (envirotyping) has proven useful in identifying the non-gen
 
 EnvRtype consists of the following three modules, which collectively generate a simple workflow to collect, process and integrated envirotyping into genomic prediction in multiple environments.
 
-- Environmental Sensing Module (ES)
-
-- Environmental Characterization Module (EC)
-
-- Reaction Norm Module (RN)
+- [Environmental Sensing Module (ES)](# Environmental Sensing Module (ES))
+  * [Basic summary statistics for environmental data](## Basic summary statistics for environmental data)
+- [Environmental Characterization Module (EC](# Environmental Characterization Module (EC))
+  * [Environmental Typologies](## Environmental Typologies based on Cardinal Limits)
+- [Reaction Norm Module (RN)](# Reaction Norm Module (RN))
 
 
 ## Examples of use
@@ -28,7 +28,7 @@ library(devtools)
 install_github('allogamous/EnvRtype')
 require(EnvRtype)
 ```
-## **Module I Collecting and Processing Environmental Data**
+# Environmental Sensing Module (ES)
 ```{r}
 lat = c(-13.05,-12.32,-18.34,-18.90,-23.03) # vector of latitude WGS84
 lon = c(-56.05,-55.42,-46.31,-49.56,-51.02) # vector of lontitude WGS84
@@ -141,6 +141,7 @@ W.matrix(df.cov = df.clim,var.id = id.var)
 data<-summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
 W.matrix(df.cov = data,is.processed = T)
 ```
+# Environmental Characterization Module (EC)
 
 ## Environmental Typologies based on Cardinal Limits
 
@@ -230,7 +231,7 @@ EnvTyping(df.cov = df.clim,var.id = 'PRECTOT',env.id='env',scale = T)
 EnvTyping(df.cov = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',scale = T) 
 ```
 
-## **Module III: Prediction-based reaction norm models**
+# Reaction Norm Module (RN)
 
 We provide Genomic and Envirotypic kernels for reaction norm prediction. After generate the kernels, the user must use the [BGGE](https://github.com/italo-granato/BGGE) package to run the models
 
