@@ -351,7 +351,7 @@ reaction = FALSE, but K_E != NULL, only random environmental effects using K_E a
 </p>
 
 ```{r}
-EMM <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = F,model = 'E-MM') # or model = MM
+EMM <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,model = 'EMM') 
 ```
 - Returns benchmark main GxE deviation model plus random environmental covariables: 
 
@@ -360,7 +360,7 @@ EMM <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = F,mode
 </p>
 
 ```{r}
-EMDs <-get_kernel(K_G = list(G=G),Y = Y,K_E = list(W=H$envCov),reaction = F,model = 'MDs') # or model = MDs
+EMDs <-get_kernel(K_G = list(G=G),Y = Y,K_E = list(W=H$envCov),model = 'EMDs') # or model = MDs
 
 ```
 - Returns reaction norm model: 
@@ -370,7 +370,7 @@ EMDs <-get_kernel(K_G = list(G=G),Y = Y,K_E = list(W=H$envCov),reaction = F,mode
 </p>
 
 ```{r}
-RN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model = 'E-MM')
+RN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,model = 'RNMM')
 
 ```
 
@@ -381,7 +381,7 @@ RN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model
 </p>
 
 ```{r}
-fullRN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,model = 'E-MDs')
+fullRN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,model = 'RNMDs')
 
 ```
 
@@ -391,17 +391,20 @@ fullRN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = T,m
 W.cov<-W.matrix(df.cov = df.clim,by.interval = T,statistic = 'quantile',
                 time.window = c(0,14,35,60,90,120))
 
+W <- EnvKernel(df.cov = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=TRUE)
 
 # by using size_E = 'environment', get_kernel directly takes a W of q x q environments and builds a n x n matrix as EnvKernel()
-EMM <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,reaction = F,model = 'E-MM',size_E = 'environment')
+EMM <-get_kernel(K_G = list(G=G),K_E = list(W=W$envCov), Y = Y,,model = 'EMM',size_E = 'environment')
 
 
 # Its possible to integrate more than one environmental kernel
-T.cov<- EnvTyping(x=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',format = 'wide')
+T.cov<- EnvTyping(df.cov=df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',format = 'wide')
+eT <- EnvKernel(df.cov =T.cov,Y = Y,merge = T,env.id = 'env',bydiag=TRUE)
 
-EMM <-get_kernel(K_G = list(G=G),K_E = list(W=W.cov,ET=T.cov), Y = Y,reaction = F,model = 'E-MM',size_E = 'environment')
+
+EMM <-get_kernel(K_G = list(G=G),K_E = list(W=W$envCov,eT=eT$envCov), Y = Y,model = 'EMM',size_E = 'environment')
 EMM$KE_W # kernel from W
-EMM$KE_ET # kernel from T (envirotype)
+EMM$KE_eT # kernel from T (envirotype)
 
 ```
 
