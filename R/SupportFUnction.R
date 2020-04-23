@@ -1,5 +1,4 @@
-
-
+#' @importFrom stats median
 
 # http://www.fao.org/3/X0490E/x0490e07.htm#atmospheric%20parameters
 

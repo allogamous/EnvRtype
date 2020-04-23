@@ -11,8 +11,7 @@
 #' @param reaction boolean, inclusion of a reaction norm based GxE kernel (default = FALSE)
 #' @param intercept.random boolean, inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.
 #' @importFrom BGGE getK
-
-
+#' @importFrom stats median
 
 # http://www.fao.org/3/X0490E/x0490e07.htm#radiation
 Param_Radiation <-function(df,DOY=NULL, LAT=NULL,merge=FALSE){

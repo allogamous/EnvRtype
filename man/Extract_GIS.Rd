@@ -11,7 +11,7 @@ Extract_GIS(
   lat = NULL,
   env.id = NULL,
   .crs = NULL,
-  .path = NUL,
+  .path = NULL,
   covname = NULL
 )
 }

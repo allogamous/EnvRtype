@@ -10,9 +10,6 @@
 #' which MM (main effect model or Y=fixed + G) amd MDs (Y=fixed+G+GxE)
 #' @param reaction boolean, inclusion of a reaction norm based GxE kernel (default = FALSE)
 #' @param intercept.random boolean, inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.
-#' @importFrom BGGE getK
-
-
 
 # http://www.fao.org/3/X0490E/x0490e07.htm#atmospheric%20parameters
 
