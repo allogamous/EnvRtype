@@ -5,7 +5,7 @@
 \alias{maizeG}
 \title{Maize Genomic Relationship Matrix (GRM)}
 \format{
-An object of class \code{data.frame} with 150 rows and 150 columns.
+An object of class \code{matrix} with 150 rows and 150 columns.
 }
 \usage{
 data(maizeG)

@@ -10,12 +10,11 @@
 #' which MM (main effect model or Y=fixed + G) amd MDs (Y=fixed+G+GxE)
 #' @param reaction boolean, inclusion of a reaction norm based GxE kernel (default = FALSE)
 #' @param intercept.random boolean, inclusion of a genomic random intercepet (default = FALSE)
-#' @importFrom raster extract
-#' @importFrom reshape2 merge
-
+#' @importFrom raster extract merge coordinates
+#' @importFrom sp proj4string CRS coordinates<- proj4string<-
 
 Extract_GIS <- function(covraster=NULL,reference=NULL, lon=NULL,
-                        lat=NULL, env.id=NULL, .crs=NULL,.path=NUL,covname=NULL){
+                        lat=NULL, env.id=NULL, .crs=NULL,.path=NULL,covname=NULL){
   require(raster)
   require(reshape2)
   if(is.null(lat)) lat <-'LAT'
