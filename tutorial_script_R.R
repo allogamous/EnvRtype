@@ -1,6 +1,6 @@
 #'##############################################################################
 #' Basic tutorial for EnvRtype package
-#' gcneto april 08 2020
+#' gcneto and rfn, april 08 2020
 #'##############################################################################
 library(devtools)
 install_github('allogamous/EnvRtype')
