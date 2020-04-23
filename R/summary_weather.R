@@ -11,12 +11,11 @@
 #' @param by.interval boolean. Indicates if temporal intervals must be computed insied of each environment. Default = FALSE.
 #' @param time.window vector (numeric). If by.interval = TRUE, this argument indicates the temporal breaks for delimited intervals.
 #' @param names.window vector(character). If by.interval = TRUE, this argument indicates the names of the desirable intervals.
-#' @importFrom utils write.cvs
+#' @importFrom utils write.csv
 #' @importFrom nasapower get_power
 #' @importFrom utils install.packages
-#' @importFrom reshape2 melt
-#' @importFrom plyr ddply
-
+#' @importFrom reshape2 melt dcast
+#' @importFrom plyr ddply . summarise
 
 
 summaryWTH <- function(x,id.names=NULL,
@@ -66,6 +65,8 @@ summaryWTH <- function(x,id.names=NULL,
 
 SumEweather <- function(.GetW,by.interval=FALSE){
 
+  env <- variable  <- value <- interval <- NULL #supressor
+
   if(isFALSE(by.interval)){
     return(ddply(.GetW,.(env,variable),summarise,sum=sum(value,na.rm=T)))
   }
@@ -77,6 +78,8 @@ SumEweather <- function(.GetW,by.interval=FALSE){
 }
 
 MeanEweather <- function(.GetW,by.interval=FALSE){
+
+  env <- variable <- summarise <- value <- interval <- NULL
 
   if(isFALSE(by.interval)){
     return(ddply(.GetW,.(env,variable),summarise,mean=mean(value,na.rm=T)))
@@ -93,6 +96,9 @@ MeanEweather <- function(.GetW,by.interval=FALSE){
 
 
 QuantEweather <- function(.GetW,prob=c(.25,.5,.75),by.interval=FALSE){
+
+  e <- v <- s <- i <- NULL #supressor
+
   require(doParallel)
   require(reshape2)
   (envs <-unique(.GetW$env))

@@ -14,16 +14,18 @@
 #' @param names.window vector(character). If by.interval = TRUE, this argument indicates the names of the desirable intervals.
 #' @param scale boolean. If scale=TRUE, the variables (x) assumes a mean-centered scaled distribution, with x~N(0,1).
 #' @param format character. The shape of the output, assuming format = c('long','wide'). Default is 'long'
-
-
+#' @importFrom stats quantile
+#' @importFrom foreach %dopar% %:% foreach
+#' @importFrom reshape2 acast
 
 EnvTyping <- function(df.cov,var.id,env.id,cardinals=NULL,days.id=NULL,
                       time.window=NULL,names.window=NULL,quantiles=NULL,
                       id.names=NULL,by.interval=FALSE,scale=FALSE,
                       format=NULL){
 
-  require(doParallel)
+  x <- j <- s <- median <-  NULL #supressor
 
+  require(doParallel)
 
   if(isTRUE(scale)) df.cov[,var.id] <- scale(x[,var.id],center = T,scale = T)
 

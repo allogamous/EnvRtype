@@ -11,7 +11,8 @@
 #' @param bydiag boolean. If TRUE, the parametrization by WW'/diag(WW') is applied. If FALSE, WW'/ncol(W)
 #' @param gaussian boolean. If TRUE, uses the gaussian kernel parametrization for W, where envCov = exp(-h*d/q)
 #' @param h.gaussian numeric. If gaussian = TRUE, returns the h parameter for exp(-h*d/q)
-#'
+#' @importFrom stats sd dist
+
 
 EnvKernel <-function(df.cov,Y=NULL, is.scaled=T, sd.tol = 1,
                      tol=1E-3,bydiag=FALSE,merge=FALSE,
@@ -80,4 +81,5 @@ envK = function(df.cov,df.pheno,skip=3,env.id){
   df.cov$env <- as.factor(rownames(df.cov))
   W <- as.matrix(merge(df.pheno,df.cov, by=env.id)[,-c(1:skip)])
   return(W)
+
 }

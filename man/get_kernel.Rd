@@ -9,7 +9,6 @@ get_kernel(
   K_G,
   Y,
   model = NULL,
-  reaction = FALSE,
   intercept.random = FALSE,
   size_E = NULL
 )
@@ -25,11 +24,11 @@ If NULL, benchmarck genomic kernels are built.}
 \item{model}{model structure for genomic predicion. It can be c('MM','MDs','E-MM','E-MDs'),
 which MM (main effect model or Y=fixed + G) amd MDs (Y=fixed+G+GxE)}
 
-\item{reaction}{boolean, inclusion of a reaction norm based GxE kernel (default = FALSE)}
-
 \item{intercept.random}{boolean, inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.}
 
 \item{size_E}{character. size_E=c('full','environment'). In the first, 'full' means taht the environmental relationship kernel has the dimensions of n x n observations, which n = pq (p genotypes, q environments). If 'environment' the size of E-kernel is q x q.}
+
+\item{reaction}{boolean, inclusion of a reaction norm based GxE kernel (default = FALSE)}
 }
 \description{
 Get multiple genomic and/or envirotype-informed kernels for bayesian genomic prediciton

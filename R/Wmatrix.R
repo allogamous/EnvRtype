@@ -15,6 +15,7 @@
 #' @param scale boolean. If scale=TRUE, the variables (x) assumes a mean-centered scaled distribution, with x~N(0,1).
 #' @param QT boolean. Indicates with Quality Control is applied. QC is based on the standard deviation tolerance (sd.tol), removing variables (x) with sd(x) > sd.tol
 #' @param sd.tol numeric. Default value equal to 10.
+#' @importFrom stats sd
 
 
 
@@ -58,6 +59,7 @@ W.matrix = function(df.cov, is.processed=FALSE,id.names=NULL,env.id=NULL,var.id=
 
 
 W.scale <-function(df.cov, center=T,scale=T, sd.tol = 4,tol=1E-3,QC=F){
+
   sdA   <- apply(df.cov,2,sd)
   t <- ncol(df.cov)
   removed <- names(sdA[sdA > sd.tol])

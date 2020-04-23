@@ -28,7 +28,7 @@ get_weather(
 
 \item{end.day}{end point}
 
-\item{variables.names}{list of variables names}
+\item{variables.names}{vector of variables names. Should be "T2M","T2M_MAX","T2M_MIN","PRECTOT", "WS2M","RH2M","T2MDEW", "ALLSKY_SFC_LW_DWN", "ALLSKY_SFC_SW_DWN", and/or "ALLSKY_TOA_SW_DWN"}
 
 \item{dir.path}{output directorie}
 

@@ -20,7 +20,7 @@ processWTH <- function(x,lon=NULL,lat=NULL,env.id=NULL,DOY=NULL,download.ALT=TRU
   if(is.null(country)) country <- 'BRA'
   ALT <- 600
   if(isTRUE(download.ALT)){
-    if (!require(raster)) install.packages("BGGE");require(raster)
+    if (!require(raster)) install.packages("raster");require(raster)
     cat('------------------------------------------------ \n')
     cat('ATTENTION: This function requires internet access \n')
     cat('for more detailes see raster package \n')
