@@ -4,33 +4,13 @@
 \alias{processWTH}
 \title{Basic Processing Tools for Enriching get_weather outputs}
 \usage{
-processWTH(
-  x,
-  lon = NULL,
-  lat = NULL,
-  env.id = NULL,
-  DOY = NULL,
-  download.ALT = TRUE,
-  country = NULL
-)
+processWTH(weather.data)
 }
 \arguments{
-\item{x}{data.frame. A get_weather output}
-
-\item{lon}{numeric. Longitude values in WGS84}
-
-\item{lat}{numeric. Latitude values in WGS84}
-
-\item{env.id}{character. Identification of the site or environment.}
-
-\item{DOY}{numeric. Julian day. DOY column as benchmark (from get_weather)}
-
-\item{download.ALT}{boolean. Default as TRUE, to download Altitude data from SRTM database of CGIAR.}
-
-\item{country}{character. ID for country. Default is 'BRA'. For more detais see getData() from raster package.}
+\item{weather.data}{data.frame. A get_weather output}
 }
 \description{
-Summarize get_weather() outputs based on environments and defined time intervals (e.g.,phenology)
+A wraper of Param_Radiation(), Param_Atmospheric(), and Param_Temperature() for evaluating get_weather() datasets.
 }
 \author{
 Germano Costa Neto

@@ -3,7 +3,7 @@
 #'
 #' @description Returns a covariable realzed matrix with dimensions of q x k, for q environments and k covariables.
 #' @author Germano Costa Neto
-#' @param df.cov data.frame of environmental variables
+#' @param weather.data data.frame of environmental variables gotten from get_weather.
 #' @param id.names vector (character). Indicates the name of the columns to be used as id for the environmental variables to be analysed.
 #' @param env.id   vector (character). Indicates the name of the columns to be used as id for environments.
 #' @param var.id  character. Indicates which variables will be used in the analysis.
@@ -16,22 +16,22 @@
 #' @param QT boolean. Indicates with Quality Control is applied. QC is based on the standard deviation tolerance (sd.tol), removing variables (x) with sd(x) > sd.tol
 #' @param sd.tol numeric. Default value equal to 10.
 #' @importFrom stats sd
+#' @importFrom reshape2 acast
+#' @export
 
 
 
-W.matrix = function(df.cov, is.processed=FALSE,id.names=NULL,env.id=NULL,var.id=NULL,
+W.matrix = function(weather.data, is.processed=FALSE,id.names=NULL,env.id=NULL,var.id=NULL,
                     probs=NULL,by.interval=NULL,time.window=NULL,names.window=NULL,
                     center=T,scale=T, sd.tol = 10,statistic=NULL,
                     tol=1E-3,QC=FALSE){
-
-  require(reshape2)
 
   if(is.null(statistic)) statistic <-'mean'
   if(is.null(by.interval)) by.interval <- FALSE
 
   # if the env data are alredy processed in means, medians etc, ignore
   if(isFALSE(is.processed)){
-    W<-summaryWTH(x=df.cov,id.names=id.names,
+    W<-summaryWTH(weather.data=weather.data,id.names=id.names,
                   env.id = env.id,
                   statistic=statistic,
                   probs = probs,var.id=var.id,
@@ -43,12 +43,12 @@ W.matrix = function(df.cov, is.processed=FALSE,id.names=NULL,env.id=NULL,var.id=
     colid <- c('env','variable','interval')
     W <- melt(W,measure.vars = names(W)[!names(W)%in%colid],variable.name = 'stat' )
     W$variable <-paste(W$variable,W$stat,sep = '_')
-    if(isTRUE(by.interval)) W  <-acast(W,env~variable+interval,value.var = "value")
-    if(isFALSE(by.interval)) W <-acast(W,env~variable,value.var = "value")
+    if(isTRUE(by.interval)) W  <- reshape2::acast(W,env~variable+interval,value.var = "value")
+    if(isFALSE(by.interval)) W <- reshape2::acast(W,env~variable,value.var = "value")
   }
 
   # parametrization for w~N(0,1)
-  W <- W.scale(df.cov = W,center = center,scale = scale,sd.tol = sd.tol,QC = QC)
+  W <- W.scale(weather.data = W,center = center,scale = scale,sd.tol = sd.tol,QC = QC)
 
   return(W)
 
@@ -58,14 +58,14 @@ W.matrix = function(df.cov, is.processed=FALSE,id.names=NULL,env.id=NULL,var.id=
 
 
 
-W.scale <-function(df.cov, center=T,scale=T, sd.tol = 4,tol=1E-3,QC=F){
+W.scale <-function(weather.data, center=T,scale=T, sd.tol = 4,tol=1E-3,QC=F){
 
-  sdA   <- apply(df.cov,2,sd)
-  t <- ncol(df.cov)
+  sdA   <- apply(weather.data,2,sd)
+  t <- ncol(weather.data)
   removed <- names(sdA[sdA > sd.tol])
-  if(!is.matrix(df.cov)){stop('df.cov must be a matrix')}
-  df.cov<- scale(df.cov+tol,center = center,scale = scale)
-  if(isTRUE(QC)) df.cov <- df.cov[,!colnames(df.cov) %in% removed]
+  if(!is.matrix(weather.data)){stop('weather.data must be a matrix')}
+  weather.data<- scale(weather.data+tol,center = center,scale = scale)
+  if(isTRUE(QC)) weather.data <- weather.data[,!colnames(weather.data) %in% removed]
 
   r <- length(removed)
 
@@ -78,5 +78,5 @@ W.scale <-function(df.cov, center=T,scale=T, sd.tol = 4,tol=1E-3,QC=F){
     cat(paste0('------------------------------------------------','\n'))
   }
 
-  return(df.cov)
+  return(weather.data)
 }

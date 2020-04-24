@@ -5,7 +5,7 @@
 \title{Support functions to estimate thermal parameters}
 \usage{
 Param_Temperature(
-  df,
+  weather.data,
   Tmax = NULL,
   Tmin = NULL,
   Tbase1 = 9,

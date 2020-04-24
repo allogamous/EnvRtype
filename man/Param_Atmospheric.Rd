@@ -5,16 +5,15 @@
 \title{Support functions to estimate atmospheric parameters}
 \usage{
 Param_Atmospheric(
+  weather.data,
   PREC = NULL,
   Tdew = NULL,
   Tmin = NULL,
   Tmax = NULL,
-  Alt = NULL,
   RH = NULL,
   Rad = NULL,
   G = NULL,
   alpha = 1.26,
-  df,
   merge = FALSE
 )
 }

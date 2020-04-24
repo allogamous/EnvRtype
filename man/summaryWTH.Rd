@@ -5,7 +5,7 @@
 \title{Basic Summary Statistics for Environmental Data}
 \usage{
 summaryWTH(
-  x,
+  weather.data,
   id.names = NULL,
   env.id = NULL,
   days.id = NULL,
@@ -18,6 +18,8 @@ summaryWTH(
 )
 }
 \arguments{
+\item{weather.data}{data.frame. A get_weather output}
+
 \item{id.names}{vector (character). Indicates the name of the columns to be used as id for the environmental variables to be analysed.}
 
 \item{env.id}{vector (character). Indicates the name of the columns to be used as id for environments.}

@@ -13,8 +13,8 @@ get_weather(
   variables.names = NULL,
   dir.path = NULL,
   save = FALSE,
-  asdataframe = TRUE,
-  temporal.scale = "DAILY"
+  temporal.scale = "DAILY",
+  country = NULL
 )
 }
 \arguments{
@@ -37,7 +37,7 @@ get_weather(
 \item{temporal.scale}{character. Default = 'DAILY'. See get_power() function in nasapower package for more details}
 }
 \description{
-Imports daily-scale weather data from the NASA POWER GIS database
+Imports daily-scale weather data from the NASA POWER GIS database. Also downloads geographic data from SRTM database.
 }
 \author{
 Germano Costa Neto

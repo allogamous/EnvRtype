@@ -13,19 +13,21 @@
 #' @param size_E character. size_E=c('full','environment'). In the first, 'full' means taht the environmental relationship kernel has the dimensions of n x n observations, which n = pq (p genotypes, q environments). If 'environment' the size of E-kernel is q x q.
 #' @importFrom BGGE getK
 #' @importFrom stats model.matrix
+#' @export
 
 get_kernel <-function(K_E = NULL,                    #' environmental kernel
                       K_G,                           #' genotypic kernel (p x p genotypes)
                       Y,                            #' phenotypic dataframe
                       model = NULL,  #' family model c('MM','MDs','EMM','EMDs','RNMM','RNMDs'),
                       intercept.random = FALSE,      #' insert genomic random intercept)
+                      reaction = FALSE,
                       size_E = NULL#c('full','environment'),
                       ){
   #----------------------------------------------------------------------------
   # Start Step
   #  Y <- data.frame(env=Y[,env.id],gid=Y[,gen.id],value=Y[,trait.id])
   if (is.null(K_G))   stop('Missing the list of genomic kernels')
-  if (!requireNamespace('BGGE')) install.packages("BGGE")
+  if (!requireNamespace('BGGE')) utils::install.packages("BGGE")
   # if(!any(model %in% c("MM","MDs",'E-MM','E-MDs'))) stop("Model not specified. Choose between MM or MDs")
   if(is.null(model)) model <- 'MM'
   if(model == 'MM'){reaction <- FALSE; model_b <- 'MM';K_E=NULL}
@@ -66,7 +68,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel
   # Envirotype-enriched models (for E effects)
   #----------------------------------------------------------------------------
   if(is.null(size_E)) size_E <- 'full'
-  if(size_E == 'environment') for(q in 1:length(K_E)) K_E[[q]] <- EnvKernel(df.cov = K_E[[q]],Y = Y,merge = T,env.id = 'env')$envCov
+  if(size_E == 'environment') for(q in 1:length(K_E)) K_E[[q]] <- EnvKernel(weather.data = K_E[[q]],Y = Y,merge = T,env.id = 'env')$envCov
 
 
   h <- length(K_E);
@@ -83,7 +85,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel
   # Envirotype-enriched models (for GE+E effects)
   #----------------------------------------------------------------------------
   if(isTRUE(reaction)){
-    Zg <- model.matrix(~0+gid,Y)
+    Zg <- stats::model.matrix(~0+gid,Y)
     ng <- length(K_G)
     Ng<-names(K_G)
     for(i in 1:ng) K_G[[i]] <-tcrossprod(Zg%*%K_G[[i]])

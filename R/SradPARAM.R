@@ -12,15 +12,13 @@
 #' @param intercept.random boolean, inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.
 #' @importFrom BGGE getK
 #' @importFrom stats median
+#' @export
 
 # http://www.fao.org/3/X0490E/x0490e07.htm#radiation
-Param_Radiation <-function(df,DOY=NULL, LAT=NULL,merge=FALSE){
+Param_Radiation <-function(weather.data, merge=FALSE){
 
-  if(is.null(DOY)) DOY <-'DOY'
-  if(is.null(LAT)) LAT <- 'LAT'
-
-  DOY <- df[,DOY]
-  LAT <- df[,LAT]
+  DOY <- weather.data[,'DOY']
+  LAT <- weather.data[,'LAT']
 
   Ra <- function(J,lat){
     rlat = deg2rad(lat)
@@ -29,7 +27,7 @@ Param_Radiation <-function(df,DOY=NULL, LAT=NULL,merge=FALSE){
     ws = acos(-tan(rlat)*tan(fi))
     Ra = (1440/pi)*.0820*dr*(ws*sin(rlat)*sin(fi)+cos(rlat)*cos(fi)*sin(ws))
     N = (24/pi)*ws
-    cat('------------------------------------------------ \n')
+    cat('---------------------------------------------------------------------- \n')
     cat('Extraterrestrial radiation (RTA, MJ/m^2/day)  \n')
     cat('Daylight hours (N, hours) \n')
 
@@ -38,8 +36,8 @@ Param_Radiation <-function(df,DOY=NULL, LAT=NULL,merge=FALSE){
 
 
   RadN <-Ra(J = DOY,lat = LAT)
-  LWD <- df$ALLSKY_SFC_LW_DWN
-  DWN <- df$ALLSKY_SFC_SW_DWN
+  LWD <- weather.data$ALLSKY_SFC_LW_DWN
+  DWN <- weather.data$ALLSKY_SFC_SW_DWN
   LWD[LWD == -99] <- NA
   DWN[DWN == -99] <- NA
   LWD[is.na(LWD)] <- median(LWD,na.rm=T)
@@ -50,11 +48,11 @@ Param_Radiation <-function(df,DOY=NULL, LAT=NULL,merge=FALSE){
 
   cat('Actual duration of sunshine (n, hours) \n')
   cat('Solar Radiation (SRAD, MJ/m^2/day) \n')
-  cat('------------------------------------------------ \n')
+  cat('---------------------------------------------------------------------- \n')
   cat('\n')
 
   if(isFALSE(merge)) return(data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad))
-  if(isTRUE(merge)) return(data.frame(df,data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad)))
+  if(isTRUE(merge)) return(data.frame(weather.data,data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad)))
 
 }
 

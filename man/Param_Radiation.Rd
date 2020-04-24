@@ -4,7 +4,7 @@
 \alias{Param_Radiation}
 \title{Support functions to estimate basic radiation parameters}
 \usage{
-Param_Radiation(df, DOY = NULL, LAT = NULL, merge = FALSE)
+Param_Radiation(weather.data, merge = FALSE)
 }
 \arguments{
 \item{K_E}{list of envirotype-related kernels (n x n genotypes-environment).

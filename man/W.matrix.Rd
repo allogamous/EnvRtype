@@ -5,7 +5,7 @@
 \title{Build the Matrix of Environmental Covariables for Reaction Norm}
 \usage{
 W.matrix(
-  df.cov,
+  weather.data,
   is.processed = FALSE,
   id.names = NULL,
   env.id = NULL,
@@ -23,7 +23,7 @@ W.matrix(
 )
 }
 \arguments{
-\item{df.cov}{data.frame of environmental variables}
+\item{weather.data}{data.frame of environmental variables gotten from get_weather.}
 
 \item{id.names}{vector (character). Indicates the name of the columns to be used as id for the environmental variables to be analysed.}
 

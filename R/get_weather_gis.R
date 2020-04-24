@@ -1,7 +1,7 @@
 #'@title  Easily Collection of Worldwide Daily Weather Data
 #'
 #'
-#' @description Imports daily-scale weather data from the NASA POWER GIS database
+#' @description Imports daily-scale weather data from the NASA POWER GIS and geographic data from SRTM database.
 #' @author Germano Costa Neto
 #' @param env.id vector (character or level). Indicates site/environment identification
 #' @param lat vector (numeric). Indicates de latitude valuesort
@@ -9,13 +9,14 @@
 #' @param variables.names vector of variables names. Should be "T2M","T2M_MAX","T2M_MIN","PRECTOT", "WS2M","RH2M","T2MDEW", "ALLSKY_SFC_LW_DWN", "ALLSKY_SFC_SW_DWN", and/or "ALLSKY_TOA_SW_DWN"
 #' @param start.day start point
 #' @param end.day end point
-#' @param dir.path output directorie
+#' @param dir.path output directory
 #' @param save bollean. If TRUE, save each environmental data.frame as .csv in dir.path
 #' @param temporal.scale character. Default = 'DAILY'. See get_power() function in nasapower package for more details
 #' @importFrom utils write.csv
 #' @importFrom nasapower get_power
 #' @importFrom plyr ldply
 #' @importFrom utils install.packages
+#' @export
 
 #----------------------------------------------------------------------------------------
 # getting weather data from NASAPOWER GIS database
@@ -25,7 +26,7 @@
 get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
                            start.day = NULL,end.day = NULL,
                            variables.names = NULL, dir.path = NULL,
-                           save=FALSE,asdataframe=TRUE,temporal.scale = 'DAILY'){
+                           save=FALSE,temporal.scale = 'DAILY', country = NULL){
   cat('------------------------------------------------ \n')
   cat('ATTENTION: This function requires internet access \n')
   cat('------------------------------------------------  \n')
@@ -36,8 +37,8 @@ get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
 #     {stop("env.id should be a vector of characters (e.g. 'env1') or factors")} #checks if env.id is character of factors
 
   # if nasapower is not installed, the CRAN version will be installed
-  if (!requireNamespace('nasapower', quietly = TRUE)) {install.packages("nasapower")} #talvez seja interessante instalar junto com o pacote
-  if (!requireNamespace('plyr', quietly = TRUE)) {install.packages("plyr")}
+  if (!requireNamespace('nasapower', quietly = TRUE)) {utils::install.packages("nasapower")} #talvez seja interessante instalar junto com o pacote
+  if (!requireNamespace('plyr', quietly = TRUE)) {utils::install.packages("plyr")}
 
   # if output dir.path is null, the current directorie folder will be used
   if(is.null(dir.path)){dir.path = getwd()}
@@ -80,16 +81,32 @@ get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
     names(.C)[[.E]] = env.id[.E]
 
     # if save is true, write the weather into csv files
-    if(isTRUE(save)){write.csv(file=paste(env.id[.E],".csv",sep=""), x = CL)}
+    if(isTRUE(save)){utils::write.csv(file=paste(env.id[.E],".csv",sep=""), x = CL)}
+
+    cat(paste0('Environment ', env.id[.E], ' downloaded \n'))
 
   }
 
   names(.C) = env.id
+
+  #Talvez seja interessante trabalhar somente com dataframe (facilita o binding com a altitude)
   # if asdataframe is true, df_convert function will be used
-  if(isTRUE(asdataframe)) .C = plyr::ldply(.C)
+  # if(isTRUE(asdataframe))
+  .C = plyr::ldply(.C)
   names(.C)[names(.C) %in% '.id'] = 'env'
 
-  return(.C)
+
+
+
+
+
+  ###section from processWTH.R
+  if(is.null(country)) stop('Please inform the country in which the experiments were carried. Run this function for each country.')
+  if(!requireNamespace('raster')) utils::install.packages("raster")
+
+  # collecting altitude data from raster SRTM database
+  srtm <- raster::getData('alt', country=country,mask=TRUE)
+  df<-Extract_GIS(covraster = srtm, weather.data = .C) #nao ha input para covname, talvez seja interessante remove-lo
+
+  return(df)
 }
-
-
