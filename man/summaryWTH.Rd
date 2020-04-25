@@ -18,26 +18,48 @@ summaryWTH(
 )
 }
 \arguments{
-\item{weather.data}{data.frame. A get_weather output}
+\item{weather.data}{data.frame. A \code{get_weather()} output.}
 
 \item{id.names}{vector (character). Indicates the name of the columns to be used as id for the environmental variables to be analysed.}
 
-\item{env.id}{vector (character). Indicates the name of the columns to be used as id for environments.}
+\item{env.id}{character. Name of the columns to be used as identification for environments.}
+
+\item{days.id}{character. Name of the columns indicating the days from start.}
 
 \item{var.id}{character. Indicates which variables will be used in the analysis.}
 
-\item{statistic}{vector (character). Indicates what statistic must be runned, statistic = c('all','sum','mean','quantile'). Default: 'all'.}
+\item{statistic}{vector (character). Indicates what statistic must be analysed, \code{statistic = c('all','sum','mean','quantile')}. Default: 'all'.}
 
-\item{probs}{vector(numeric). Indicates the probability quantiles, as probs = {0,1}. If is NULL, probs = c(0.25,.50,.75).}
+\item{probs}{vector(numeric). Indicates the probability quantiles, as probs = {0,1}. If is NULL, \code{probs = c(0.25,.50,.75)}.}
 
-\item{by.interval}{boolean. Indicates if temporal intervals must be computed insied of each environment. Default = FALSE.}
+\item{by.interval}{boolean. Indicates if temporal intervals must be computed within each environment. Default = FALSE.}
 
-\item{time.window}{vector (numeric). If by.interval = TRUE, this argument indicates the temporal breaks for delimited intervals.}
+\item{time.window}{vector (numeric). If \code{by.interval = TRUE}, this argument indicates the temporal breaks for delimited intervals.}
 
-\item{names.window}{vector(character). If by.interval = TRUE, this argument indicates the names of the desirable intervals.}
+\item{names.window}{vector(character). If \code{by.interval = TRUE}, this argument indicates the names of the desirable intervals.}
 }
 \description{
-Summarize get_weather() outputs based on environments and defined time intervals (e.g.,phenology)
+Summarize \code{get_weather()} outputs based on environments and defined time intervals (e.g.,phenology)
+}
+\details{
+TODO
+}
+\examples{
+### Fetching weather information from NASA-POWER
+weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+
+### Basic summary
+summaryWTH(weather.data)
+
+### Returning only mean values
+summaryWTH(weather.data, env.id = 'env', statistic = 'mean')
+
+### Summary by time intervals given by time.window and names.window
+summaryWTH(weather.data, env.id = 'env', by.interval = TRUE,
+           time.window = c(0, 14, 35, 60, 90, 120),
+           names.window = c('P-E', 'E-V1', 'V1-V4', 'V4-VT', 'VT-GF', 'GF-PM'))
+
+
 }
 \author{
 Germano Costa Neto

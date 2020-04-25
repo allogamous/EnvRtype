@@ -1,21 +1,61 @@
 #'@title  Easily Collection of Worldwide Daily Weather Data
 #'
 #'
-#' @description Imports daily-scale weather data from the NASA POWER GIS and geographic data from SRTM database.
+#' @description Imports daily-scale weather data from the NASA-POWER GIS and geographic data from SRTM database.
+#'
 #' @author Germano Costa Neto
-#' @param env.id vector (character or level). Indicates site/environment identification
-#' @param lat vector (numeric). Indicates de latitude valuesort
-#' @param lon vector (numeric). containing longitude values
-#' @param variables.names vector of variables names. Should be "T2M","T2M_MAX","T2M_MIN","PRECTOT", "WS2M","RH2M","T2MDEW", "ALLSKY_SFC_LW_DWN", "ALLSKY_SFC_SW_DWN", and/or "ALLSKY_TOA_SW_DWN"
-#' @param start.day start point
-#' @param end.day end point
-#' @param dir.path output directory
-#' @param save bollean. If TRUE, save each environmental data.frame as .csv in dir.path
-#' @param temporal.scale character. Default = 'DAILY'. See get_power() function in nasapower package for more details
+#'
+#' @param env.id vector (character or level). Identification of the site/environment (e.g. Piracicaba01).
+#' @param lat vector (numeric). Latitude values of the site/environment (e.g. -13.05) in WGS84.
+#' @param lon vector (numeric). Longitude values site/environment (e.g. -56.05) in WGS84.
+#' @param variables.names vector (character). Name of the variables. Should be "T2M","T2M_MAX","T2M_MIN","PRECTOT", "WS2M","RH2M","T2MDEW", "ALLSKY_SFC_LW_DWN", "ALLSKY_SFC_SW_DWN", and/or "ALLSKY_TOA_SW_DWN". See Details for more information.
+#' @param start.day vector (character). First date in which weather/geographic data should be collected (e.g. "2015-02-15").
+#' @param end.day vector (character). Last date in which weather/geographic data should be collected (e.g. "2015-06-15").
+#' @param dir.path character. Directory for the output. If not informed, the output will be saved in the current workind directory.
+#' @param save bollean. If TRUE, save each environmental data.frame as .csv in dir.path.
+#' @param temporal.scale character. Default = 'DAILY'. See \code{get_power()} function in nasapower package for more details.
+#' @param country character. Country in which the lat and lon values are positioned (e.g. 'BRA'). A single country should be informed. Wrapper of raster::getData.
+#'
+#' @return A data.frame with selected \code{variable.names} collected from a \code{start.day} to a \code{end.day} at the informed \code{lat} and \code{lon}.
+#'
+#' @details
+#' The available variables are:
+#' \itemize{
+#'  \item T2M: Temperature at 2 Meters
+#'  \item T2M_MAX: Maximum Temperature at 2 Meters
+#'  \item T2M_MIN: Minimum Temperature at 2 Meters
+#'  \item PRECTOT: Precipitation
+#'  \item WS2M: Wind Speed at 2 Meters
+#'  \item RH2M: Relative Humidity at 2 Meters
+#'  \item T2MDEW: Dew/Frost Point at 2 Meters
+#'  \item ALLSKY_SFC_LW_DWN: Downward Thermal Infrared (Longwave) Radiative Flux
+#'  \item ALLSKY_SFC_SW_DWN: All Sky Insolation Incident on a Horizontal Surface
+#'  \item ALLSKY_TOA_SW_DWN: Top-of-atmosphere Insolation
+#' }
+#'
+#' @examples
+#' ## Temperature for a single location:
+#' get_weather(env.id = "NM", lat = -13.05, lon = -56.05,
+#'             start.day = "2015-02-15", end.day = "2015-06-15",
+#'             variables.names = c("T2M"), country = 'BRA')
+#'
+#' ## All variables for two locations:
+#' env = c("NM","SO")
+#' lat = c(-13.05,-12.32); lon = c(-56.05,-55.42)
+#' plant.date = c("2015-02-15",'2015-02-13')
+#' harv.date = rep("2015-06-15", 2)
+#' get_weather(env.id = env, lat = lat, lon = lon,
+#'             start.day = plant.date, end.day = harv.date,
+#'             country = 'BRA')
+#'
+#' @references
+#' Sparks A (2019). _nasapower: NASA-POWER Data from R_. R package version 1.1.3, <URL:https://CRAN.R-project.org/package=nasapower>.
+#'
 #' @importFrom utils write.csv
 #' @importFrom nasapower get_power
 #' @importFrom plyr ldply
 #' @importFrom utils install.packages
+#'
 #' @export
 
 #----------------------------------------------------------------------------------------
@@ -32,9 +72,9 @@ get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
   cat('------------------------------------------------  \n')
 
   # checking in inputs
-#  if(is.null(env.id)){env.id <- paste0("env", seq_along(lat))} #creates a name for the enviroments (if null)
-#  if(!(is.character(env.id) || is.factor(env.id)))
-#     {stop("env.id should be a vector of characters (e.g. 'env1') or factors")} #checks if env.id is character of factors
+  if(is.null(env.id)){env.id <- paste0("env", seq_along(lat))} #creates a name for the enviroments (if null)
+  if(!(is.character(env.id) || is.factor(env.id)))
+     {stop("env.id should be a vector of characters (e.g. 'env1') or factors")} #checks if env.id is character of factors
 
   # if nasapower is not installed, the CRAN version will be installed
   if (!requireNamespace('nasapower', quietly = TRUE)) {utils::install.packages("nasapower")} #talvez seja interessante instalar junto com o pacote
@@ -94,11 +134,6 @@ get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
   # if(isTRUE(asdataframe))
   .C = plyr::ldply(.C)
   names(.C)[names(.C) %in% '.id'] = 'env'
-
-
-
-
-
 
   ###section from processWTH.R
   if(is.null(country)) stop('Please inform the country in which the experiments were carried. Run this function for each country.')

@@ -30,7 +30,7 @@ EnvTyping <- function(weather.data,var.id,env.id,cardinals=NULL,days.id=NULL,
   '%:%' <- foreach::'%:%'
   '%dopar%' <- foreach::'%dopar%'
 
-  if(isTRUE(scale)) weather.data[,var.id] <- scale(weather.data[,var.id],center = T,scale = T)
+  if(isTRUE(scale)) weather.data[,var.id] <- scale(weather.data[,var.id],center = TRUE,scale = TRUE)
 
   .GET <- meltWTH(.GeTw = weather.data,days = days.id,
                      by.interval = by.interval,
@@ -65,7 +65,7 @@ EnvTyping <- function(weather.data,var.id,env.id,cardinals=NULL,days.id=NULL,
   results <- foreach::foreach(s=1:length(vars), .combine = "rbind") %:% foreach::foreach(j=1:length(env), .combine = "rbind") %:% foreach::foreach(t=1:length(int), .combine = "rbind") %dopar% {
 
       .out=data.frame(table(cut(x =  .GET$value[which(.GET$env == env[j] & .GET$variable == vars[s] & .GET$interval == int[t])],
-                                breaks = cardinals[[s]],right = T)),env=env[j],interval=int[t],var=vars[s])
+                                breaks = cardinals[[s]],right = TRUE)),env=env[j],interval=int[t],var=vars[s])
 
       return(.out)
     }

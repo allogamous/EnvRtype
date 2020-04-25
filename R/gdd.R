@@ -2,16 +2,38 @@
 #'
 #'
 #' @description Calculation Of Heat According To The Growing Degree Day Model. From maximum (tmax) and minimum (tmin) temperature values, and according to the cardinal values of base temperature (Tbase) computes the daily thermal sum in ° C / day
+#'
 #' @author Germano Costa Neto
-#' @param Tmax numeric (vetor). Maximum air temperature in degree Celsius
-#' @param Tmin numeric (vetor). Minimum air temperature in degree Celsius
-#' @param Tbase1 numeric (vetor). cardinal value for temperature base for phenological development
-#' @param Tbase2 numeric (vetor). maximum cardinal value for temperature base for phenological development
+#'
+#' @param Tmax character. Indicates the column of maximum air temperature (Celsius).
+#' @param Tmin character. Indicates the column of minimum air temperature (Celsius).
+#' @param Tbase1 numeric (vetor). Cardinal value for temperature base for phenological development (Celsius).
+#' @param Tbase2 numeric (vetor). Maximum cardinal value for temperature base for phenological development (Celsius).
+#' @param merge boolean. If \code{TRUE}, calculated variables are merged to the original \code{get_weather()} dataframe.
+#'
+#' @return
+#' A dataframe with parameters related to atmospheric temperature. See details for further information.
+#'
+#' @details
+#' This function requires a dataframe with all parameters listed above. If any is missing, an error will be returned.
+#' The calculated variables are:
+#' \itemize{
+#'  \item GDD: Growing Degree Day (oC/day)
+#'  \item FRUE: Effect of temperature on radiation use efficiency (from 0 to 1)
+#'  \item T2M_RANGE: Daily Temperature Range (oC day)
+#'  }
+#'
+#' @examples
+#' ### Fetching weather information from NASA-POWER
+#' weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+#'
+#' ### Calculating solar radiation
+#' Param_Temperature(weather.data)
+#'
 #' @export
 
-
 Param_Temperature <- function(weather.data,Tmax=NULL, Tmin=NULL,
-                              Tbase1=9,Tbase2=45,Tmed,Topt1=26,Topt2=32,merge=T) {
+                              Tbase1=9,Tbase2=45,Tmed,Topt1=26,Topt2=32,merge=FALSE) {
 
   if(is.null(Tmin)) Tmin <-'T2M_MIN';Tmin<- weather.data[,Tmin]
   if(is.null(Tmax)) Tmax <-'T2M_MAX';Tmax <- weather.data[,Tmax]

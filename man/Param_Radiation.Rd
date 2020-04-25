@@ -7,22 +7,32 @@
 Param_Radiation(weather.data, merge = FALSE)
 }
 \arguments{
-\item{K_E}{list of envirotype-related kernels (n x n genotypes-environment).
-If NULL, benchmarck genomic kernels are built.}
+\item{weather.data}{data.frame. A \code{get_weather()} output or A \code{get_weather()}-like dataframe.}
 
-\item{K_G}{list of genomic enabled kernels (p x p genotypes)}
-
-\item{Y}{data.frame contaning the following colunms: environemnt, genotype, trait value}
-
-\item{model}{model structure for genomic predicion. It can be c('MM','MDs','E-MM','E-MDs'),
-which MM (main effect model or Y=fixed + G) amd MDs (Y=fixed+G+GxE)}
-
-\item{reaction}{boolean, inclusion of a reaction norm based GxE kernel (default = FALSE)}
-
-\item{intercept.random}{boolean, inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.}
+\item{merge}{boolean. If \code{TRUE}, calculated variables are merged to the original dataframe.}
+}
+\value{
+Returns a dataframe with parameters related to solar radiation. See details for further information.
 }
 \description{
-Core of functions to estimate atmospheric parameters related to solar radiation. Fore more details about the equations see de FAO-evapotranspiration publication http://www.fao.org/3/X0490E/x0490e07.htm#radiation
+Core of functions to estimate atmospheric parameters related to solar radiation. Fore more details about the equations see de FAO-evapotranspiration publication http://www.fao.org/3/X0490E/x0490e07.htm#radiation.
+}
+\details{
+This functions requires day of the year, latitude, thermal radiative flux, and sky insolation which are provided by \code{get_weather()}. If one of these parameters are missing, an error will be returned.
+\itemize{
+ \item n: Actual duration of sunshine (hour)
+ \item N: Daylight hours (hour)
+ \item RTA: Extraterrestrial radiation (MJ/m^2/day)
+ \item SRAD: Solar radiation (MJ/m^2/day)
+ }
+}
+\examples{
+### Fetching weather information from NASA-POWER
+weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+
+### Calculating solar radiation
+Param_Radiation(weather.data)
+
 }
 \author{
 Germano Costa Neto

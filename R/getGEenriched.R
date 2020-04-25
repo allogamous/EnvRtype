@@ -68,7 +68,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel
   # Envirotype-enriched models (for E effects)
   #----------------------------------------------------------------------------
   if(is.null(size_E)) size_E <- 'full'
-  if(size_E == 'environment') for(q in 1:length(K_E)) K_E[[q]] <- EnvKernel(weather.data = K_E[[q]],Y = Y,merge = T,env.id = 'env')$envCov
+  if(size_E == 'environment') for(q in 1:length(K_E)) K_E[[q]] <- EnvKernel(weather.data = K_E[[q]],Y = Y,merge = TRUE,env.id = 'env')$envCov
 
 
   h <- length(K_E);

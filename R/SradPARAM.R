@@ -1,17 +1,31 @@
 #'@title  Support functions to estimate basic radiation parameters
 #'
-#' @description Core of functions to estimate atmospheric parameters related to solar radiation. Fore more details about the equations see de FAO-evapotranspiration publication http://www.fao.org/3/X0490E/x0490e07.htm#radiation
+#' @description Core of functions to estimate atmospheric parameters related to solar radiation. Fore more details about the equations see de FAO-evapotranspiration publication http://www.fao.org/3/X0490E/x0490e07.htm#radiation.
 #' @author Germano Costa Neto
-#' @param K_E list of envirotype-related kernels (n x n genotypes-environment).
-#' If NULL, benchmarck genomic kernels are built.
-#' @param K_G list of genomic enabled kernels (p x p genotypes)
-#' @param Y data.frame contaning the following colunms: environemnt, genotype, trait value
-#' @param model model structure for genomic predicion. It can be c('MM','MDs','E-MM','E-MDs'),
-#' which MM (main effect model or Y=fixed + G) amd MDs (Y=fixed+G+GxE)
-#' @param reaction boolean, inclusion of a reaction norm based GxE kernel (default = FALSE)
-#' @param intercept.random boolean, inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.
-#' @importFrom BGGE getK
+#'
+#' @param weather.data data.frame. A \code{get_weather()} output or A \code{get_weather()}-like dataframe.
+#' @param merge boolean. If \code{TRUE}, calculated variables are merged to the original dataframe.
+#'
+#' @return Returns a dataframe with parameters related to solar radiation. See details for further information.
+#'
+#' @details
+#' This functions requires day of the year, latitude, thermal radiative flux, and sky insolation which are provided by \code{get_weather()}. If one of these parameters are missing, an error will be returned.
+#' \itemize{
+#'  \item n: Actual duration of sunshine (hour)
+#'  \item N: Daylight hours (hour)
+#'  \item RTA: Extraterrestrial radiation (MJ/m^2/day)
+#'  \item SRAD: Solar radiation (MJ/m^2/day)
+#'  }
+#'
+#' @examples
+#' ### Fetching weather information from NASA-POWER
+#' weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+#'
+#' ### Calculating solar radiation
+#' Param_Radiation(weather.data)
+#'
 #' @importFrom stats median
+#'
 #' @export
 
 # http://www.fao.org/3/X0490E/x0490e07.htm#radiation
@@ -40,8 +54,8 @@ Param_Radiation <-function(weather.data, merge=FALSE){
   DWN <- weather.data$ALLSKY_SFC_SW_DWN
   LWD[LWD == -99] <- NA
   DWN[DWN == -99] <- NA
-  LWD[is.na(LWD)] <- median(LWD,na.rm=T)
-  DWN[is.na(DWN)] <- median(DWN,na.rm=T)
+  LWD[is.na(LWD)] <- median(LWD,na.rm=TRUE)
+  DWN[is.na(DWN)] <- median(DWN,na.rm=TRUE)
 
   Srad <- LWD-DWN
   n <- RadN$N*(Srad/RadN$Ra)
@@ -51,7 +65,7 @@ Param_Radiation <-function(weather.data, merge=FALSE){
   cat('---------------------------------------------------------------------- \n')
   cat('\n')
 
-  if(isFALSE(merge)) return(data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad))
+  if(!isTRUE(merge)) return(data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad))
   if(isTRUE(merge)) return(data.frame(weather.data,data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad)))
 
 }

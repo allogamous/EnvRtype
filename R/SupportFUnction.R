@@ -26,7 +26,7 @@ AtmosphericParam<- function(PREC=NULL,Tdew=NULL,
   cat('------------------------------------------------ \n')
   cat('\n')
 
-  if(isFALSE(merge)) return(data.frame(VPD=VPD,SPV=Slope,ETP=ETo,PETP=PETo))
+  if(!isTRUE(merge)) return(data.frame(VPD=VPD,SPV=Slope,ETP=ETo,PETP=PETo))
   if(isTRUE(merge)) return(data.frame(df,data.frame(VPD=VPD,SPV=Slope,ETP=ETo,PETP=PETo)))
 
 
@@ -71,8 +71,8 @@ SradParam<-function(df,DOY, LAT,merge=FALSE){
   DWN <- df$ALLSKY_SFC_SW_DWN
   LWD[LWD == -99] <- NA
   DWN[DWN == -99] <- NA
-  LWD[is.na(LWD)] <- median(LWD,na.rm=T)
-  DWN[is.na(DWN)] <- median(DWN,na.rm=T)
+  LWD[is.na(LWD)] <- median(LWD,na.rm=TRUE)
+  DWN[is.na(DWN)] <- median(DWN,na.rm=TRUE)
 
   Srad <- LWD-DWN
   n <- RadN$N*(Srad/RadN$Ra)
@@ -82,7 +82,7 @@ SradParam<-function(df,DOY, LAT,merge=FALSE){
   cat('------------------------------------------------ \n')
   cat('\n')
 
-  if(isFALSE(merge)) return(data.frame(n=n,N=RadN$N,Ra=RadN$Ra, Srad=Srad))
+  if(!isTRUE(merge)) return(data.frame(n=n,N=RadN$N,Ra=RadN$Ra, Srad=Srad))
   if(isTRUE(merge)) return(data.frame(df,data.frame(n=n,N=RadN$N,Ra=RadN$Ra, Srad=Srad)))
 
 }

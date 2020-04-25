@@ -17,7 +17,7 @@
 #' @export
 
 
-EnvKernel <-function(weather.data,Y=NULL, is.scaled=T, sd.tol = 1,
+EnvKernel <-function(weather.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
                      tol=1E-3,bydiag=FALSE,merge=FALSE,
                      env.id=NULL,gaussian=FALSE, h.gaussian=NULL){
 
@@ -71,7 +71,7 @@ EnvKernel <-function(weather.data,Y=NULL, is.scaled=T, sd.tol = 1,
 
 
 gaussian <- function(x,h=NULL){
-  d<-as.matrix(dist(x,upper = T,diag = T))^2
+  d<-as.matrix(dist(x,upper = TRUE,diag = TRUE))^2
   q <- median(d)
   if(is.null(h)) h <- 1
 

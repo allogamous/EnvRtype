@@ -1,21 +1,45 @@
 #'@title  Basic Summary Statistics for Environmental Data
 #'
 #'
-#' @description Summarize get_weather() outputs based on environments and defined time intervals (e.g.,phenology)
+#' @description Summarize \code{get_weather()} outputs based on environments and defined time intervals (e.g.,phenology)
+#'
 #' @author Germano Costa Neto
-#' @param weather.data data.frame. A get_weather output
+#'
+#' @param weather.data data.frame. A \code{get_weather()} output.
 #' @param id.names vector (character). Indicates the name of the columns to be used as id for the environmental variables to be analysed.
-#' @param env.id   vector (character). Indicates the name of the columns to be used as id for environments.
+#' @param env.id   character. Name of the columns to be used as identification for environments.
+#' @param days.id character. Name of the columns indicating the days from start.
 #' @param var.id  character. Indicates which variables will be used in the analysis.
-#' @param statistic vector (character). Indicates what statistic must be runned, statistic = c('all','sum','mean','quantile'). Default: 'all'.
-#' @param probs vector(numeric). Indicates the probability quantiles, as probs = {0,1}. If is NULL, probs = c(0.25,.50,.75).
-#' @param by.interval boolean. Indicates if temporal intervals must be computed insied of each environment. Default = FALSE.
-#' @param time.window vector (numeric). If by.interval = TRUE, this argument indicates the temporal breaks for delimited intervals.
-#' @param names.window vector(character). If by.interval = TRUE, this argument indicates the names of the desirable intervals.
+#' @param statistic vector (character). Indicates what statistic must be analysed, \code{statistic = c('all','sum','mean','quantile')}. Default: 'all'.
+#' @param probs vector(numeric). Indicates the probability quantiles, as probs = {0,1}. If is NULL, \code{probs = c(0.25,.50,.75)}.
+#' @param by.interval boolean. Indicates if temporal intervals must be computed within each environment. Default = FALSE.
+#' @param time.window vector (numeric). If \code{by.interval = TRUE}, this argument indicates the temporal breaks for delimited intervals.
+#' @param names.window vector(character). If \code{by.interval = TRUE}, this argument indicates the names of the desirable intervals.
+#'
+#' @details
+#' TODO
+#'
+#' @examples
+#' ### Fetching weather information from NASA-POWER
+#' weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+#'
+#' ### Basic summary
+#' summaryWTH(weather.data)
+#'
+#' ### Returning only mean values
+#' summaryWTH(weather.data, env.id = 'env', statistic = 'mean')
+#'
+#' ### Summary by time intervals given by time.window and names.window
+#' summaryWTH(weather.data, env.id = 'env', by.interval = TRUE,
+#'            time.window = c(0, 14, 35, 60, 90, 120),
+#'            names.window = c('P-E', 'E-V1', 'V1-V4', 'V4-VT', 'VT-GF', 'GF-PM'))
+#'
+#'
 #' @importFrom utils install.packages
 #' @importFrom reshape2 melt dcast
 #' @importFrom plyr ddply . summarise
 #' @importFrom foreach %dopar% %:% foreach
+#'
 #' @export
 
 
@@ -69,11 +93,11 @@ SumEweather <- function(.GetW,by.interval=FALSE){
   env <- variable  <- value <- interval <- NULL #supressor
 
   if(isFALSE(by.interval)){
-    return(plyr::ddply(.GetW,plyr::.(env,variable),plyr::summarise,sum=sum(value,na.rm=T)))
+    return(plyr::ddply(.GetW,plyr::.(env,variable),plyr::summarise,sum=sum(value,na.rm=TRUE)))
   }
   if(isTRUE(by.interval)){
 
-    return(plyr::ddply(.GetW,plyr::.(env,interval,variable),plyr::summarise,sum=sum(value,na.rm=T)))
+    return(plyr::ddply(.GetW,plyr::.(env,interval,variable),plyr::summarise,sum=sum(value,na.rm=TRUE)))
   }
 
 }
@@ -83,11 +107,11 @@ MeanEweather <- function(.GetW,by.interval=FALSE){
   env <- variable <- summarise <- value <- interval <- NULL
 
   if(isFALSE(by.interval)){
-    return(plyr::ddply(.GetW,plyr::.(env,variable),plyr::summarise,mean=mean(value,na.rm=T)))
+    return(plyr::ddply(.GetW,plyr::.(env,variable),plyr::summarise,mean=mean(value,na.rm=TRUE)))
   }
   if(isTRUE(by.interval)){
 
-    return(plyr::ddply(.GetW,plyr::.(env,interval,variable),plyr::summarise,mean=mean(value,na.rm=T)))
+    return(plyr::ddply(.GetW,plyr::.(env,interval,variable),plyr::summarise,mean=mean(value,na.rm=TRUE)))
   }
 
 }
@@ -183,7 +207,7 @@ stage.by.dae = function(.dae=NULL, .breaks=NULL, .names=NULL){
   if(is.null(.breaks)) .breaks <-seq(from=1-min(.dae),to=max(.dae)+10,by=10)
   if(is.null(.names))  .names  <-paste0("Interval_",.breaks)
   .breaks <- c(.breaks,Inf)
-  pstage = cut(x = .dae,breaks=.breaks,right = F)
+  pstage = cut(x = .dae,breaks=.breaks,right = FALSE)
   levels(pstage) = .names
   return(pstage)
 }

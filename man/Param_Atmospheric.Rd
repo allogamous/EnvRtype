@@ -18,22 +18,51 @@ Param_Atmospheric(
 )
 }
 \arguments{
-\item{K_E}{list of envirotype-related kernels (n x n genotypes-environment).
-If NULL, benchmarck genomic kernels are built.}
+\item{weather.data}{data.frame. A \code{get_weather()}-like output with additional solar radiation information. If a \code{get_weather()} is provided, no further argument is required but \code{G} and \code{alpha}.}
 
-\item{K_G}{list of genomic enabled kernels (p x p genotypes)}
+\item{PREC}{character. Indicates the column of precipitation.}
 
-\item{Y}{data.frame contaning the following colunms: environemnt, genotype, trait value}
+\item{Tdew}{character. Indicates the column of dew/frost.}
 
-\item{model}{model structure for genomic predicion. It can be c('MM','MDs','E-MM','E-MDs'),
-which MM (main effect model or Y=fixed + G) amd MDs (Y=fixed+G+GxE)}
+\item{Tmin}{character. Indicates the column of minimum temperature.}
 
-\item{reaction}{boolean, inclusion of a reaction norm based GxE kernel (default = FALSE)}
+\item{Tmax}{character. Indicates the column of maximum temperature.}
 
-\item{intercept.random}{boolean, inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.}
+\item{RH}{character. Indicates the column of reative humidity.}
+
+\item{Rad}{character. Indicates the column of solar radiation. This parameter can be calculated from \code{Param_Radiation()}.}
+
+\item{G}{numeric. Flux of heat conducted into the ground. Default is 0.}
+
+\item{alpha}{Alpha of Priestley & Taylor's (1972) equation. Default is 1.26, which fit data from most sources.}
+
+\item{merge}{boolean. If \code{TRUE}, calculated variables are merged to the original \code{get_weather()} dataframe.}
+}
+\value{
+A dataframe with parameters related to evapotranspiration. See details for further information.
 }
 \description{
-Core of functions to estimate atmospheric parameters related to evapotranspiration. Fore more details about the equations see de FAO-evapotranspiration publication http://www.fao.org/3/X0490E/x0490e07.htm#atmospheric%20parameters
+Core of functions to estimate atmospheric parameters related to evapotranspiration. Fore more details about the equations see de FAO-evapotranspiration publication http://www.fao.org/3/X0490E/x0490e07.htm#atmospheric%20parameters.
+}
+\details{
+This function requires a dataframe with all parameters listed above. If any is missing, an error will be returned.
+The calculated variables are:
+\itemize{
+ \item SPV: Slope of saturation vapour pressure curve (kPa.Celsius)
+ \item VPD: Vapour pressure deficit (kPa)
+ \item ETP: Potential Evapotranspiration (mm.day)
+ \item PEPT: Deficit by Precipitation (mm.day)
+ }
+}
+\examples{
+### Fetching weather information from NASA-POWER
+weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+
+### Calculating solar radiation
+weather.data = Param_Radiation(weather.data, merge = TRUE)
+
+### Calculating solar radiation
+Param_Atmospheric(weather.data)
 }
 \author{
 Germano Costa Neto

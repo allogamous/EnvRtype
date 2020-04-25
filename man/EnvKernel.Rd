@@ -7,7 +7,7 @@
 EnvKernel(
   weather.data,
   Y = NULL,
-  is.scaled = T,
+  is.scaled = TRUE,
   sd.tol = 1,
   tol = 0.001,
   bydiag = FALSE,
