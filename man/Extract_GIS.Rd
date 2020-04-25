@@ -4,18 +4,13 @@
 \alias{Extract_GIS}
 \title{Easily Extraction of Worldwide Raster-based Data}
 \usage{
-Extract_GIS(
-  covraster = NULL,
-  reference = NULL,
-  lon = NULL,
-  lat = NULL,
-  env.id = NULL,
-  .crs = NULL,
-  .path = NULL,
-  covname = NULL
-)
+Extract_GIS(covraster = NULL, weather.data = NULL)
 }
 \arguments{
+\item{covraster}{RasterLayer. A raster from which data is going to be extracted.}
+
+\item{weather.data}{data.frame. A get_weather output}
+
 \item{K_E}{list of envirotype-related kernels (n x n genotypes-environment).
 If NULL, benchmarck genomic kernels are built.}
 
@@ -31,7 +26,7 @@ which MM (main effect model or Y=fixed + G) amd MDs (Y=fixed+G+GxE)}
 \item{intercept.random}{boolean, inclusion of a genomic random intercepet (default = FALSE)}
 }
 \description{
-Get multuple genomic and envirotype-informed kernels for bayesian genomic prediciton
+Extracts variables from rasters.
 }
 \author{
 Germano Costa Neto

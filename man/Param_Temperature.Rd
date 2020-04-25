@@ -5,7 +5,7 @@
 \title{Support functions to estimate thermal parameters}
 \usage{
 Param_Temperature(
-  df,
+  weather.data,
   Tmax = NULL,
   Tmin = NULL,
   Tbase1 = 9,
@@ -13,20 +13,42 @@ Param_Temperature(
   Tmed,
   Topt1 = 26,
   Topt2 = 32,
-  merge = T
+  merge = FALSE
 )
 }
 \arguments{
-\item{Tmax}{numeric (vetor). Maximum air temperature in degree Celsius}
+\item{Tmax}{character. Indicates the column of maximum air temperature (Celsius).}
 
-\item{Tmin}{numeric (vetor). Minimum air temperature in degree Celsius}
+\item{Tmin}{character. Indicates the column of minimum air temperature (Celsius).}
 
-\item{Tbase1}{numeric (vetor). cardinal value for temperature base for phenological development}
+\item{Tbase1}{numeric (vetor). Cardinal value for temperature base for phenological development (Celsius).}
 
-\item{Tbase2}{numeric (vetor). maximum cardinal value for temperature base for phenological development}
+\item{Tbase2}{numeric (vetor). Maximum cardinal value for temperature base for phenological development (Celsius).}
+
+\item{merge}{boolean. If \code{TRUE}, calculated variables are merged to the original \code{get_weather()} dataframe.}
+}
+\value{
+A dataframe with parameters related to atmospheric temperature. See details for further information.
 }
 \description{
 Calculation Of Heat According To The Growing Degree Day Model. From maximum (tmax) and minimum (tmin) temperature values, and according to the cardinal values of base temperature (Tbase) computes the daily thermal sum in ° C / day
+}
+\details{
+This function requires a dataframe with all parameters listed above. If any is missing, an error will be returned.
+The calculated variables are:
+\itemize{
+ \item GDD: Growing Degree Day (oC/day)
+ \item FRUE: Effect of temperature on radiation use efficiency (from 0 to 1)
+ \item T2M_RANGE: Daily Temperature Range (oC day)
+ }
+}
+\examples{
+### Fetching weather information from NASA-POWER
+weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+
+### Calculating solar radiation
+Param_Temperature(weather.data)
+
 }
 \author{
 Germano Costa Neto

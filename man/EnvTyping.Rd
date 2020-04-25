@@ -5,7 +5,7 @@
 \title{Environmental Typologies based on Cardinal or Quantilic Limits}
 \usage{
 EnvTyping(
-  df.cov,
+  weather.data,
   var.id,
   env.id,
   cardinals = NULL,
@@ -20,7 +20,7 @@ EnvTyping(
 )
 }
 \arguments{
-\item{df.cov}{data.frame of environmental variables}
+\item{weather.data}{data.frame of environmental variables}
 
 \item{var.id}{character. Indicates which variables will be used in the analysis.}
 

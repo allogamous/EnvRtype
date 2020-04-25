@@ -1,45 +1,49 @@
 #'@title  Basic Processing Tools for Enriching get_weather outputs
 #'
 #'
-#' @description Summarize get_weather() outputs based on environments and defined time intervals (e.g.,phenology)
+#' @description A wraper of \code{Param_Radiation()}, \code{Param_Atmospheric()}, and \code{Param_Temperature()} for evaluating get_weather() datasets. Calculates a series of parameters based on the \code{get_weather()} object.
 #' @author Germano Costa Neto
-#' @param x data.frame. A get_weather output
-#' @param lon numeric. Longitude values in WGS84
-#' @param lat numeric. Latitude values in WGS84
-#' @param env.id character. Identification of the site or environment.
-#' @param DOY numeric. Julian day. DOY column as benchmark (from get_weather)
-#' @param download.ALT boolean. Default as TRUE, to download Altitude data from SRTM database of CGIAR.
-#' @param country character. ID for country. Default is 'BRA'. For more detais see getData() from raster package.
+#'
+#' @param weather.data data.frame. A \code{get_weather()} output.
+#'
+#' @return
+#' Returns a \code{get_wheather()} object with an additional set of parameters calculated from the nasapower data.
+#'
+#' @details
+#' This function requires a dataframe with all parameters listed above. If any is missing, an error will be returned.
+#' The estimated variables are:
+#' \itemize{
+#'  \item n: Actual duration of sunshine (hour)
+#'  \item N: Daylight hours (hour)
+#'  \item RTA: Extraterrestrial radiation (MJ/m^2/day)
+#'  \item SRAD: Solar radiation (MJ/m^2/day)
+#'  \item SPV: Slope of saturation vapour pressure curve (kPa.Celsius)
+#'  \item VPD: Vapour pressure deficit (kPa)
+#'  \item ETP: Potential Evapotranspiration (mm.day)
+#'  \item PEPT: Deficit by Precipitation (mm.day)
+#'  \item GDD: Growing Degree Day (oC/day)
+#'  \item FRUE: Effect of temperature on radiation use efficiency (from 0 to 1)
+#'  \item T2M_RANGE: Daily Temperature Range (oC day)
+#' }
+#'
+#' @examples
+#' ### Fetching weather information from NASA-POWER
+#' weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+#'
+#' ### Returning calculated parameters merged to the \code{get_weather()} dataframe
+#' processWTH(weather.data)
+#'
+#' @export
 
-#' @importFrom raster getData
-
-
-
-processWTH <- function(x,lon=NULL,lat=NULL,env.id=NULL,DOY=NULL,download.ALT=TRUE,country=NULL){
-
-  if(is.null(country)) country <- 'BRA'
-  ALT <- 600
-  if(isTRUE(download.ALT)){
-    if (!require(raster)) install.packages("raster");require(raster)
-    cat('------------------------------------------------ \n')
-    cat('ATTENTION: This function requires internet access \n')
-    cat('for more detailes see raster package \n')
-    cat('------------------------------------------------  \n')
-
-    # collecting altitude data from raster SRTM database
-    srtm <- getData('alt', country="BRA",mask=TRUE)
-    df<-Extract_GIS(covraster = srtm,reference = x,lon = lon,lat = lat ,env.id = env.id,covname = 'ALT')
-    ALT <- 'ALT'
-  }
+processWTH <- function(weather.data){
 
   # computing radiation paramters
-  df<-Param_Radiation(df = df,DOY=DOY,LAT=lat,merge = T)
+  weather.data <-Param_Radiation(weather.data=weather.data, merge = TRUE)
   # computing atmospheric paramters
-  df <-Param_Atmospheric(df = df,Alt=ALT,merge = T)
+  weather.data <-Param_Atmospheric(weather.data=weather.data, merge = TRUE)
+  weather.data <- Param_Temperature(weather.data=weather.data,merge = TRUE)
 
-  df <- Param_Temperature(df=df,merge=T)
-
-  return(df)
+  return(weather.data)
 }
 
 

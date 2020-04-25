@@ -1,24 +1,49 @@
 #'@title  Basic Summary Statistics for Environmental Data
 #'
 #'
-#' @description Summarize get_weather() outputs based on environments and defined time intervals (e.g.,phenology)
+#' @description Summarize \code{get_weather()} outputs based on environments and defined time intervals (e.g.,phenology)
+#'
 #' @author Germano Costa Neto
+#'
+#' @param weather.data data.frame. A \code{get_weather()} output.
 #' @param id.names vector (character). Indicates the name of the columns to be used as id for the environmental variables to be analysed.
-#' @param env.id   vector (character). Indicates the name of the columns to be used as id for environments.
+#' @param env.id   character. Name of the columns to be used as identification for environments.
+#' @param days.id character. Name of the columns indicating the days from start.
 #' @param var.id  character. Indicates which variables will be used in the analysis.
-#' @param statistic vector (character). Indicates what statistic must be runned, statistic = c('all','sum','mean','quantile'). Default: 'all'.
-#' @param probs vector(numeric). Indicates the probability quantiles, as probs = {0,1}. If is NULL, probs = c(0.25,.50,.75).
-#' @param by.interval boolean. Indicates if temporal intervals must be computed insied of each environment. Default = FALSE.
-#' @param time.window vector (numeric). If by.interval = TRUE, this argument indicates the temporal breaks for delimited intervals.
-#' @param names.window vector(character). If by.interval = TRUE, this argument indicates the names of the desirable intervals.
-#' @importFrom utils write.csv
-#' @importFrom nasapower get_power
+#' @param statistic vector (character). Indicates what statistic must be analysed, \code{statistic = c('all','sum','mean','quantile')}. Default: 'all'.
+#' @param probs vector(numeric). Indicates the probability quantiles, as probs = {0,1}. If is NULL, \code{probs = c(0.25,.50,.75)}.
+#' @param by.interval boolean. Indicates if temporal intervals must be computed within each environment. Default = FALSE.
+#' @param time.window vector (numeric). If \code{by.interval = TRUE}, this argument indicates the temporal breaks for delimited intervals.
+#' @param names.window vector(character). If \code{by.interval = TRUE}, this argument indicates the names of the desirable intervals.
+#'
+#' @details
+#' TODO
+#'
+#' @examples
+#' ### Fetching weather information from NASA-POWER
+#' weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+#'
+#' ### Basic summary
+#' summaryWTH(weather.data)
+#'
+#' ### Returning only mean values
+#' summaryWTH(weather.data, env.id = 'env', statistic = 'mean')
+#'
+#' ### Summary by time intervals given by time.window and names.window
+#' summaryWTH(weather.data, env.id = 'env', by.interval = TRUE,
+#'            time.window = c(0, 14, 35, 60, 90, 120),
+#'            names.window = c('P-E', 'E-V1', 'V1-V4', 'V4-VT', 'VT-GF', 'GF-PM'))
+#'
+#'
 #' @importFrom utils install.packages
 #' @importFrom reshape2 melt dcast
 #' @importFrom plyr ddply . summarise
+#' @importFrom foreach %dopar% %:% foreach
+#'
+#' @export
 
 
-summaryWTH <- function(x,id.names=NULL,
+summaryWTH <- function(weather.data,id.names=NULL,
                        env.id = NULL,
                        days.id = NULL,
                        var.id=NULL,
@@ -27,12 +52,12 @@ summaryWTH <- function(x,id.names=NULL,
                             by.interval=FALSE,
                             time.window=NULL,
                             names.window=NULL){
-  if (!require(reshape2)) install.packages("reshape2"); require(reshape2)
-  if (!require(plyr)) install.packages("plyr") ; require(plyr)
-  class(x) <- 'data.frame'
+  if (!requireNamespace('reshape2')) utils::install.packages("reshape2")
+  if (!requireNamespace('plyr')) utils::install.packages("plyr")
+  class(weather.data) <- 'data.frame'
   if(!any(statistic %in% c('all','sum','mean','quantile'))) statistic <- 'all'
 
-  .GET <- meltWTH(.GeTw = x,days = days.id,
+  .GET <- meltWTH(.GeTw = weather.data,days = days.id,
                      by.interval = by.interval,
                      time.window = time.window,
                      names.window = names.window,
@@ -68,11 +93,11 @@ SumEweather <- function(.GetW,by.interval=FALSE){
   env <- variable  <- value <- interval <- NULL #supressor
 
   if(isFALSE(by.interval)){
-    return(ddply(.GetW,.(env,variable),summarise,sum=sum(value,na.rm=T)))
+    return(plyr::ddply(.GetW,plyr::.(env,variable),plyr::summarise,sum=sum(value,na.rm=TRUE)))
   }
   if(isTRUE(by.interval)){
 
-    return(ddply(.GetW,.(env,interval,variable),summarise,sum=sum(value,na.rm=T)))
+    return(plyr::ddply(.GetW,plyr::.(env,interval,variable),plyr::summarise,sum=sum(value,na.rm=TRUE)))
   }
 
 }
@@ -82,11 +107,11 @@ MeanEweather <- function(.GetW,by.interval=FALSE){
   env <- variable <- summarise <- value <- interval <- NULL
 
   if(isFALSE(by.interval)){
-    return(ddply(.GetW,.(env,variable),summarise,mean=mean(value,na.rm=T)))
+    return(plyr::ddply(.GetW,plyr::.(env,variable),plyr::summarise,mean=mean(value,na.rm=TRUE)))
   }
   if(isTRUE(by.interval)){
 
-    return(ddply(.GetW,.(env,interval,variable),summarise,mean=mean(value,na.rm=T)))
+    return(plyr::ddply(.GetW,plyr::.(env,interval,variable),plyr::summarise,mean=mean(value,na.rm=TRUE)))
   }
 
 }
@@ -99,16 +124,18 @@ QuantEweather <- function(.GetW,prob=c(.25,.5,.75),by.interval=FALSE){
 
   e <- v <- s <- i <- NULL #supressor
 
-  require(doParallel)
-  require(reshape2)
+      #creating local functions based on '%:%' and '%dopar%'
+    '%:%' <- foreach::'%:%'
+    '%dopar%' <- foreach::'%dopar%'
+
   (envs <-unique(.GetW$env))
   (vars <- unique(.GetW$variable))
 
   if(isFALSE(by.interval)){
 
-    Q.t <- foreach(e=1:length(envs), .combine = "rbind") %:%
-      foreach(v=1:length(vars), .combine = "rbind") %:%
-      foreach(s=1:length(prob), .combine = "rbind") %dopar% {
+    Q.t <- foreach::foreach(e=1:length(envs), .combine = "rbind") %:%
+      foreach::foreach(v=1:length(vars), .combine = "rbind") %:%
+      foreach::foreach(s=1:length(prob), .combine = "rbind") %dopar% {
 
 
         quantil <- data.frame(qt=quantile(x=.GetW$value[.GetW$env %in% envs[e] & .GetW$variable %in% vars[v]],prob[s]),
@@ -116,7 +143,7 @@ QuantEweather <- function(.GetW,prob=c(.25,.5,.75),by.interval=FALSE){
                               env=envs[e],var=vars[v])
         return(quantil)
       }
-    Q.t <- dcast(Q.t ,env+var~prob,value.var='qt')
+    Q.t <- reshape2::dcast(Q.t ,env+var~prob,value.var='qt')
     names(Q.t)[1:2] <- c('env','variable')
     return(Q.t)
   }
@@ -124,10 +151,10 @@ QuantEweather <- function(.GetW,prob=c(.25,.5,.75),by.interval=FALSE){
 
     (inters <- unique(.GetW$interval))
 
-    Q.t <- foreach(e=1:length(envs),    .combine = "rbind") %:%
-      foreach(i=1:length(inters),  .combine = "rbind") %:%
-      foreach(v=1:length(vars) ,   .combine = "rbind") %:%
-      foreach(s=1:length(prob),    .combine = "rbind") %dopar% {
+    Q.t <- foreach::foreach(e=1:length(envs),    .combine = "rbind") %:%
+      foreach::foreach(i=1:length(inters),  .combine = "rbind") %:%
+      foreach::foreach(v=1:length(vars) ,   .combine = "rbind") %:%
+      foreach::foreach(s=1:length(prob),    .combine = "rbind") %dopar% {
 
 
         quantil <- data.frame(qt=quantile(x=.GetW$value[.GetW$env %in% envs[e] & .GetW$interval %in% inters[i] & .GetW$variable %in% vars[v]],prob[s]),
@@ -136,7 +163,7 @@ QuantEweather <- function(.GetW,prob=c(.25,.5,.75),by.interval=FALSE){
                               interval=inters[i])
         return(quantil)
       }
-    Q.t <- dcast(Q.t ,env+var+interval~prob,value.var='qt')
+    Q.t <- reshape2::dcast(Q.t ,env+var+interval~prob,value.var='qt')
     names(Q.t)[1:3] <- c('env','variable','interval')
     return(Q.t)
   }
@@ -158,7 +185,7 @@ meltWTH <- function(.GeTw,var.id=NULL, by.interval=FALSE,days=NULL,time.window=N
   if(is.null(var.id)) var.id <- names(.GeTw)[!names(.GeTw)%in%id.names]
   if(isFALSE(by.interval)){
 
-    ts <- suppressWarnings(melt(.GeTw,measure.vars=var.id,id.vars = id.names))
+    ts <- suppressWarnings(reshape2::melt(.GeTw,measure.vars=var.id,id.vars = id.names))
     ts$value <- suppressWarnings(as.numeric(ts$value))
     return(ts)
   }
@@ -169,7 +196,7 @@ meltWTH <- function(.GeTw,var.id=NULL, by.interval=FALSE,days=NULL,time.window=N
                                    .names = names.window)
 
     id.names <-c(id.names,'interval')
-    ts <- suppressWarnings(melt(.GeTw,measure.vars=var.id,id.vars = id.names))
+    ts <- suppressWarnings(reshape2::melt(.GeTw,measure.vars=var.id,id.vars = id.names))
     ts$value <- suppressWarnings(as.numeric(ts$value))
     return(ts)
   }
@@ -180,7 +207,7 @@ stage.by.dae = function(.dae=NULL, .breaks=NULL, .names=NULL){
   if(is.null(.breaks)) .breaks <-seq(from=1-min(.dae),to=max(.dae)+10,by=10)
   if(is.null(.names))  .names  <-paste0("Interval_",.breaks)
   .breaks <- c(.breaks,Inf)
-  pstage = cut(x = .dae,breaks=.breaks,right = F)
+  pstage = cut(x = .dae,breaks=.breaks,right = FALSE)
   levels(pstage) = .names
   return(pstage)
 }

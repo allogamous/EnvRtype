@@ -13,31 +13,70 @@ get_weather(
   variables.names = NULL,
   dir.path = NULL,
   save = FALSE,
-  asdataframe = TRUE,
-  temporal.scale = "DAILY"
+  temporal.scale = "DAILY",
+  country = NULL
 )
 }
 \arguments{
-\item{env.id}{vector (character or level). Indicates site/environment identification}
+\item{env.id}{vector (character or level). Identification of the site/environment (e.g. Piracicaba01).}
 
-\item{lat}{vector (numeric). Indicates de latitude valuesort}
+\item{lat}{vector (numeric). Latitude values of the site/environment (e.g. -13.05) in WGS84.}
 
-\item{lon}{vector (numeric). containing longitude values}
+\item{lon}{vector (numeric). Longitude values site/environment (e.g. -56.05) in WGS84.}
 
-\item{start.day}{start point}
+\item{start.day}{vector (character). First date in which weather/geographic data should be collected (e.g. "2015-02-15").}
 
-\item{end.day}{end point}
+\item{end.day}{vector (character). Last date in which weather/geographic data should be collected (e.g. "2015-06-15").}
 
-\item{variables.names}{vector of variables names. Should be "T2M","T2M_MAX","T2M_MIN","PRECTOT", "WS2M","RH2M","T2MDEW", "ALLSKY_SFC_LW_DWN", "ALLSKY_SFC_SW_DWN", and/or "ALLSKY_TOA_SW_DWN"}
+\item{variables.names}{vector (character). Name of the variables. Should be "T2M","T2M_MAX","T2M_MIN","PRECTOT", "WS2M","RH2M","T2MDEW", "ALLSKY_SFC_LW_DWN", "ALLSKY_SFC_SW_DWN", and/or "ALLSKY_TOA_SW_DWN". See Details for more information.}
 
-\item{dir.path}{output directorie}
+\item{dir.path}{character. Directory for the output. If not informed, the output will be saved in the current workind directory.}
 
-\item{save}{bollean. If TRUE, save each environmental data.frame as .csv in dir.path}
+\item{save}{bollean. If TRUE, save each environmental data.frame as .csv in dir.path.}
 
-\item{temporal.scale}{character. Default = 'DAILY'. See get_power() function in nasapower package for more details}
+\item{temporal.scale}{character. Default = 'DAILY'. See \code{get_power()} function in nasapower package for more details.}
+
+\item{country}{character. Country in which the lat and lon values are positioned (e.g. 'BRA'). A single country should be informed. Wrapper of raster::getData.}
+}
+\value{
+A data.frame with selected \code{variable.names} collected from a \code{start.day} to a \code{end.day} at the informed \code{lat} and \code{lon}.
 }
 \description{
-Imports daily-scale weather data from the NASA POWER GIS database
+Imports daily-scale weather data from the NASA-POWER GIS and geographic data from SRTM database.
+}
+\details{
+The available variables are:
+\itemize{
+ \item T2M: Temperature at 2 Meters
+ \item T2M_MAX: Maximum Temperature at 2 Meters
+ \item T2M_MIN: Minimum Temperature at 2 Meters
+ \item PRECTOT: Precipitation
+ \item WS2M: Wind Speed at 2 Meters
+ \item RH2M: Relative Humidity at 2 Meters
+ \item T2MDEW: Dew/Frost Point at 2 Meters
+ \item ALLSKY_SFC_LW_DWN: Downward Thermal Infrared (Longwave) Radiative Flux
+ \item ALLSKY_SFC_SW_DWN: All Sky Insolation Incident on a Horizontal Surface
+ \item ALLSKY_TOA_SW_DWN: Top-of-atmosphere Insolation
+}
+}
+\examples{
+## Temperature for a single location:
+get_weather(env.id = "NM", lat = -13.05, lon = -56.05,
+            start.day = "2015-02-15", end.day = "2015-06-15",
+            variables.names = c("T2M"), country = 'BRA')
+
+## All variables for two locations:
+env = c("NM","SO")
+lat = c(-13.05,-12.32); lon = c(-56.05,-55.42)
+plant.date = c("2015-02-15",'2015-02-13')
+harv.date = rep("2015-06-15", 2)
+get_weather(env.id = env, lat = lat, lon = lon,
+            start.day = plant.date, end.day = harv.date,
+            country = 'BRA')
+
+}
+\references{
+Sparks A (2019). _nasapower: NASA-POWER Data from R_. R package version 1.1.3, <URL:https://CRAN.R-project.org/package=nasapower>.
 }
 \author{
 Germano Costa Neto

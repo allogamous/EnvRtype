@@ -4,33 +4,41 @@
 \alias{processWTH}
 \title{Basic Processing Tools for Enriching get_weather outputs}
 \usage{
-processWTH(
-  x,
-  lon = NULL,
-  lat = NULL,
-  env.id = NULL,
-  DOY = NULL,
-  download.ALT = TRUE,
-  country = NULL
-)
+processWTH(weather.data)
 }
 \arguments{
-\item{x}{data.frame. A get_weather output}
-
-\item{lon}{numeric. Longitude values in WGS84}
-
-\item{lat}{numeric. Latitude values in WGS84}
-
-\item{env.id}{character. Identification of the site or environment.}
-
-\item{DOY}{numeric. Julian day. DOY column as benchmark (from get_weather)}
-
-\item{download.ALT}{boolean. Default as TRUE, to download Altitude data from SRTM database of CGIAR.}
-
-\item{country}{character. ID for country. Default is 'BRA'. For more detais see getData() from raster package.}
+\item{weather.data}{data.frame. A \code{get_weather()} output.}
+}
+\value{
+Returns a \code{get_wheather()} object with an additional set of parameters calculated from the nasapower data.
 }
 \description{
-Summarize get_weather() outputs based on environments and defined time intervals (e.g.,phenology)
+A wraper of \code{Param_Radiation()}, \code{Param_Atmospheric()}, and \code{Param_Temperature()} for evaluating get_weather() datasets. Calculates a series of parameters based on the \code{get_weather()} object.
+}
+\details{
+This function requires a dataframe with all parameters listed above. If any is missing, an error will be returned.
+The estimated variables are:
+\itemize{
+ \item n: Actual duration of sunshine (hour)
+ \item N: Daylight hours (hour)
+ \item RTA: Extraterrestrial radiation (MJ/m^2/day)
+ \item SRAD: Solar radiation (MJ/m^2/day)
+ \item SPV: Slope of saturation vapour pressure curve (kPa.Celsius)
+ \item VPD: Vapour pressure deficit (kPa)
+ \item ETP: Potential Evapotranspiration (mm.day)
+ \item PEPT: Deficit by Precipitation (mm.day)
+ \item GDD: Growing Degree Day (oC/day)
+ \item FRUE: Effect of temperature on radiation use efficiency (from 0 to 1)
+ \item T2M_RANGE: Daily Temperature Range (oC day)
+}
+}
+\examples{
+### Fetching weather information from NASA-POWER
+weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+
+### Returning calculated parameters merged to the \code{get_weather()} dataframe
+processWTH(weather.data)
+
 }
 \author{
 Germano Costa Neto

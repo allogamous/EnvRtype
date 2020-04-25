@@ -3,7 +3,7 @@
 #'
 #' @description Returns environmental typologies that can be used as envirotype markers. This typologies are given based on cardinals (discrete intervals for each variable). The user must informat the name of the environmental variables of interested and informat the cardinal option as list of cardinal vectors for each variable. Its also possible to fixed intervals or scale the data.
 #' @author Germano Costa Neto
-#' @param df.cov data.frame of environmental variables
+#' @param weather.data data.frame of environmental variables
 #' @param id.names vector (character). Indicates the name of the columns to be used as id for the environmental variables to be analysed.
 #' @param env.id   vector (character). Indicates the name of the columns to be used as id for environments.
 #' @param var.id  character. Indicates which variables will be used in the analysis.
@@ -17,19 +17,22 @@
 #' @importFrom stats quantile
 #' @importFrom foreach %dopar% %:% foreach
 #' @importFrom reshape2 acast
+#' @export
 
-EnvTyping <- function(df.cov,var.id,env.id,cardinals=NULL,days.id=NULL,
+EnvTyping <- function(weather.data,var.id,env.id,cardinals=NULL,days.id=NULL,
                       time.window=NULL,names.window=NULL,quantiles=NULL,
                       id.names=NULL,by.interval=FALSE,scale=FALSE,
                       format=NULL){
 
   x <- j <- s <- median <-  NULL #supressor
 
-  require(doParallel)
+    #creating local functions based on '%:%' and '%dopar%'
+  '%:%' <- foreach::'%:%'
+  '%dopar%' <- foreach::'%dopar%'
 
-  if(isTRUE(scale)) df.cov[,var.id] <- scale(x[,var.id],center = T,scale = T)
+  if(isTRUE(scale)) weather.data[,var.id] <- scale(weather.data[,var.id],center = TRUE,scale = TRUE)
 
-  .GET <- meltWTH(.GeTw = df.cov,days = days.id,
+  .GET <- meltWTH(.GeTw = weather.data,days = days.id,
                      by.interval = by.interval,
                      time.window = time.window,
                      names.window = names.window,
@@ -59,10 +62,10 @@ EnvTyping <- function(df.cov,var.id,env.id,cardinals=NULL,days.id=NULL,
   }
 
 
-  results <- foreach(s=1:length(vars), .combine = "rbind") %:% foreach(j=1:length(env), .combine = "rbind")%:% foreach(t=1:length(int), .combine = "rbind") %dopar% {
+  results <- foreach::foreach(s=1:length(vars), .combine = "rbind") %:% foreach::foreach(j=1:length(env), .combine = "rbind") %:% foreach::foreach(t=1:length(int), .combine = "rbind") %dopar% {
 
       .out=data.frame(table(cut(x =  .GET$value[which(.GET$env == env[j] & .GET$variable == vars[s] & .GET$interval == int[t])],
-                                breaks = cardinals[[s]],right = T)),env=env[j],interval=int[t],var=vars[s])
+                                breaks = cardinals[[s]],right = TRUE)),env=env[j],interval=int[t],var=vars[s])
 
       return(.out)
     }
@@ -71,6 +74,6 @@ EnvTyping <- function(df.cov,var.id,env.id,cardinals=NULL,days.id=NULL,
   if(isTRUE(by.interval))  results$env.variable <- paste0(results$env.variable,'_',results$interval)
   if(is.null(format)) format <- 'long'
   #if(!any(format %in% c('wide','long'))) cat('format as long'); format <- 'long'
-  if(format == 'wide') results<-acast(results,env~env.variable,median,value.var = 'Freq');results[is.na(results)] <-0
+  if(format == 'wide') results <- reshape2::acast(results,env~env.variable,median,value.var = 'Freq'); results[is.na(results)] <-0
   return(results)
 }
