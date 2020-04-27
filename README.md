@@ -465,7 +465,7 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 **Manteiner**
 
-> * [Germano Costa Neto](https://github.com/gcostaneto)
+> * [Germano Costa Neto](https://github.com/gcostaneto), email: <germano.cneto@gmail.com>
 
 
 <div id="P5" />
