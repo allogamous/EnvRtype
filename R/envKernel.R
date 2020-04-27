@@ -13,12 +13,40 @@
 #' @param bydiag boolean. If TRUE, the parametrization by WW'/diag(WW') is applied. If FALSE, WW'/ncol(W).
 #' @param gaussian boolean. If TRUE, uses the gaussian kernel parametrization for W, where envCov = exp(-h*d/q).
 #' @param h.gaussian numeric. If gaussian = TRUE, returns the h parameter for exp(-h*d/q).
+#'
+#' @return A list with environmental kinships for reaction norm models. Two matrices are produced. varCov with the distance for environmental covariables, and envCov with distances for genotypes.
+#'
+#' @details
+#' TODO
+#'
+#' @examples
+#' ### Loading the genomic, phenotype and weather data
+#' data('maizeYield'); data("maizeWTH")
+#'
+#' ### getting the W matrix from weather data
+#' W.cov <- W.matrix(weather.data = maizeWTH)
+#'
+#' ### Parametrization by K_W = WW'/ncol(W)
+#' EnvKernel(weather.data = W.cov,
+#'           Y = maizeYield,
+#'           merge = FALSE,
+#'           env.id = 'env',
+#'           gaussian = FALSE)
+#'
+#' ### Parametrization by K_W = WW'/diag( WW')
+#' EnvKernel(weather.data = W.cov,
+#'           Y = maizeYield,
+#'           merge = FALSE,
+#'           env.id = 'env',
+#'           bydiag = TRUE)
+#'
+#' @seealso W.matrix
+#'
 #' @importFrom stats sd dist
 #' @export
 
-
 EnvKernel <-function(weather.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
-                     tol=1E-3,bydiag=FALSE,merge=FALSE,
+                     tol=1E-3, bydiag=FALSE, merge=FALSE,
                      env.id=NULL,gaussian=FALSE, h.gaussian=NULL){
 
   nr<-nrow(weather.data)

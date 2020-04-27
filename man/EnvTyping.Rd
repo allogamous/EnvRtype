@@ -20,30 +20,74 @@ EnvTyping(
 )
 }
 \arguments{
-\item{weather.data}{data.frame of environmental variables}
+\item{weather.data}{data.frame of environmental variables gotten from \code{get_weather()}.}
 
 \item{var.id}{character. Indicates which variables will be used in the analysis.}
 
 \item{env.id}{vector (character). Indicates the name of the columns to be used as id for environments.}
 
-\item{cardinals}{vector (numeric). It can be a list of cardinals for each variable. Indicates the cardinal limtis for each environmental type. If is NULL, see quantles argument}
+\item{cardinals}{vector (numeric). It can be a list of cardinals for each variable. Indicates the cardinal limtis for each environmental type. If is NULL, see quantles argument.}
 
-\item{time.window}{vector (numeric). If by.interval = TRUE, this argument indicates the temporal breaks for delimited intervals.}
+\item{days.id}{character. Name of the columns indicating the days from start.}
 
-\item{names.window}{vector(character). If by.interval = TRUE, this argument indicates the names of the desirable intervals.}
+\item{time.window}{vector (numeric). If \code{by.interval = TRUE}, this argument indicates the temporal breaks for delimited intervals.}
 
-\item{quantiles}{vector(numeric). Indicates the probability quantiles, as probs = {0,1}, if cardinals is NULL. If is quantiles=NULL, quantiles = c(0.01,.25,.50,.99).}
+\item{names.window}{vector(character). If \code{by.interval = TRUE}, this argument indicates the names of the desirable intervals.}
+
+\item{quantiles}{vector (numeric). Indicates the probability quantiles, as probs = {0,1}, if cardinals is \code{NULL}. If is \code{quantiles=NULL}, \code{quantiles = c(0.01,.25,.50,.99)}.}
 
 \item{id.names}{vector (character). Indicates the name of the columns to be used as id for the environmental variables to be analysed.}
 
 \item{by.interval}{boolean. Indicates if temporal intervals must be computed insied of each environment. Default = FALSE.}
 
-\item{scale}{boolean. If scale=TRUE, the variables (x) assumes a mean-centered scaled distribution, with x~N(0,1).}
+\item{scale}{boolean. If \code{scale=TRUE}, the variables (x) assumes a mean-centered scaled distribution, with x~N(0,1).}
 
-\item{format}{character. The shape of the output, assuming format = c('long','wide'). Default is 'long'}
+\item{format}{character. The shape of the output, assuming \code{format = c('long','wide')}. Default is 'long'.}
+}
+\value{
+A dataframe with environmental typologies. Event frequencies are provided for each variable at each environment within each interval.
 }
 \description{
-Returns environmental typologies that can be used as envirotype markers. This typologies are given based on cardinals (discrete intervals for each variable). The user must informat the name of the environmental variables of interested and informat the cardinal option as list of cardinal vectors for each variable. Its also possible to fixed intervals or scale the data.
+Returns environmental typologies that can be used as envirotype markers. This typologies are given based on cardinals (discrete intervals for each variable). The user must inform the name of the environmental variables of interest and inform the cardinal option as list of cardinal vectors for each variable. Its also possible to fix intervals or scale data.
+}
+\details{
+TODO
+}
+\examples{
+### Fetching weather information from NASA-POWER
+weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+
+### By.intervals (generic time intervals)
+EnvTyping(weather.data = weather.data, env.id = 'env', var.id = 'T2M', by.interval = TRUE)
+
+### By.intervals (specific time intervals)
+EnvTyping(weather.data = weather.data,
+          env.id = 'env',
+          var.id = 'T2M',
+          by.interval = TRUE,
+          time.window = c(0, 15, 35, 65, 90, 120))
+
+### By.intervals (specific time intervals and with specific names
+EnvTyping(weather.data = weather.data,
+                 env.id = 'env',
+                 var.id = 'T2M',
+                 by.interval = TRUE,
+                 time.window = c(0, 15, 35, 65, 90, 120),
+                 names.window = c('1-intial growing',
+                                  '2-leaf expansion I',
+                                  '3-leaf expansion II',
+                                  '4-flowering',
+                                  '5-grain filling',
+                                  '6-maturation'))
+
+### With set cardinals.
+EnvTyping(weather.data = weather.data,
+          var.id = c('T2M','PRECTOT','WS2M'),
+          cardinals = list(T2M = c(0, 9, 22, 32, 45),
+                           PRECTOT = c(0, 5, 10),
+                           WS2M = NULL),
+          env.id = 'env')
+
 }
 \author{
 Germano Costa Neto

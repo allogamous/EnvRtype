@@ -10,20 +10,25 @@ Param_Temperature(
   Tmin = NULL,
   Tbase1 = 9,
   Tbase2 = 45,
-  Tmed,
   Topt1 = 26,
   Topt2 = 32,
   merge = FALSE
 )
 }
 \arguments{
+\item{weather.data}{data.frame. A \code{get_weather()} output or A \code{get_weather()}-like dataframe.}
+
 \item{Tmax}{character. Indicates the column of maximum air temperature (Celsius).}
 
 \item{Tmin}{character. Indicates the column of minimum air temperature (Celsius).}
 
-\item{Tbase1}{numeric (vetor). Cardinal value for temperature base for phenological development (Celsius).}
+\item{Tbase1}{numeric. Minimum cardinal value for temperature base for phenological development (Celsius).}
 
-\item{Tbase2}{numeric (vetor). Maximum cardinal value for temperature base for phenological development (Celsius).}
+\item{Tbase2}{numeric. Maximum cardinal value for temperature base for phenological development (Celsius).}
+
+\item{Topt1}{numeric. Lower temperature bound for phenological development (Celsius).}
+
+\item{Topt2}{numeric. Upper temperature bound for phenological development (Celsius).}
 
 \item{merge}{boolean. If \code{TRUE}, calculated variables are merged to the original \code{get_weather()} dataframe.}
 }

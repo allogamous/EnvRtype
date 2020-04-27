@@ -1,27 +1,73 @@
 #'@title  Envirotype-informed kernels for statistical models
 #'
-#' @description Get multiple genomic and/or envirotype-informed kernels for bayesian genomic prediciton
+#' @description Get multiple genomic and/or envirotype-informed kernels for bayesian genomic prediciton.
 #' @author Germano Costa Neto
-#' @param K_E list of envirotype-related kernels (n x n genotypes-environment).
-#' If NULL, benchmarck genomic kernels are built.
-#' @param K_G list of genomic enabled kernels (p x p genotypes)
-#' @param Y data.frame contaning the following colunms: environemnt, genotype, trait value
-#' @param model model structure for genomic predicion. It can be c('MM','MDs','E-MM','E-MDs'),
-#' which MM (main effect model or Y=fixed + G) amd MDs (Y=fixed+G+GxE)
-#' @param reaction boolean, inclusion of a reaction norm based GxE kernel (default = FALSE)
-#' @param intercept.random boolean, inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.
-#' @param size_E character. size_E=c('full','environment'). In the first, 'full' means taht the environmental relationship kernel has the dimensions of n x n observations, which n = pq (p genotypes, q environments). If 'environment' the size of E-kernel is q x q.
+#' @param K_E list. Contains nmatrices of envirotype-related kernels (n x n genotypes-environment). If NULL, benchmarck genomic kernels are built.
+#' @param K_G list. Constains matrices of genomic enabled kernels (p x p genotypes). See BGGE::getK for more information.
+#' @param Y data.frame. Should contain the following colunms: environemnt, genotype, phenotype.
+#' @param model character. Model structure for genomic predicion. It can be \code{c('MM','MDs','E-MM','E-MDs')}, in which MM (main effect model \eqn{Y=fixed + G}) and MDs (\eqn{Y=fixed+G+GxE}).
+#' @param reaction boolean. Indicates the inclusion of a reaction norm based GxE kernel (default = FALSE).
+#' @param intercept.random boolean. Indicates the inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.
+#' @param size_E character. \code{size_E=c('full','environment')}. In the first, 'full' means taht the environmental relationship kernel has the dimensions of n x n observations, which n = pq (p genotypes, q environments). If 'environment' the size of E-kernel is q x q.
+#'
+#' @return
+#' A list of kernels (relationship matrices) to be used in genomic models.
+#'
+#' @details
+#' TODO Define models.
+#'
+#' @examples
+#' ### Loading the genomic, phenotype and weather data
+#' data('maizeG'); data('maizeYield'); data("maizeWTH")
+#'
+#' ### Y = fixed + G
+#' MM <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+#'                  Y = maizeYield, model = 'MM')
+#' ### Y = fixed + G + GE
+#' MDs <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+#'                   Y = maizeYield, model = 'MDs')
+#'
+#' ### Enriching models with weather data
+#' W.cov <- W.matrix(weather.data = maizeWTH)
+#' H <- EnvKernel(weather.data = W.cov, Y = maizeYield, merge = TRUE, env.id = 'env')
+#'
+#' EMM <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+#'                   Y = maizeYield,K_E = list(W = H$envCov),
+#'                   model = 'EMM') # or model = MM
+#'
+#' ### Y = fixed + G + W + GE
+#' EMDs <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+#'                    Y = maizeYield,
+#'                    K_E = list(W = H$envCov),
+#'                    model = 'MDs') # or model = MDs
+#'
+#' ### Y = fixed + W + G + GW
+#' RN <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+#'                  Y = maizeYield,
+#'                  K_E = list(W = H$envCov),
+#'                  model = 'RNMM')
+#'
+#' ### Y = fixed + W + G + GW + GE
+#' fullRN <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+#'                      Y = maizeYield,
+#'                      K_E = list(W = H$envCov),
+#'                      model = 'RNMDs')
+#'
+#' @seealso
+#' BGGE::getk W.matrix
+#'
 #' @importFrom BGGE getK
 #' @importFrom stats model.matrix
+#'
 #' @export
 
 get_kernel <-function(K_E = NULL,                    #' environmental kernel
                       K_G,                           #' genotypic kernel (p x p genotypes)
-                      Y,                            #' phenotypic dataframe
-                      model = NULL,  #' family model c('MM','MDs','EMM','EMDs','RNMM','RNMDs'),
+                      Y,                             #' phenotypic dataframe
+                      model = NULL,                  #' family model c('MM','MDs','EMM','EMDs','RNMM','RNMDs'),
                       intercept.random = FALSE,      #' insert genomic random intercept)
                       reaction = FALSE,
-                      size_E = NULL#c('full','environment'),
+                      size_E = NULL                  #c('full','environment'),
                       ){
   #----------------------------------------------------------------------------
   # Start Step

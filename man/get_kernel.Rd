@@ -15,24 +15,69 @@ get_kernel(
 )
 }
 \arguments{
-\item{K_E}{list of envirotype-related kernels (n x n genotypes-environment).
-If NULL, benchmarck genomic kernels are built.}
+\item{K_E}{list. Contains nmatrices of envirotype-related kernels (n x n genotypes-environment). If NULL, benchmarck genomic kernels are built.}
 
-\item{K_G}{list of genomic enabled kernels (p x p genotypes)}
+\item{K_G}{list. Constains matrices of genomic enabled kernels (p x p genotypes). See BGGE::getK for more information.}
 
-\item{Y}{data.frame contaning the following colunms: environemnt, genotype, trait value}
+\item{Y}{data.frame. Should contain the following colunms: environemnt, genotype, phenotype.}
 
-\item{model}{model structure for genomic predicion. It can be c('MM','MDs','E-MM','E-MDs'),
-which MM (main effect model or Y=fixed + G) amd MDs (Y=fixed+G+GxE)}
+\item{model}{character. Model structure for genomic predicion. It can be \code{c('MM','MDs','E-MM','E-MDs')}, in which MM (main effect model \eqn{Y=fixed + G}) and MDs (\eqn{Y=fixed+G+GxE}).}
 
-\item{intercept.random}{boolean, inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.}
+\item{intercept.random}{boolean. Indicates the inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.}
 
-\item{reaction}{boolean, inclusion of a reaction norm based GxE kernel (default = FALSE)}
+\item{reaction}{boolean. Indicates the inclusion of a reaction norm based GxE kernel (default = FALSE).}
 
-\item{size_E}{character. size_E=c('full','environment'). In the first, 'full' means taht the environmental relationship kernel has the dimensions of n x n observations, which n = pq (p genotypes, q environments). If 'environment' the size of E-kernel is q x q.}
+\item{size_E}{character. \code{size_E=c('full','environment')}. In the first, 'full' means taht the environmental relationship kernel has the dimensions of n x n observations, which n = pq (p genotypes, q environments). If 'environment' the size of E-kernel is q x q.}
+}
+\value{
+A list of kernels (relationship matrices) to be used in genomic models.
 }
 \description{
-Get multiple genomic and/or envirotype-informed kernels for bayesian genomic prediciton
+Get multiple genomic and/or envirotype-informed kernels for bayesian genomic prediciton.
+}
+\details{
+TODO Define models.
+}
+\examples{
+### Loading the genomic, phenotype and weather data
+data('maizeG'); data('maizeYield'); data("maizeWTH")
+
+### Y = fixed + G
+MM <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+                 Y = maizeYield, model = 'MM')
+### Y = fixed + G + GE
+MDs <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+                  Y = maizeYield, model = 'MDs')
+
+### Enriching models with weather data
+W.cov <- W.matrix(weather.data = maizeWTH)
+H <- EnvKernel(weather.data = W.cov, Y = maizeYield, merge = TRUE, env.id = 'env')
+
+EMM <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+                  Y = maizeYield,K_E = list(W = H$envCov),
+                  model = 'EMM') # or model = MM
+
+### Y = fixed + G + W + GE
+EMDs <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+                   Y = maizeYield,
+                   K_E = list(W = H$envCov),
+                   model = 'MDs') # or model = MDs
+
+### Y = fixed + W + G + GW
+RN <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+                 Y = maizeYield,
+                 K_E = list(W = H$envCov),
+                 model = 'RNMM')
+
+### Y = fixed + W + G + GW + GE
+fullRN <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+                     Y = maizeYield,
+                     K_E = list(W = H$envCov),
+                     model = 'RNMDs')
+
+}
+\seealso{
+BGGE::getk W.matrix
 }
 \author{
 Germano Costa Neto

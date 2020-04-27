@@ -34,28 +34,28 @@
 #' ### Mean-centered and scaled matrix
 #' W <- W.matrix(weather.data = weather.data, by.interval = FALSE)
 #'
-#' ## same as SummaryWTH, we can add time.windows
+#' ### Same as SummaryWTH, we can add time.windows
 #' W <- W.matrix(weather.data = weather.data, by.interval = TRUE,
 #'               time.window = c(0, 14, 35, 60, 90, 120))
 #'
-#' ## and select the statistic to be used
+#' ### Selecting statistic to be used
 #' W <- W.matrix(weather.data = weather.data, by.interval = TRUE, statistic = 'mean',
 #'               time.window = c(0, 14, 35, 60, 90, 120))
 #'
 #' W <- W.matrix(weather.data = weather.data, by.interval = TRUE, statistic = 'quantile',
 #'               time.window = c(0, 14, 35, 60, 90, 120))
 #'
-#' ## We can perform a Quality Control (QC) based on the maximum sd tolerated
+#' ### With Quality Control (QC) based on the maximum sd tolerated
 #' W <- W.matrix(weather.data = weather.data, by.interval = FALSE, QC = TRUE)
 #'
-#' ## We can perform a Quality Control (QC) based on the maximum sd tolerated
+#' ### With Quality Control (QC) based on the maximum sd tolerated
 #' W <- W.matrix(weather.data = weather.data, by.interval = FALSE, QC = TRUE, sd.tol = 3)
 #'
-#' ## or create W for specific variables
+#' ### Creating W for specific variables
 #' id.var = c('T2M_MAX','T2M_MIN','T2M')
 #' W <- W.matrix(weather.data = weather.data, var.id = id.var)
 #'
-#' ## or combine with summaryWTH by using is.processed = TRUE
+#' ### Combining summaryWTH by using is.processed = TRUE
 #' data <- summaryWTH(weather.data, env.id = 'env', statistic = 'quantile')
 #' W <- W.matrix(weather.data = data, is.processed = TRUE)
 #'
