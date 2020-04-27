@@ -21,7 +21,7 @@
 
 > EnvRtype consists in three modules (sections 2-4), which collectively generate a simple workflow to collect, process and integrated envirotyping into genomic prediction in multiple environments.
   
-   * [1. Install](#Instal)
+   * [1. Install and Required Packages](#Instal)
    * [2. Environmental Sensing Module](#P1)
    * [3. Environmental Characterization Module](#P2)
    * [4. Reaction Norm Module](#P3)
@@ -47,6 +47,26 @@ unzip("EnvRtype-master.zip")
 file.rename("EnvRtype-master", "EnvRtype") 
 
 shell("R CMD build EnvRtype")
+
+```
+**Required packages**
+
+
+> * **[EnvRtype](https://github.com/allogamous/EnvRtype)** 
+> * **[raster](https://CRAN.R-project.org/package=raster)** 
+> * **[nasapower](https://github.com/ropensci/nasapower)** 
+> * **[BGGE](https://github.com/italo-granato/BGGE)**
+> * **[foreach](https://github.com/cran/foreach)**
+> * **[doParalell](https://github.com/cran/doparallel)**
+
+```r
+install.packages("sp")
+install.packages("raster")
+install.packages("rgdal")
+install.packages("scales")
+
+library(FIELDimageR)
+library(raster)
 
 ```
 <!-- toc -->
