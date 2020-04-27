@@ -37,6 +37,17 @@
 library(devtools)
 install_github('allogamous/EnvRtype')
 require(EnvRtype)
+
+#if the method above doesn't work, use the next lines by downloading the EnvRtype-master.zip file
+
+setwd("~/.zip file") # or download directory
+
+unzip("EnvRtype-master.zip") 
+
+file.rename("EnvRtype-master", "EnvRtype") 
+
+shell("R CMD build EnvRtype")
+
 ```
 <!-- toc -->
 
