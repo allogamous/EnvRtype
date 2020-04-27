@@ -455,13 +455,13 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 **Developers**:
 
-> *[Germano Costa Neto](https://github.com/gcostaneto)
+> * [Germano Costa Neto](https://github.com/gcostaneto)
 
-> *[Giovanni Galli](https://github.com/giovannigalli)
+> * [Giovanni Galli](https://github.com/giovannigalli)
 
-> *[Humberto Fanelli](https://github.com/humbertofanelli)
+> * [Humberto Fanelli](https://github.com/humbertofanelli)
 
-> *[Roberto Fritsche Neto] (roberto.neto@usp.br)
+> * [Roberto Fritsche Neto] (roberto.neto@usp.br)
 
 **Manteiner**
 
