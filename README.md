@@ -66,6 +66,12 @@ install.packages("raster")
 install.packages("nasapower")
 install.packages("BGGE")
 
+or
+
+source("https://raw.githubusercontent.com/gcostaneto/Funcoes_naive/master/instpackage.R");
+
+inst.package(c("BGGE",'foreach','doParalell','raster','nasapower'));
+
 library(EnvRtype)
 
 ```
