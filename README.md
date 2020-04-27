@@ -460,8 +460,8 @@ Developer and Manteiner: [Germano Costa Neto](https://github.com/gcostaneto)
 
 ## Acknowledgments
 
-* [University of São Paulo (ESALQ/USP)] (https://www.esalq.usp.br/)
-* [Conselho Nacional de Desenvolvimento Científico e Tecnológico] (http://www.cnpq.br/) for the PhD scholarship granted to the authors of the package
+> * [University of São Paulo (ESALQ/USP)] (https://www.esalq.usp.br/)
+> * [Conselho Nacional de Desenvolvimento Científico e Tecnológico] (http://www.cnpq.br/) for the PhD scholarship granted to the authors of the package
 
 
 <div id="P6" />
