@@ -60,13 +60,13 @@ shell("R CMD build EnvRtype")
 > * **[doParalell](https://github.com/cran/doparallel)**
 
 ```r
-install.packages("sp")
+install.packages("foreach")
+install.packages("doParallel")
 install.packages("raster")
-install.packages("rgdal")
-install.packages("scales")
+install.packages("nasapower")
+install.packages("BGGE")
 
-library(FIELDimageR)
-library(raster)
+library(EnvRtype)
 
 ```
 <!-- toc -->
