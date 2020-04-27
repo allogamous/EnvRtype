@@ -20,10 +20,9 @@
    * [2. Environmental Sensing Module](#P1)
    * [3. Environmental Characterization Module](#P2)
    * [4. Reaction Norm Module](#P3)
-   
-   * [Authorship](#P4)
-   * [Acknowledgments](#P5)
-   * [Simplified R script (Tutorial)](#P6)
+   * [5.Authorship](#P4)
+   * [6. Acknowledgments](#P5)
+   * [7. Simplified R script (Tutorial)](#P6)
    
 
 <div id="Instal" />
@@ -449,7 +448,7 @@ require(BGGE)
 
 ------------------------------------------------------------
 
-## Authorship
+## 5. Authorship
 
 This package is a initiative from the [Allogamous Plant Breeding Lab (University of São Paulo, ESALQ/USP, Brazil)](http://www.genetica.esalq.usp.br/en/lab/allogamous-plant-breeding-laboratory).
 
@@ -459,7 +458,7 @@ Developer and Manteiner: [Germano Costa Neto](https://github.com/gcostaneto)
 
 ------------------------------------------------------------
 
-## Acknowledgments
+## 6. Acknowledgments
 
 > * [University of São Paulo (ESALQ/USP)] (https://www.esalq.usp.br/)
 > * [Conselho Nacional de Desenvolvimento Científico e Tecnológico] (http://www.cnpq.br/) for the PhD scholarship granted to the authors of the package
@@ -469,7 +468,7 @@ Developer and Manteiner: [Germano Costa Neto](https://github.com/gcostaneto)
 
 ------------------------------------------------------------
 
-## Simplified R script (Tutorial)
+## 7. Simplified R script (Tutorial)
 
 [Simplified Tutorial (R script)](https://raw.githubusercontent.com/allogamous/EnvRtype/master/tutorial_script_R.R)
 
