@@ -13,7 +13,7 @@
 ---------------------------------------------
 ## Resources
 
-> EnvRtype consists of the following three modules, which collectively generate a simple workflow to collect, process and integrated envirotyping into genomic prediction in multiple environments.
+> EnvRtype consists in three modules (sections 2 to 4), which collectively generate a simple workflow to collect, process and integrated envirotyping into genomic prediction in multiple environments.
   
    * [1. Install](#Instal)
    * [2. Environmental Sensing Module](#P1)
