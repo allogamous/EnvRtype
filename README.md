@@ -1,12 +1,6 @@
 
 # [EnvRtype](https://github.com/allogamous/EnvRtype): a tool for envirotyping analysis and genomic prediction considering reaction norms
 
-Authorship: [Allogamous Plant Breeding Lab (University of São Paulo, ESALQ/USP, Brazil)](http://www.genetica.esalq.usp.br/en/lab/allogamous-plant-breeding-laboratory)
-
-Developer and Manteiner: [Germano Costa Neto](https://github.com/gcostaneto)
-
-[Simplified Tutorial (R script)](https://raw.githubusercontent.com/allogamous/EnvRtype/master/tutorial_script_R.R)
-
 ---------------------------------------------
 
 ## Background
@@ -26,6 +20,9 @@ Developer and Manteiner: [Germano Costa Neto](https://github.com/gcostaneto)
    * [2. Environmental Sensing Module](#P1)
    * [3. Environmental Characterization Module](#P2)
    * [4. Reaction Norm Module](#P3)
+   * [Authorship](#P4)
+   * [Acknowledgments](#P5)
+   * [Simplified R script (Tutorial)](#P6)
    
 
 <div id="Instal" />
@@ -111,7 +108,7 @@ summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
 summaryWTH(df.clim,env.id = 'env',statistic = 'quantile',probs = c(.20,.76,.90))
 ```
 
-### Building Environmental Covariable Matrices**
+### Building Environmental Covariable Matrices
 
 - Mean-centered and scaled matrix
 ```{r}
@@ -447,4 +444,35 @@ require(BGGE)
                   thin = 2,
                   verbose = TRUE)
 ```
+<div id="P4" />
+
+------------------------------------------------------------
+
+## Authorship
+
+This package is a initiative from the [Allogamous Plant Breeding Lab (University of São Paulo, ESALQ/USP, Brazil)](http://www.genetica.esalq.usp.br/en/lab/allogamous-plant-breeding-laboratory).
+
+Developer and Manteiner: [Germano Costa Neto](https://github.com/gcostaneto)
+
+<div id="P5" />
+
+------------------------------------------------------------
+
+## Acknowledgments
+
+* [University of São Paulo (ESALQ/USP)] (https://www.esalq.usp.br/)
+* [Conselho Nacional de Desenvolvimento Científico e Tecnológico] (http://www.cnpq.br/) for the PhD scholarship granted to the authors of the package
+
+
+<div id="P6" />
+
+------------------------------------------------------------
+
+## Simplified R script (Tutorial)
+
+[Simplified Tutorial (R script)](https://raw.githubusercontent.com/allogamous/EnvRtype/master/tutorial_script_R.R)
+
+
 <img align="right" width="110" height="100" src="/fig/logo_alogamas.png">
+
+
