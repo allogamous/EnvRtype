@@ -453,7 +453,17 @@ require(BGGE)
 
 This package is a initiative from the [Allogamous Plant Breeding Lab (University of São Paulo, ESALQ/USP, Brazil)](http://www.genetica.esalq.usp.br/en/lab/allogamous-plant-breeding-laboratory).
 
-Developer and Manteiner: [Germano Costa Neto](https://github.com/gcostaneto)
+**Developers**:
+
+> *[Germano Costa Neto](https://github.com/gcostaneto)
+> *[Giovanni Galli](https://github.com/giovannigalli)
+> *[Humberto Fanelli](https://github.com/humbertofanelli)
+> *[Roberto Fritsche Neto] (roberto.neto@usp.br)
+
+**Manteiner**
+
+> *[Germano Costa Neto](https://github.com/gcostaneto)
+
 
 <div id="P5" />
 
