@@ -5,10 +5,13 @@
 #'
 #' @author Germano Costa Neto
 #'
+#' @param weather.data data.frame. A \code{get_weather()} output or A \code{get_weather()}-like dataframe.
 #' @param Tmax character. Indicates the column of maximum air temperature (Celsius).
 #' @param Tmin character. Indicates the column of minimum air temperature (Celsius).
-#' @param Tbase1 numeric (vetor). Cardinal value for temperature base for phenological development (Celsius).
-#' @param Tbase2 numeric (vetor). Maximum cardinal value for temperature base for phenological development (Celsius).
+#' @param Tbase1 numeric. Minimum cardinal value for temperature base for phenological development (Celsius).
+#' @param Tbase2 numeric. Maximum cardinal value for temperature base for phenological development (Celsius).
+#' @param Topt1 numeric. Lower temperature bound for phenological development (Celsius).
+#' @param Topt2 numeric. Upper temperature bound for phenological development (Celsius).
 #' @param merge boolean. If \code{TRUE}, calculated variables are merged to the original \code{get_weather()} dataframe.
 #'
 #' @return
@@ -33,7 +36,7 @@
 #' @export
 
 Param_Temperature <- function(weather.data,Tmax=NULL, Tmin=NULL,
-                              Tbase1=9,Tbase2=45,Tmed,Topt1=26,Topt2=32,merge=FALSE) {
+                              Tbase1=9,Tbase2=45, Topt1=26,Topt2=32,merge=FALSE) {
 
   if(is.null(Tmin)) Tmin <-'T2M_MIN';Tmin<- weather.data[,Tmin]
   if(is.null(Tmax)) Tmax <-'T2M_MAX';Tmax <- weather.data[,Tmax]

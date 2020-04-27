@@ -9,24 +9,20 @@ Extract_GIS(covraster = NULL, weather.data = NULL)
 \arguments{
 \item{covraster}{RasterLayer. A raster from which data is going to be extracted.}
 
-\item{weather.data}{data.frame. A get_weather output}
-
-\item{K_E}{list of envirotype-related kernels (n x n genotypes-environment).
-If NULL, benchmarck genomic kernels are built.}
-
-\item{K_G}{list of genomic enabled kernels (p x p genotypes)}
-
-\item{Y}{data.frame contaning the following colunms: environemnt, genotype, trait value}
-
-\item{model}{model structure for genomic predicion. It can be c('MM','MDs','E-MM','E-MDs'),
-which MM (main effect model or Y=fixed + G) amd MDs (Y=fixed+G+GxE)}
-
-\item{reaction}{boolean, inclusion of a reaction norm based GxE kernel (default = FALSE)}
-
-\item{intercept.random}{boolean, inclusion of a genomic random intercepet (default = FALSE)}
+\item{weather.data}{data.frame. A \code{get_weather} output.}
+}
+\value{
+The original dataframe with additional geographic/weather information.
 }
 \description{
-Extracts variables from rasters.
+A wrapper of \code{raster::getData()} for extracting variables from rasters based on latitude and loongitude of experiments.
+}
+\details{
+TODO
+}
+\examples{
+# TODO
+
 }
 \author{
 Germano Costa Neto

@@ -38,8 +38,39 @@ EnvKernel(
 
 \item{h.gaussian}{numeric. If gaussian = TRUE, returns the h parameter for exp(-h*d/q).}
 }
+\value{
+A list with environmental kinships for reaction norm models. Two matrices are produced. varCov with the distance for environmental covariables, and envCov with distances for genotypes.
+}
 \description{
 Returns environmental kinships for reaction norm models. Output is a list containing the objects varCov kinship for environmental variables and envCov kinshp for environmental relatedness.
+}
+\details{
+TODO
+}
+\examples{
+### Loading the genomic, phenotype and weather data
+data('maizeYield'); data("maizeWTH")
+
+### getting the W matrix from weather data
+W.cov <- W.matrix(weather.data = maizeWTH)
+
+### Parametrization by K_W = WW'/ncol(W)
+EnvKernel(weather.data = W.cov,
+          Y = maizeYield,
+          merge = FALSE,
+          env.id = 'env',
+          gaussian = FALSE)
+
+### Parametrization by K_W = WW'/diag( WW')
+EnvKernel(weather.data = W.cov,
+          Y = maizeYield,
+          merge = FALSE,
+          env.id = 'env',
+          bydiag = TRUE)
+
+}
+\seealso{
+W.matrix
 }
 \author{
 Germano Costa Neto

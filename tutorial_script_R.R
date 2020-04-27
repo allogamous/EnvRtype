@@ -247,7 +247,6 @@ MM <- get_kernel(K_G = list(G = as.matrix(maizeG)),Y = maizeYield, model = 'MM')
 # or the benchmark main GxE deviation model: Y = fixed + G +GE using BGGE
 MDs <- get_kernel(K_G = list(G = as.matrix(maizeG)),Y = maizeYield, model = 'MDs')
 
-
 # Creating the envirotyping covariance matrix based on phenology time intervals
 W.cov <- W.matrix(weather.data = maizeWTH,by.interval = T, statistic = 'quantile',
                   time.window = c(0, 14, 35, 60, 90, 120))

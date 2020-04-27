@@ -1,18 +1,27 @@
 #'@title  Easily Extraction of Worldwide Raster-based Data
-#' @description Extracts variables from rasters.
+#'
+#' @description A wrapper of \code{raster::getData()} for extracting variables from rasters based on latitude and loongitude of experiments.
+#'
 #' @author Germano Costa Neto
+#'
 #' @param covraster RasterLayer. A raster from which data is going to be extracted.
-#' @param weather.data data.frame. A get_weather output
-#' @param K_E list of envirotype-related kernels (n x n genotypes-environment).
-#' If NULL, benchmarck genomic kernels are built.
-#' @param K_G list of genomic enabled kernels (p x p genotypes)
-#' @param Y data.frame contaning the following colunms: environemnt, genotype, trait value
-#' @param model model structure for genomic predicion. It can be c('MM','MDs','E-MM','E-MDs'),
-#' which MM (main effect model or Y=fixed + G) amd MDs (Y=fixed+G+GxE)
-#' @param reaction boolean, inclusion of a reaction norm based GxE kernel (default = FALSE)
-#' @param intercept.random boolean, inclusion of a genomic random intercepet (default = FALSE)
+#' @param weather.data data.frame. A \code{get_weather} output.
+#'
+#' @return
+#' The original dataframe with additional geographic/weather information.
+#'
+#' @details
+#' TODO
+#'
+#' @examples
+#' # TODO
+# weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+# srtm = raster::getData('worldclim', var='tmin', lat = -13.05, lon = -56.05, res = 0.5)
+# weather.data = Extract_GIS(covraster = srtm, weather.data = weather.data)
+#'
 #' @importFrom raster extract merge
 #' @importFrom sp proj4string CRS coordinates<- proj4string<- coordinates
+#'
 #' @export
 
 Extract_GIS <- function(covraster=NULL,weather.data=NULL){
