@@ -444,6 +444,8 @@ require(BGGE)
                   thin = 2,
                   verbose = TRUE)
 ```
+<div id="menu" />
+
 <div id="P4" />
 
 ------------------------------------------------------------
@@ -472,6 +474,7 @@ Developer and Manteiner: [Germano Costa Neto](https://github.com/gcostaneto)
 
 [Simplified Tutorial (R script)](https://raw.githubusercontent.com/allogamous/EnvRtype/master/tutorial_script_R.R)
 
+<div id="menu" />
 
 <img align="right" width="110" height="100" src="/fig/logo_alogamas.png">
 
