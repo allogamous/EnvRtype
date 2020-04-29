@@ -98,7 +98,7 @@ df.clim <- get_weather(env.id = env,lat = lat,lon = lon,
                        start.day = plant.date,end.day = harv.date, asdataframe = F) # returns a list of dataframes by environments
 
 df.clim <- get_weather(env.id = env,lat = lat,lon = lon,
-                       start.day = plant.date,end.day = harv.date) # returns a dataframe with all environments by default
+                       start.day = plant.date,end.day = harv.date,country = 'BRA') # returns a dataframe with all environments by default
                        
 head(df.clim)
 
