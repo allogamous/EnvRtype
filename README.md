@@ -520,6 +520,7 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 > * [Conselho Nacional de Desenvolvimento Científico e Tecnológico](http://www.cnpq.br/) for the PhD scholarship granted to the authors of the package
 
+> * [Pedro L. Longhin](https://github.com/pedro-longhin) for additional support in Git Hub
 
 <div id="P6" />
 
