@@ -2,32 +2,30 @@
 #' Basic tutorial for EnvRtype package
 #' gcneto april 08 2020
 #'##############################################################################
+
+############# Installing the package  ##################
+
 library(devtools)
 install_github('allogamous/EnvRtype')
+
 require(EnvRtype)
 
-load('df.RData')
-df.clim = df
-
 ############# Collecting daily weather from GIS data sources  ##################
-# lat = c(-13.05,-12.32,-18.34,-18.90,-23.03) # vector of latitude WGS84
-# lon = c(-56.05,-55.42,-46.31,-49.56,-51.02) # vector of lontitude WGS84
-# env = c("NM","SO","PM","IP","SE")           # vector of environment/site ID
-# plant.date = c("2015-02-15",'2015-02-13', # vector with the beggining of growings seasons
-#                "2015-02-26","2015-03-01",
-#                '2015-02-19')
-# harv.date = rep("2015-06-15", 5) # vector of end period
-
-lat = c(-13.05,-12.32) # vector of latitude WGS84
-lon = c(-56.05,-55.42) # vector of lontitude WGS84
-env = c("NM","SO")           # vector of environment/site ID
-plant.date = c("2015-02-15",'2015-02-13')
-harv.date = rep("2015-06-15", 2) # vector of end period
+lat = c(-13.05,-12.32,-18.34,-18.90,-23.03) # vector of latitude WGS84
+lon = c(-56.05,-55.42,-46.31,-49.56,-51.02) # vector of lontitude WGS84
+env = c("NM","SO","PM","IP","SE")           # vector of environment/site ID
+plant.date = c("2015-02-15",'2015-02-13', # vector with the beggining of growings seasons
+               "2015-02-26","2015-03-01",
+               '2015-02-19')
+harv.date = rep("2015-06-15", 5) # vector of end period
 
 df.clim <- get_weather(env.id = env, lat = lat, lon = lon,
                        start.day = plant.date, end.day = harv.date, country = 'BRA')
 
 head(df.clim)
+
+#if this does not work try:
+#df.clim = EnvRtype::maizeWTH[,-(21:28)]
 
 ############# Basic processing of get_weather() output ###############################
 
@@ -362,12 +360,4 @@ eT <- EnvKernel(weather.data =T.cov,Y = maizeYield,merge = T,env.id = 'env',bydi
 dim(T.cov)
 T.cov[, 1:4]
 
-#not working
-# EMM <-get_kernel(K_G = list(G = as.matrix(maizeG)),K_E = list(W=W$envCov,eT=eT$envCov),
-#                  Y = maizeYield,model = 'EMM',size_E = 'environment')
-# EMM$KE_W # kernel from W
-# EMM$KE_eT # kernel from T (envirotype)
-#
-# names(EMM)
-# kernel from W
-# kernel from T (envirotype)
+
