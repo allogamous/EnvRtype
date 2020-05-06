@@ -105,7 +105,7 @@ head(df.clim)
 ```
 - Basic processing of get_weather() 
 ```{r}
-df.clim <-processWTH(x = df.clim,lon = 'LON',lat = 'LAT',env.id = 'env',download.ALT = TRUE,country = 'BRA')
+df.clim <-processWTH(env.data = df.clim)
 ```
 ### Basic summary statistics for environmental data
 ```{r}
