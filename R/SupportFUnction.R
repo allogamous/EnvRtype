@@ -6,17 +6,17 @@ AtmosphericParam<- function(PREC=NULL,Tdew=NULL,
                             Tmin=NULL,Tmax=NULL,Alt=600,RH=NULL,
                             Rad=NULL,G=NULL,alpha=1.26,
                             df,merge=FALSE){
-  Tmed <- (Tmin+Tmax)/2
-  ATP <- AtmP(Alt)
-  Es <- teten(Tdew)
+  Tmed  <- (Tmin+Tmax)/2
+  ATP   <- AtmP(Alt)
+  Es    <- teten(Tdew)
   Eamin <- teten(Tmin)
   Eamax <- teten(Tmax)
-  VPD <- ((Eamin +Eamax)/2)-Es
+  VPD   <- ((Eamin +Eamax)/2)-Es
   #VPD <- Es*(1-RH/100)
-  Psy <- psyco(atm = ATP)
+  Psy   <- psyco(atm = ATP)
   Slope <- 4098*(.6108*exp((17.27*Tmed)/(Tmed+237.3)))/(Tmed+237.2)^2
-  ETo <- EToPT(alfa=alpha,Srad=Rad,G=G,slope=Slope,psyc=Psy)
-  PETo <- PREC-ETo
+  ETo   <- EToPT(alfa=alpha,Srad=Rad,G=G,slope=Slope,psyc=Psy)
+  PETo  <- PREC-ETo
 
   cat('------------------------------------------------ \n')
   cat('Slope of saturation vapour pressure curve (SPV, in kPa.Celsius) \n')
@@ -27,7 +27,7 @@ AtmosphericParam<- function(PREC=NULL,Tdew=NULL,
   cat('\n')
 
   if(!isTRUE(merge)) return(data.frame(VPD=VPD,SPV=Slope,ETP=ETo,PETP=PETo))
-  if(isTRUE(merge)) return(data.frame(df,data.frame(VPD=VPD,SPV=Slope,ETP=ETo,PETP=PETo)))
+  if( isTRUE(merge)) return(data.frame(df,data.frame(VPD=VPD,SPV=Slope,ETP=ETo,PETP=PETo)))
 
 
 }

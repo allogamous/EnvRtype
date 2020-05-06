@@ -3,7 +3,7 @@
 #' @description Core of functions to estimate atmospheric parameters related to solar radiation. Fore more details about the equations see de FAO-evapotranspiration publication http://www.fao.org/3/X0490E/x0490e07.htm#radiation.
 #' @author Germano Costa Neto
 #'
-#' @param weather.data data.frame. A \code{get_weather()} output or A \code{get_weather()}-like dataframe.
+#' @param env.data data.frame. A \code{get_weather()} output or A \code{get_weather()}-like dataframe.
 #' @param merge boolean. If \code{TRUE}, calculated variables are merged to the original dataframe.
 #'
 #' @return Returns a dataframe with parameters related to solar radiation. See details for further information.
@@ -19,20 +19,20 @@
 #'
 #' @examples
 #' ### Fetching weather information from NASA-POWER
-#' weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+#' env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 #'
 #' ### Calculating solar radiation
-#' Param_Radiation(weather.data)
+#' Param_Radiation(env.data)
 #'
 #' @importFrom stats median
 #'
 #' @export
 
 # http://www.fao.org/3/X0490E/x0490e07.htm#radiation
-Param_Radiation <-function(weather.data, merge=FALSE){
+Param_Radiation <-function(env.data, merge=FALSE){
 
-  DOY <- weather.data[,'DOY']
-  LAT <- weather.data[,'LAT']
+  DOY <- env.data[,'DOY']
+  LAT <- env.data[,'LAT']
 
   Ra <- function(J,lat){
     rlat = deg2rad(lat)
@@ -50,8 +50,8 @@ Param_Radiation <-function(weather.data, merge=FALSE){
 
 
   RadN <-Ra(J = DOY,lat = LAT)
-  LWD <- weather.data$ALLSKY_SFC_LW_DWN
-  DWN <- weather.data$ALLSKY_SFC_SW_DWN
+  LWD <- env.data$ALLSKY_SFC_LW_DWN
+  DWN <- env.data$ALLSKY_SFC_SW_DWN
   LWD[LWD == -99] <- NA
   DWN[DWN == -99] <- NA
   LWD[is.na(LWD)] <- median(LWD,na.rm=TRUE)
@@ -66,7 +66,7 @@ Param_Radiation <-function(weather.data, merge=FALSE){
   cat('\n')
 
   if(!isTRUE(merge)) return(data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad))
-  if(isTRUE(merge)) return(data.frame(weather.data,data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad)))
+  if(isTRUE(merge)) return(data.frame(env.data,data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad)))
 
 }
 

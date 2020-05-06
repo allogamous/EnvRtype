@@ -28,8 +28,8 @@
 #'                   Y = maizeYield, model = 'MDs')
 #'
 #' ### Enriching models with weather data
-#' W.cov <- W.matrix(weather.data = maizeWTH)
-#' H <- EnvKernel(weather.data = W.cov, Y = maizeYield, merge = TRUE, env.id = 'env')
+#' W.cov <- W.matrix(env.data = maizeWTH)
+#' H <- EnvKernel(env.data = W.cov, Y = maizeYield, merge = TRUE, env.id = 'env')
 #'
 #' EMM <- get_kernel(K_G = list(G = as.matrix(maizeG)),
 #'                   Y = maizeYield,K_E = list(W = H$envCov),
@@ -114,7 +114,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel
   # Envirotype-enriched models (for E effects)
   #----------------------------------------------------------------------------
   if(is.null(size_E)) size_E <- 'full'
-  if(size_E == 'environment') for(q in 1:length(K_E)) K_E[[q]] <- EnvKernel(weather.data = K_E[[q]],Y = Y,merge = TRUE,env.id = 'env')$envCov
+  if(size_E == 'environment') for(q in 1:length(K_E)) K_E[[q]] <- EnvKernel(env.data = K_E[[q]],Y = Y,merge = TRUE,env.id = 'env')$envCov
 
 
   h <- length(K_E);

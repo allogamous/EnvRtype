@@ -4,10 +4,10 @@
 \alias{processWTH}
 \title{Basic Processing Tools for Enriching get_weather outputs}
 \usage{
-processWTH(weather.data)
+processWTH(env.data)
 }
 \arguments{
-\item{weather.data}{data.frame. A \code{get_weather()} output.}
+\item{env.data}{data.frame. A \code{get_weather()} output.}
 }
 \value{
 Returns a \code{get_wheather()} object with an additional set of parameters calculated from the nasapower data.
@@ -34,10 +34,10 @@ The estimated variables are:
 }
 \examples{
 ### Fetching weather information from NASA-POWER
-weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 
 ### Returning calculated parameters merged to the \code{get_weather()} dataframe
-processWTH(weather.data)
+processWTH(env.data)
 
 }
 \author{

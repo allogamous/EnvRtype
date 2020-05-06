@@ -4,7 +4,7 @@
 #'
 #' @author Germano Costa Neto
 #'
-#' @param weather.data data.frame. A \code{get_weather()}-like output with additional solar radiation information. If a \code{get_weather()} is provided, no further argument is required but \code{G} and \code{alpha}.
+#' @param env.data data.frame. A \code{get_weather()}-like output with additional solar radiation information. If a \code{get_weather()} is provided, no further argument is required but \code{G} and \code{alpha}.
 #' @param PREC character. Indicates the column of precipitation.
 #' @param Tdew character. Indicates the column of dew/frost.
 #' @param Tmin character. Indicates the column of minimum temperature.
@@ -30,19 +30,19 @@
 #'
 #' @examples
 #' ### Fetching weather information from NASA-POWER
-#' weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+#' env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 #'
 #' ### Calculating solar radiation
-#' weather.data = Param_Radiation(weather.data, merge = TRUE)
+#' env.data = Param_Radiation(env.data, merge = TRUE)
 #'
 #' ### Calculating solar radiation
-#' Param_Atmospheric(weather.data)
+#' Param_Atmospheric(env.data)
 
 #' @export
 
 # http://www.fao.org/3/X0490E/x0490e07.htm#atmospheric%20parameters
 
-Param_Atmospheric <- function(weather.data, PREC=NULL, Tdew=NULL,
+Param_Atmospheric <- function(env.data, PREC=NULL, Tdew=NULL,
                             Tmin=NULL, Tmax=NULL, RH=NULL,
                             Rad=NULL, G=NULL, alpha=1.26,
                             merge=FALSE){
@@ -61,15 +61,15 @@ Param_Atmospheric <- function(weather.data, PREC=NULL, Tdew=NULL,
 
 
 
-  if(is.null(PREC)) PREC <-'PRECTOT'; PREC <- weather.data[,PREC]
-  if(is.null(Tdew)) Tdew <-'T2MDEW';Tdew <- weather.data[,Tdew]
-  if(is.null(Tmin)) Tmin <-'T2M_MIN';Tmin<- weather.data[,Tmin]
-  if(is.null(Tmax)) Tmax <-'T2M_MAX';Tmax <- weather.data[,Tmax]
-  Alt <- weather.data[,'ALT']
-  #if(isFALSE(Alt  %in% names(weather.data))){Alt <- 600; cat('Missing ALT value. We adopted 600m. Please use the Extract_GIS funciton to collect ALT from SRTM files \n')}
+  if(is.null(PREC)) PREC <-'PRECTOT'; PREC <- env.data[,PREC]
+  if(is.null(Tdew)) Tdew <-'T2MDEW';Tdew <- env.data[,Tdew]
+  if(is.null(Tmin)) Tmin <-'T2M_MIN';Tmin<- env.data[,Tmin]
+  if(is.null(Tmax)) Tmax <-'T2M_MAX';Tmax <- env.data[,Tmax]
+  Alt <- env.data[,'ALT']
+  #if(isFALSE(Alt  %in% names(env.data))){Alt <- 600; cat('Missing ALT value. We adopted 600m. Please use the Extract_GIS funciton to collect ALT from SRTM files \n')}
 
-  if(is.null(RH))  RH <-'RH2M'; RH<- weather.data[,RH]
-  if(is.null(Rad)) Rad <- 'SRAD';Rad <- weather.data[,Rad]
+  if(is.null(RH))  RH <-'RH2M'; RH<- env.data[,RH]
+  if(is.null(Rad)) Rad <- 'SRAD';Rad <- env.data[,Rad]
 
 
   Tmed <- (Tmin+Tmax)/2
@@ -93,7 +93,7 @@ Param_Atmospheric <- function(weather.data, PREC=NULL, Tdew=NULL,
   cat('\n')
 
   if(isFALSE(merge)) return(data.frame(VPD=VPD,SPV=Slope,ETP=ETo,PETP=PETo))
-  if(isTRUE(merge)) return(data.frame(weather.data,data.frame(VPD=VPD,SPV=Slope,ETP=ETo,PETP=PETo)))
+  if(isTRUE(merge)) return(data.frame(env.data,data.frame(VPD=VPD,SPV=Slope,ETP=ETo,PETP=PETo)))
 
 
 }

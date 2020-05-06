@@ -5,7 +5,7 @@
 \title{Basic Summary Statistics for Environmental Data}
 \usage{
 summaryWTH(
-  weather.data,
+  env.data,
   id.names = NULL,
   env.id = NULL,
   days.id = NULL,
@@ -18,7 +18,7 @@ summaryWTH(
 )
 }
 \arguments{
-\item{weather.data}{data.frame. A \code{get_weather()} output.}
+\item{env.data}{data.frame. A \code{get_weather()} output.}
 
 \item{id.names}{vector (character). Indicates the name of the columns to be used as id for the environmental variables to be analysed.}
 
@@ -46,16 +46,16 @@ TODO
 }
 \examples{
 ### Fetching weather information from NASA-POWER
-weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 
 ### Basic summary
-summaryWTH(weather.data)
+summaryWTH(env.data)
 
 ### Returning only mean values
-summaryWTH(weather.data, env.id = 'env', statistic = 'mean')
+summaryWTH(env.data, env.id = 'env', statistic = 'mean')
 
 ### Summary by time intervals given by time.window and names.window
-summaryWTH(weather.data, env.id = 'env', by.interval = TRUE,
+summaryWTH(env.data, env.id = 'env', by.interval = TRUE,
            time.window = c(0, 14, 35, 60, 90, 120),
            names.window = c('P-E', 'E-V1', 'V1-V4', 'V4-VT', 'VT-GF', 'GF-PM'))
 

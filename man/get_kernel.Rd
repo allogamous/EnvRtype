@@ -50,8 +50,8 @@ MDs <- get_kernel(K_G = list(G = as.matrix(maizeG)),
                   Y = maizeYield, model = 'MDs')
 
 ### Enriching models with weather data
-W.cov <- W.matrix(weather.data = maizeWTH)
-H <- EnvKernel(weather.data = W.cov, Y = maizeYield, merge = TRUE, env.id = 'env')
+W.cov <- W.matrix(env.data = maizeWTH)
+H <- EnvKernel(env.data = W.cov, Y = maizeYield, merge = TRUE, env.id = 'env')
 
 EMM <- get_kernel(K_G = list(G = as.matrix(maizeG)),
                   Y = maizeYield,K_E = list(W = H$envCov),

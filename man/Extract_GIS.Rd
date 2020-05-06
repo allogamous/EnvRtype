@@ -4,12 +4,12 @@
 \alias{Extract_GIS}
 \title{Easily Extraction of Worldwide Raster-based Data}
 \usage{
-Extract_GIS(covraster = NULL, weather.data = NULL)
+Extract_GIS(covraster = NULL, env.data = NULL)
 }
 \arguments{
 \item{covraster}{RasterLayer. A raster from which data is going to be extracted.}
 
-\item{weather.data}{data.frame. A \code{get_weather} output.}
+\item{env.data}{data.frame. A \code{get_weather} output.}
 }
 \value{
 The original dataframe with additional geographic/weather information.

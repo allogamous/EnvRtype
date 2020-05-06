@@ -5,7 +5,7 @@
 #'
 #' @author Germano Costa Neto
 #'
-#' @param weather.data data.frame. A \code{get_weather()} output or A \code{get_weather()}-like dataframe.
+#' @param env.data data.frame. A \code{get_weather()} output or A \code{get_weather()}-like dataframe.
 #' @param Tmax character. Indicates the column of maximum air temperature (Celsius).
 #' @param Tmin character. Indicates the column of minimum air temperature (Celsius).
 #' @param Tbase1 numeric. Minimum cardinal value for temperature base for phenological development (Celsius).
@@ -28,18 +28,18 @@
 #'
 #' @examples
 #' ### Fetching weather information from NASA-POWER
-#' weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+#' env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 #'
 #' ### Calculating solar radiation
-#' Param_Temperature(weather.data)
+#' Param_Temperature(env.data)
 #'
 #' @export
 
-Param_Temperature <- function(weather.data,Tmax=NULL, Tmin=NULL,
+Param_Temperature <- function(env.data,Tmax=NULL, Tmin=NULL,
                               Tbase1=9,Tbase2=45, Topt1=26,Topt2=32,merge=FALSE) {
 
-  if(is.null(Tmin)) Tmin <-'T2M_MIN';Tmin<- weather.data[,Tmin]
-  if(is.null(Tmax)) Tmax <-'T2M_MAX';Tmax <- weather.data[,Tmax]
+  if(is.null(Tmin)) Tmin <-'T2M_MIN';Tmin<- env.data[,Tmin]
+  if(is.null(Tmax)) Tmax <-'T2M_MAX';Tmax <- env.data[,Tmax]
 
   Tmed <- (Tmin+Tmax)/2
 
@@ -79,6 +79,6 @@ Param_Temperature <- function(weather.data,Tmax=NULL, Tmin=NULL,
   cat('---------------------------------------------------------------------- \n')
 
   if(isFALSE(merge))   return(data.frame(GDD=gdd_temp,FRUE = FRUE, T2M_RANGE=Tmax-Tmin ))
-  if(isTRUE(merge))   return(data.frame(weather.data,GDD=gdd_temp,FRUE = FRUE, T2M_RANGE=Tmax-Tmin ))
+  if(isTRUE(merge))   return(data.frame(env.data,GDD=gdd_temp,FRUE = FRUE, T2M_RANGE=Tmax-Tmin ))
 
 }

@@ -3,7 +3,7 @@
 #'
 #' @description Returns environmental kinships for reaction norm models. Output is a list containing the objects varCov kinship for environmental variables and envCov kinshp for environmental relatedness.
 #' @author Germano Costa Neto
-#' @param weather.data matrix. Data from environmental variables (or markers) per environment (or combinations of genotype-environment).
+#' @param env.data matrix. Data from environmental variables (or markers) per environment (or combinations of genotype-environment).
 #' @param is.scaled boolean. If environmental data is mean-centered and scaled (default = TRUE), assuming x~N(0,1).
 #' @param sd.tol numeric. Maximum standard deviation value for quality control. Coluns above this value are eliminated.
 #' @param tol numeric. Value of tolerance (default = 0.001).
@@ -24,17 +24,17 @@
 #' data('maizeYield'); data("maizeWTH")
 #'
 #' ### getting the W matrix from weather data
-#' W.cov <- W.matrix(weather.data = maizeWTH)
+#' W.cov <- W.matrix(env.data = maizeWTH)
 #'
 #' ### Parametrization by K_W = WW'/ncol(W)
-#' EnvKernel(weather.data = W.cov,
+#' EnvKernel(env.data = W.cov,
 #'           Y = maizeYield,
 #'           merge = FALSE,
 #'           env.id = 'env',
 #'           gaussian = FALSE)
 #'
 #' ### Parametrization by K_W = WW'/diag( WW')
-#' EnvKernel(weather.data = W.cov,
+#' EnvKernel(env.data = W.cov,
 #'           Y = maizeYield,
 #'           merge = FALSE,
 #'           env.id = 'env',
@@ -45,21 +45,21 @@
 #' @importFrom stats sd dist
 #' @export
 
-EnvKernel <-function(weather.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
+EnvKernel <-function(env.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
                      tol=1E-3, bydiag=FALSE, merge=FALSE,
                      env.id=NULL,gaussian=FALSE, h.gaussian=NULL){
 
-  nr<-nrow(weather.data)
-  nc <-ncol(weather.data)
+  nr<-nrow(env.data)
+  nc <-ncol(env.data)
 
-  if(!is.matrix(weather.data)){stop('weather.data must be a matrix')}
+  if(!is.matrix(env.data)){stop('env.data must be a matrix')}
   if(isFALSE(is.scaled)){
-    Amean <- weather.data-apply(weather.data,2,mean)+tol
+    Amean <- env.data-apply(env.data,2,mean)+tol
     sdA   <- apply(Amean,2,sd)
     A. <- Amean/sdA
     removed <- names(sdA[sdA < sd.tol])
-    weather.data <- A.[,!colnames(A.) %in% removed]
-    t <- ncol(weather.data)
+    env.data <- A.[,!colnames(A.) %in% removed]
+    t <- ncol(env.data)
     r <- length(removed)
     cat(paste0('------------------------------------------------','\n'))
     cat(paste0(' Removed envirotype markers:','\n'))
@@ -71,17 +71,17 @@ EnvKernel <-function(weather.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
 
   if(isTRUE(merge)){
     if(is.null(env.id)) env.id <- 'env'
-    weather.data <- envK(weather.data = weather.data,df.pheno=Y,env.id=env.id)
+    env.data <- envK(env.data = env.data,df.pheno=Y,env.id=env.id)
   }
   if(isTRUE(gaussian)){
-    O <- gaussian(x = weather.data,h=h.gaussian)
-    H <- gaussian(x = t(weather.data),h=h.gaussian)
+    O <- gaussian(x = env.data,h=h.gaussian)
+    H <- gaussian(x = t(env.data),h=h.gaussian)
     return(list(varCov=H,envCov=O))
 
   }
   if(isFALSE(gaussian)){
-    O <- tcrossprod(weather.data)#/ncol(weather.data)  # env.relatedness kernel from covariates
-    H <- crossprod(weather.data)#/nrow(weather.data)   # covariable relatedness kernel from covariates
+    O <- tcrossprod(env.data)#/ncol(env.data)  # env.relatedness kernel from covariates
+    H <- crossprod(env.data)#/nrow(env.data)   # covariable relatedness kernel from covariates
     if(isTRUE(bydiag)){
       O <- O/(sum(diag(O))/nc) + diag(1e-2, nrow(O))
       H <- H/(sum(diag(H))/nr) + diag(1e-2, nrow(H))
@@ -106,11 +106,11 @@ gaussian <- function(x,h=NULL){
   return(exp(-h*d/q))
 }
 
-envK = function(weather.data,df.pheno,skip=3,env.id){
+envK = function(env.data,df.pheno,skip=3,env.id){
   df.pheno <-data.frame(df.pheno)
-  weather.data <-data.frame(weather.data)
-  weather.data$env <- as.factor(rownames(weather.data))
-  W <- as.matrix(merge(df.pheno,weather.data, by=env.id)[,-c(1:skip)])
+  env.data <-data.frame(env.data)
+  env.data$env <- as.factor(rownames(env.data))
+  W <- as.matrix(merge(df.pheno,env.data, by=env.id)[,-c(1:skip)])
   return(W)
 
 }

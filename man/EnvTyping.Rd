@@ -5,7 +5,7 @@
 \title{Environmental Typologies based on Cardinal or Quantilic Limits}
 \usage{
 EnvTyping(
-  weather.data,
+  env.data,
   var.id,
   env.id,
   cardinals = NULL,
@@ -20,7 +20,7 @@ EnvTyping(
 )
 }
 \arguments{
-\item{weather.data}{data.frame of environmental variables gotten from \code{get_weather()}.}
+\item{env.data}{data.frame of environmental variables gotten from \code{get_weather()}.}
 
 \item{var.id}{character. Indicates which variables will be used in the analysis.}
 
@@ -55,20 +55,20 @@ TODO
 }
 \examples{
 ### Fetching weather information from NASA-POWER
-weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 
 ### By.intervals (generic time intervals)
-EnvTyping(weather.data = weather.data, env.id = 'env', var.id = 'T2M', by.interval = TRUE)
+EnvTyping(env.data = env.data, env.id = 'env', var.id = 'T2M', by.interval = TRUE)
 
 ### By.intervals (specific time intervals)
-EnvTyping(weather.data = weather.data,
+EnvTyping(env.data = env.data,
           env.id = 'env',
           var.id = 'T2M',
           by.interval = TRUE,
           time.window = c(0, 15, 35, 65, 90, 120))
 
 ### By.intervals (specific time intervals and with specific names
-EnvTyping(weather.data = weather.data,
+EnvTyping(env.data = env.data,
                  env.id = 'env',
                  var.id = 'T2M',
                  by.interval = TRUE,
@@ -81,7 +81,7 @@ EnvTyping(weather.data = weather.data,
                                   '6-maturation'))
 
 ### With set cardinals.
-EnvTyping(weather.data = weather.data,
+EnvTyping(env.data = env.data,
           var.id = c('T2M','PRECTOT','WS2M'),
           cardinals = list(T2M = c(0, 9, 22, 32, 45),
                            PRECTOT = c(0, 5, 10),

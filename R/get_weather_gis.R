@@ -141,7 +141,7 @@ get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
 
   # collecting altitude data from raster SRTM database
   srtm <- raster::getData('alt', country=country,mask=TRUE)
-  df<-Extract_GIS(covraster = srtm, weather.data = .C) #nao ha input para covname, talvez seja interessante remove-lo
+  df<-Extract_GIS(covraster = srtm, env.data = .C) #nao ha input para covname, talvez seja interessante remove-lo
 
   return(df)
 }

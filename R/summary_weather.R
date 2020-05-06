@@ -5,7 +5,7 @@
 #'
 #' @author Germano Costa Neto
 #'
-#' @param weather.data data.frame. A \code{get_weather()} output.
+#' @param env.data data.frame. A \code{get_weather()} output.
 #' @param id.names vector (character). Indicates the name of the columns to be used as id for the environmental variables to be analysed.
 #' @param env.id   character. Name of the columns to be used as identification for environments.
 #' @param days.id character. Name of the columns indicating the days from start.
@@ -21,16 +21,16 @@
 #'
 #' @examples
 #' ### Fetching weather information from NASA-POWER
-#' weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+#' env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 #'
 #' ### Basic summary
-#' summaryWTH(weather.data)
+#' summaryWTH(env.data)
 #'
 #' ### Returning only mean values
-#' summaryWTH(weather.data, env.id = 'env', statistic = 'mean')
+#' summaryWTH(env.data, env.id = 'env', statistic = 'mean')
 #'
 #' ### Summary by time intervals given by time.window and names.window
-#' summaryWTH(weather.data, env.id = 'env', by.interval = TRUE,
+#' summaryWTH(env.data, env.id = 'env', by.interval = TRUE,
 #'            time.window = c(0, 14, 35, 60, 90, 120),
 #'            names.window = c('P-E', 'E-V1', 'V1-V4', 'V4-VT', 'VT-GF', 'GF-PM'))
 #'
@@ -43,7 +43,7 @@
 #' @export
 
 
-summaryWTH <- function(weather.data,id.names=NULL,
+summaryWTH <- function(env.data,id.names=NULL,
                        env.id = NULL,
                        days.id = NULL,
                        var.id=NULL,
@@ -54,10 +54,10 @@ summaryWTH <- function(weather.data,id.names=NULL,
                             names.window=NULL){
   if (!requireNamespace('reshape2')) utils::install.packages("reshape2")
   if (!requireNamespace('plyr')) utils::install.packages("plyr")
-  class(weather.data) <- 'data.frame'
+  class(env.data) <- 'data.frame'
   if(!any(statistic %in% c('all','sum','mean','quantile'))) statistic <- 'all'
 
-  .GET <- meltWTH(.GeTw = weather.data,days = days.id,
+  .GET <- meltWTH(.GeTw = env.data,days = days.id,
                      by.interval = by.interval,
                      time.window = time.window,
                      names.window = names.window,

@@ -4,7 +4,7 @@
 #' @description A wraper of \code{Param_Radiation()}, \code{Param_Atmospheric()}, and \code{Param_Temperature()} for evaluating get_weather() datasets. Calculates a series of parameters based on the \code{get_weather()} object.
 #' @author Germano Costa Neto
 #'
-#' @param weather.data data.frame. A \code{get_weather()} output.
+#' @param env.data data.frame. A \code{get_weather()} output.
 #'
 #' @return
 #' Returns a \code{get_wheather()} object with an additional set of parameters calculated from the nasapower data.
@@ -28,22 +28,22 @@
 #'
 #' @examples
 #' ### Fetching weather information from NASA-POWER
-#' weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+#' env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 #'
 #' ### Returning calculated parameters merged to the \code{get_weather()} dataframe
-#' processWTH(weather.data)
+#' processWTH(env.data)
 #'
 #' @export
 
-processWTH <- function(weather.data){
+processWTH <- function(env.data){
 
   # computing radiation paramters
-  weather.data <-Param_Radiation(weather.data=weather.data, merge = TRUE)
+  env.data <-Param_Radiation(env.data=env.data, merge = TRUE)
   # computing atmospheric paramters
-  weather.data <-Param_Atmospheric(weather.data=weather.data, merge = TRUE)
-  weather.data <- Param_Temperature(weather.data=weather.data,merge = TRUE)
+  env.data <-Param_Atmospheric(env.data=env.data, merge = TRUE)
+  env.data <- Param_Temperature(env.data=env.data,merge = TRUE)
 
-  return(weather.data)
+  return(env.data)
 }
 
 

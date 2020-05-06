@@ -5,7 +5,7 @@
 \title{Easily Building of Environmental Relatedness Kernels}
 \usage{
 EnvKernel(
-  weather.data,
+  env.data,
   Y = NULL,
   is.scaled = TRUE,
   sd.tol = 1,
@@ -18,7 +18,7 @@ EnvKernel(
 )
 }
 \arguments{
-\item{weather.data}{matrix. Data from environmental variables (or markers) per environment (or combinations of genotype-environment).}
+\item{env.data}{matrix. Data from environmental variables (or markers) per environment (or combinations of genotype-environment).}
 
 \item{Y}{data.frame. Phenotypic data set containing environment id, genotype id and trait value.}
 
@@ -52,17 +52,17 @@ TODO
 data('maizeYield'); data("maizeWTH")
 
 ### getting the W matrix from weather data
-W.cov <- W.matrix(weather.data = maizeWTH)
+W.cov <- W.matrix(env.data = maizeWTH)
 
 ### Parametrization by K_W = WW'/ncol(W)
-EnvKernel(weather.data = W.cov,
+EnvKernel(env.data = W.cov,
           Y = maizeYield,
           merge = FALSE,
           env.id = 'env',
           gaussian = FALSE)
 
 ### Parametrization by K_W = WW'/diag( WW')
-EnvKernel(weather.data = W.cov,
+EnvKernel(env.data = W.cov,
           Y = maizeYield,
           merge = FALSE,
           env.id = 'env',

@@ -5,7 +5,7 @@
 \title{Build the Matrix of Environmental Covariables for Reaction Norm}
 \usage{
 W.matrix(
-  weather.data,
+  env.data,
   is.processed = FALSE,
   id.names = NULL,
   env.id = NULL,
@@ -23,7 +23,7 @@ W.matrix(
 )
 }
 \arguments{
-\item{weather.data}{data.frame of environmental variables gotten from \code{get_weather()}.}
+\item{env.data}{data.frame of environmental variables gotten from \code{get_weather()}.}
 
 \item{is.processed}{boolean. Indicates whether the dataframe was previously processed with \code{summaryWTH()} and contains means, medians, etc.}
 
@@ -54,7 +54,7 @@ W.matrix(
 \item{QC}{boolean. Indicates with Quality Control is applied. QC is based on the standard deviation tolerance (sd.tol), removing variables (x) with sd(x) > sd.tol}
 }
 \value{
-Returns a weather covariable realized matrix with dimensions of q x k, for q environments and k covariables.
+Returns an environmental covariable realized matrix with dimensions of q x k, for q environments and k covariables.
 }
 \description{
 Estimates a weather covariable realized matrix with dimensions of q x k, for q environments and k covariables.
@@ -64,35 +64,35 @@ TODO
 }
 \examples{
 ### Fetching weather information from NASA-POWER
-weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 
 ### Mean-centered and scaled matrix
-W <- W.matrix(weather.data = weather.data, by.interval = FALSE)
+W <- W.matrix(env.data = env.data, by.interval = FALSE)
 
 ### Same as SummaryWTH, we can add time.windows
-W <- W.matrix(weather.data = weather.data, by.interval = TRUE,
+W <- W.matrix(env.data = env.data, by.interval = TRUE,
               time.window = c(0, 14, 35, 60, 90, 120))
 
 ### Selecting statistic to be used
-W <- W.matrix(weather.data = weather.data, by.interval = TRUE, statistic = 'mean',
+W <- W.matrix(env.data = env.data, by.interval = TRUE, statistic = 'mean',
               time.window = c(0, 14, 35, 60, 90, 120))
 
-W <- W.matrix(weather.data = weather.data, by.interval = TRUE, statistic = 'quantile',
+W <- W.matrix(env.data = env.data, by.interval = TRUE, statistic = 'quantile',
               time.window = c(0, 14, 35, 60, 90, 120))
 
 ### With Quality Control (QC) based on the maximum sd tolerated
-W <- W.matrix(weather.data = weather.data, by.interval = FALSE, QC = TRUE)
+W <- W.matrix(env.data = env.data, by.interval = FALSE, QC = TRUE)
 
 ### With Quality Control (QC) based on the maximum sd tolerated
-W <- W.matrix(weather.data = weather.data, by.interval = FALSE, QC = TRUE, sd.tol = 3)
+W <- W.matrix(env.data = env.data, by.interval = FALSE, QC = TRUE, sd.tol = 3)
 
 ### Creating W for specific variables
 id.var = c('T2M_MAX','T2M_MIN','T2M')
-W <- W.matrix(weather.data = weather.data, var.id = id.var)
+W <- W.matrix(env.data = env.data, var.id = id.var)
 
 ### Combining summaryWTH by using is.processed = TRUE
-data <- summaryWTH(weather.data, env.id = 'env', statistic = 'quantile')
-W <- W.matrix(weather.data = data, is.processed = TRUE)
+data <- summaryWTH(env.data, env.id = 'env', statistic = 'quantile')
+W <- W.matrix(env.data = data, is.processed = TRUE)
 
 }
 \author{

@@ -5,7 +5,7 @@
 #'
 #' @author Germano Costa Neto
 #'
-#' @param weather.data data.frame of environmental variables gotten from \code{get_weather()}.
+#' @param env.data data.frame of environmental variables gotten from \code{get_weather()}.
 #' @param is.processed boolean. Indicates whether the dataframe was previously processed with \code{summaryWTH()} and contains means, medians, etc.
 #' @param id.names character. Indicates the name of the columns to be used as id for the environmental variables to be analysed.
 #' @param env.id   character. Indicates the name of the columns to be used as id for environments.
@@ -22,49 +22,49 @@
 #' @param QC boolean. Indicates with Quality Control is applied. QC is based on the standard deviation tolerance (sd.tol), removing variables (x) with sd(x) > sd.tol
 #'
 #' @return
-#' Returns a weather covariable realized matrix with dimensions of q x k, for q environments and k covariables.
+#' Returns an environmental covariable realized matrix with dimensions of q x k, for q environments and k covariables.
 #'
 #' @details
 #' TODO
 #'
 #' @examples
 #' ### Fetching weather information from NASA-POWER
-#' weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+#' env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 #'
 #' ### Mean-centered and scaled matrix
-#' W <- W.matrix(weather.data = weather.data, by.interval = FALSE)
+#' W <- W.matrix(env.data = env.data, by.interval = FALSE)
 #'
 #' ### Same as SummaryWTH, we can add time.windows
-#' W <- W.matrix(weather.data = weather.data, by.interval = TRUE,
+#' W <- W.matrix(env.data = env.data, by.interval = TRUE,
 #'               time.window = c(0, 14, 35, 60, 90, 120))
 #'
 #' ### Selecting statistic to be used
-#' W <- W.matrix(weather.data = weather.data, by.interval = TRUE, statistic = 'mean',
+#' W <- W.matrix(env.data = env.data, by.interval = TRUE, statistic = 'mean',
 #'               time.window = c(0, 14, 35, 60, 90, 120))
 #'
-#' W <- W.matrix(weather.data = weather.data, by.interval = TRUE, statistic = 'quantile',
+#' W <- W.matrix(env.data = env.data, by.interval = TRUE, statistic = 'quantile',
 #'               time.window = c(0, 14, 35, 60, 90, 120))
 #'
 #' ### With Quality Control (QC) based on the maximum sd tolerated
-#' W <- W.matrix(weather.data = weather.data, by.interval = FALSE, QC = TRUE)
+#' W <- W.matrix(env.data = env.data, by.interval = FALSE, QC = TRUE)
 #'
 #' ### With Quality Control (QC) based on the maximum sd tolerated
-#' W <- W.matrix(weather.data = weather.data, by.interval = FALSE, QC = TRUE, sd.tol = 3)
+#' W <- W.matrix(env.data = env.data, by.interval = FALSE, QC = TRUE, sd.tol = 3)
 #'
 #' ### Creating W for specific variables
 #' id.var = c('T2M_MAX','T2M_MIN','T2M')
-#' W <- W.matrix(weather.data = weather.data, var.id = id.var)
+#' W <- W.matrix(env.data = env.data, var.id = id.var)
 #'
 #' ### Combining summaryWTH by using is.processed = TRUE
-#' data <- summaryWTH(weather.data, env.id = 'env', statistic = 'quantile')
-#' W <- W.matrix(weather.data = data, is.processed = TRUE)
+#' data <- summaryWTH(env.data, env.id = 'env', statistic = 'quantile')
+#' W <- W.matrix(env.data = data, is.processed = TRUE)
 #'
 #' @importFrom stats sd
 #' @importFrom reshape2 acast
 #'
 #' @export
 
-W.matrix = function(weather.data, is.processed=FALSE,id.names=NULL,env.id=NULL,var.id=NULL,
+W.matrix = function(env.data, is.processed=FALSE,id.names=NULL,env.id=NULL,var.id=NULL,
                     probs=NULL,by.interval=NULL,time.window=NULL,names.window=NULL,
                     center=TRUE,scale=TRUE, sd.tol = 10,statistic=NULL,
                     tol=1E-3, QC=FALSE){
@@ -74,7 +74,7 @@ W.matrix = function(weather.data, is.processed=FALSE,id.names=NULL,env.id=NULL,v
 
   # if the env data are alredy processed in means, medians etc, ignore
   if(isFALSE(is.processed)){
-    W<-summaryWTH(weather.data=weather.data,id.names=id.names,
+    W<-summaryWTH(env.data=env.data,id.names=id.names,
                   env.id = env.id,
                   statistic=statistic,
                   probs = probs,var.id=var.id,
@@ -91,7 +91,7 @@ W.matrix = function(weather.data, is.processed=FALSE,id.names=NULL,env.id=NULL,v
   }
 
   # parametrization for w~N(0,1)
-  W <- W.scale(weather.data = W,center = center,scale = scale,sd.tol = sd.tol,QC = QC)
+  W <- W.scale(env.data = W,center = center,scale = scale,sd.tol = sd.tol,QC = QC)
 
   return(W)
 
@@ -101,14 +101,14 @@ W.matrix = function(weather.data, is.processed=FALSE,id.names=NULL,env.id=NULL,v
 
 
 
-W.scale <-function(weather.data, center=TRUE,scale=TRUE, sd.tol = 4,tol=1E-3,QC=FALSE){
+W.scale <-function(env.data, center=TRUE,scale=TRUE, sd.tol = 4,tol=1E-3,QC=FALSE){
 
-  sdA   <- apply(weather.data,2,sd)
-  t <- ncol(weather.data)
+  sdA   <- apply(env.data,2,sd)
+  t <- ncol(env.data)
   removed <- names(sdA[sdA > sd.tol])
-  if(!is.matrix(weather.data)){stop('weather.data must be a matrix')}
-  weather.data<- scale(weather.data+tol,center = center,scale = scale)
-  if(isTRUE(QC)) weather.data <- weather.data[,!colnames(weather.data) %in% removed]
+  if(!is.matrix(env.data)){stop('env.data must be a matrix')}
+  env.data<- scale(env.data+tol,center = center,scale = scale)
+  if(isTRUE(QC)) env.data <- env.data[,!colnames(env.data) %in% removed]
 
   r <- length(removed)
 
@@ -121,5 +121,5 @@ W.scale <-function(weather.data, center=TRUE,scale=TRUE, sd.tol = 4,tol=1E-3,QC=
     cat(paste0('------------------------------------------------','\n'))
   }
 
-  return(weather.data)
+  return(env.data)
 }

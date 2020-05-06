@@ -5,7 +5,7 @@
 \title{Support functions to estimate atmospheric parameters}
 \usage{
 Param_Atmospheric(
-  weather.data,
+  env.data,
   PREC = NULL,
   Tdew = NULL,
   Tmin = NULL,
@@ -18,7 +18,7 @@ Param_Atmospheric(
 )
 }
 \arguments{
-\item{weather.data}{data.frame. A \code{get_weather()}-like output with additional solar radiation information. If a \code{get_weather()} is provided, no further argument is required but \code{G} and \code{alpha}.}
+\item{env.data}{data.frame. A \code{get_weather()}-like output with additional solar radiation information. If a \code{get_weather()} is provided, no further argument is required but \code{G} and \code{alpha}.}
 
 \item{PREC}{character. Indicates the column of precipitation.}
 
@@ -56,13 +56,13 @@ The calculated variables are:
 }
 \examples{
 ### Fetching weather information from NASA-POWER
-weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 
 ### Calculating solar radiation
-weather.data = Param_Radiation(weather.data, merge = TRUE)
+env.data = Param_Radiation(env.data, merge = TRUE)
 
 ### Calculating solar radiation
-Param_Atmospheric(weather.data)
+Param_Atmospheric(env.data)
 }
 \author{
 Germano Costa Neto

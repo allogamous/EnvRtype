@@ -5,7 +5,7 @@
 \title{Support functions to estimate thermal parameters}
 \usage{
 Param_Temperature(
-  weather.data,
+  env.data,
   Tmax = NULL,
   Tmin = NULL,
   Tbase1 = 9,
@@ -16,7 +16,7 @@ Param_Temperature(
 )
 }
 \arguments{
-\item{weather.data}{data.frame. A \code{get_weather()} output or A \code{get_weather()}-like dataframe.}
+\item{env.data}{data.frame. A \code{get_weather()} output or A \code{get_weather()}-like dataframe.}
 
 \item{Tmax}{character. Indicates the column of maximum air temperature (Celsius).}
 
@@ -49,10 +49,10 @@ The calculated variables are:
 }
 \examples{
 ### Fetching weather information from NASA-POWER
-weather.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 
 ### Calculating solar radiation
-Param_Temperature(weather.data)
+Param_Temperature(env.data)
 
 }
 \author{
