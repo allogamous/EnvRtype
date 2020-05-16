@@ -311,9 +311,8 @@ df.clim <- maizeWTH
 - Statistical Models
 
 <p align="center">
-  <img width="110" height="110" src="/fig/summary_pkg.png">
+  <img src="/fig/summary_pkg.png" width="70%" height="70%">
 </p>
-
 
 - Returns benchmark main effect model: 
 
