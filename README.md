@@ -311,7 +311,7 @@ df.clim <- maizeWTH
 - Statistical Models
 
 <p align="center">
-  <img width="110" height="110" src="/fig/summary_pkg.tiff">
+  <img width="110" height="110" src="/fig/summary_pkg.png">
 </p>
 
 
