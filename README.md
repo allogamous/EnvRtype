@@ -1,6 +1,5 @@
 
-# *EnvRtype*: a tool for envirotyping analysis and genomic prediction considering reaction norms <p align="right">
-  <img src="/fig/pkg_i.png" width="20%" height="20%">
+# *EnvRtype*: a tool for envirotyping analysis and genomic prediction considering reaction norms <p align="right" img src="/fig/pkg_i.png" width="20%" height="20%">
 
 
 
