@@ -1,5 +1,5 @@
 
-# *[EnvRtype](https://github.com/allogamous/EnvRtype)*: a tool for envirotyping analysis and genomic prediction considering reaction norms <img align="right" src="/fig/pkg_i.png">
+# *[EnvRtype](https://github.com/allogamous/EnvRtype)*: a tool for envirotyping analysis and genomic prediction considering reaction norms<img align="right" src="/fig/pkg_i.png">
 
 
 <div id="menu" />
