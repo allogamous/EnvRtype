@@ -1,9 +1,6 @@
 
-# [EnvRtype](https://github.com/allogamous/EnvRtype): a tool for envirotyping analysis and genomic prediction considering reaction norms
+# *[EnvRtype](https://github.com/allogamous/EnvRtype)*: a tool for envirotyping analysis and genomic prediction considering reaction norms  <img align="right" src="/fig/pkg_i.png">
 
-<p align="center">
-  <img src="/fig/pkg_i.png" width="70%" height="70%">
-</p>
 
 <div id="menu" />
 
