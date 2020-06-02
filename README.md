@@ -83,6 +83,8 @@ library(EnvRtype)
                     
  ## Environmental Sensing Module
  
+ ### Geographic Information Dabases
+ 
  > The collection, organization and processing of environmental data is a step that requires equipment installed in the field. Such equipment can be expensive or difficult to access for some research groups in certain regions or countries. For this reason, we decided to insert a routine for collecting climatic data through the [NASA POWER base](https://power.larc.nasa.gov/), which can access information on a daily scale anywhere on the globe.
  
  > The [Raster Package](https://cran.r-project.org/web/packages/raster/raster.pdf) also offers a digital platform for downloading files in raster format of climatic data (from the [WorldClim database](https://www.worldclim.org/)) and [SRTM (elevation)](http://srtm.csi.cgiar.org/) using only geographical coordinates (Latitude and Longitude).
@@ -92,13 +94,13 @@ library(EnvRtype)
 > * Preparing de informations (latitude, longitude, start day and end date)
 
 ```{r}
-lat = c(-13.05,-12.32,-18.34,-18.90,-23.03) # vector of latitude WGS84
-lon = c(-56.05,-55.42,-46.31,-49.56,-51.02) # vector of lontitude WGS84
-env = c("NM","SO","PM","IP","SE")           # vector of environment/site ID
-plant.date = c("2015-02-15","2015-02-13", # vector of start period
+lat = c(-13.05,-12.32,-18.34,-18.90,-23.03)  # vector of latitude WGS84
+lon = c(-56.05,-55.42,-46.31,-49.56,-51.02)  # vector of lontitude WGS84
+env = c("NM","SO","PM","IP","SE")            # vector of environment/site ID
+plant.date = c("2015-02-15","2015-02-13",    # vector of start period
                                  "2015-02-26","2015-03-01",
                                  "2015-02-19") 
-harv.date =rep("2015-06-15",5) # vector of end period
+harv.date =rep("2015-06-15",5)               # vector of end period
 ```
 > * So we can use this information to collect weather data from NASAPOWER
 
@@ -110,10 +112,15 @@ df.clim <- get_weather(env.id = env,lat = lat,lon = lon,start.day = plant.date,e
 head(df.clim)
 
 ```
+
+ ### Additional variables (ecophysiological)
+ 
+ 
 > * Basic processing of get_weather() 
 
+
  ```{r}
-                  df.clim <-processWTH(env.data = df.clim)
+ df.clim <-processWTH(env.data = df.clim)
                   ```
                   ### Basic summary statistics for environmental data
                   ```{r}
