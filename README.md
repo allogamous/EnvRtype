@@ -28,81 +28,91 @@
 * [7. Simplified R script (Tutorial)](#P6)
               
               
-              <div id="Instal" />
+<div id="Instal" />
                 
-                ## 1. Install
-                ```{r}
-              library(devtools)
-              install_github('allogamous/EnvRtype')
-              require(EnvRtype)
-              
-              #if the method above doesn't work, use the next lines by downloading the EnvRtype-master.zip file
-              
-              setwd("~/.zip file") # or download directory
-              
-              unzip("EnvRtype-master.zip") 
-              
-              file.rename("EnvRtype-master", "EnvRtype") 
-              
-              shell("R CMD build EnvRtype")
-              
-              ```
-              **Required packages**
+## Install
+
+### Using devtools in R
+
+```{r}
+library(devtools)
+install_github('allogamous/EnvRtype')
+require(EnvRtype)
+  ```
+### Using devtools in R
+
+> If the method above doesn't work, use the next lines by downloading the EnvRtype-master.zip file
+
+```{r}
+setwd("~/EnvRtype-master.zip") # ~ is the path from where you saved the file.zip
+unzip("EnvRtype-master.zip") 
+file.rename("EnvRtype-master", "EnvRtype") 
+shell("R CMD build EnvRtype") # or system("R CMD build EnvRtype")
+install.packages("EnvRtype_0.1.9.tar.gz", repos = NULL, type="source") # Make sure to use the current verision
+```
+ 
+ ### Required packages
+ 
+> * **[EnvRtype](https://github.com/allogamous/EnvRtype)** 
+> * **[raster](https://CRAN.R-project.org/package=raster)** 
+> * **[nasapower](https://github.com/ropensci/nasapower)** 
+> * **[BGGE](https://github.com/italo-granato/BGGE)**
+> * **[foreach](https://github.com/cran/foreach)**
+> * **[doParalell](https://github.com/cran/doparallel)**
                 
-                
-                > * **[EnvRtype](https://github.com/allogamous/EnvRtype)** 
-                > * **[raster](https://CRAN.R-project.org/package=raster)** 
-                > * **[nasapower](https://github.com/ropensci/nasapower)** 
-                > * **[BGGE](https://github.com/italo-granato/BGGE)**
-                > * **[foreach](https://github.com/cran/foreach)**
-                > * **[doParalell](https://github.com/cran/doparallel)**
-                
-                ```r
-              install.packages("foreach")
-              install.packages("doParallel")
-              install.packages("raster")
-              install.packages("nasapower")
-              install.packages("BGGE")
+```{r}
+install.packages("foreach")
+install.packages("doParallel")
+install.packages("raster")
+install.packages("nasapower")
+install.packages("BGGE")
               
-              or
+or
               
-              source("https://raw.githubusercontent.com/gcostaneto/Funcoes_naive/master/instpackage.R");
+source("https://raw.githubusercontent.com/gcostaneto/Funcoes_naive/master/instpackage.R");
               
-              inst.package(c("BGGE",'foreach','doParalell','raster','nasapower'));
+inst.package(c("BGGE",'foreach','doParalell','raster','nasapower'));
+
+library(EnvRtype)
               
-              library(EnvRtype)
-              
-              ```
-              <!-- toc -->
-                
-                [Menu](#menu)
+```
+<!-- toc -->
+[Menu](#menu)
                   
-                  <div id="P1" />
+ <div id="P1" />
                     
-                    ## 2. Environmental Sensing Module
-                    ```{r}
-                  lat = c(-13.05,-12.32,-18.34,-18.90,-23.03) # vector of latitude WGS84
-                  lon = c(-56.05,-55.42,-46.31,-49.56,-51.02) # vector of lontitude WGS84
-                  env = c("NM","SO","PM","IP","SE")           # vector of environment/site ID
-                  plant.date = c("2015-02-15","2015-02-13", # vector of start period
+ ## Environmental Sensing Module
+ 
+ > The collection, organization and processing of environmental data is a step that requires equipment installed in the field. Such equipment can be expensive or difficult to access for some research groups in certain regions or countries. For this reason, we decided to insert a routine for collecting climatic data through the [NASA POWER base](https://power.larc.nasa.gov/), which can access information on a daily scale anywhere on the globe.
+ 
+ > The [Raster Package](https://cran.r-project.org/web/packages/raster/raster.pdf) also offers a digital platform for downloading files in raster format of climatic data (from the [WorldClim database](https://www.worldclim.org/)) and [SRTM (elevation)](http://srtm.csi.cgiar.org/) using only geographical coordinates (Latitude and Longitude).
+ 
+ > To facilitate the use by researchers, especially in the field of genetics and plant breeding, we have integrated these platforms in the functions below:
+ 
+> * Preparing de informations (latitude, longitude, start day and end date)
+
+```{r}
+lat = c(-13.05,-12.32,-18.34,-18.90,-23.03) # vector of latitude WGS84
+lon = c(-56.05,-55.42,-46.31,-49.56,-51.02) # vector of lontitude WGS84
+env = c("NM","SO","PM","IP","SE")           # vector of environment/site ID
+plant.date = c("2015-02-15","2015-02-13", # vector of start period
                                  "2015-02-26","2015-03-01",
                                  "2015-02-19") 
-                  harv.date =rep("2015-06-15",5) # vector of end period
-                  ```
+harv.date =rep("2015-06-15",5) # vector of end period
+```
+> * So we can use this information to collect weather data from NASAPOWER
+
+```{r}
+df.clim <- get_weather(env.id = env,lat = lat,lon = lon, start.day = plant.date,end.day = harv.date, asdataframe = F) # returns a list of dataframes by environments
                   
-                  - So we can use this information to collect weather data from NASAPOWER:
-                    ```{r}
-                  df.clim <- get_weather(env.id = env,lat = lat,lon = lon,
-                                         start.day = plant.date,end.day = harv.date, asdataframe = F) # returns a list of dataframes by environments
-                  
-                  df.clim <- get_weather(env.id = env,lat = lat,lon = lon,
-                                         start.day = plant.date,end.day = harv.date,country = 'BRA') # returns a dataframe with all environments by default
-                  
-                  head(df.clim)
-                  
-                  ```
-                  - Basic processing of get_weather() 
-                  ```{r}
+df.clim <- get_weather(env.id = env,lat = lat,lon = lon,start.day = plant.date,end.day = harv.date,country = 'BRA') # returns a dataframe with all environments by default
+
+head(df.clim)
+
+```
+> * Basic processing of get_weather() 
+
+ ```{r}
                   df.clim <-processWTH(env.data = df.clim)
                   ```
                   ### Basic summary statistics for environmental data
