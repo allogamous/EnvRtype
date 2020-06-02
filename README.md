@@ -20,12 +20,12 @@
   > EnvRtype consists in three modules (sections 2-4), which collectively generate a simple workflow to collect, process and integrates envirotyping data into genomic prediction over multiple environments.
 
 * [1. Install and Required Packages](#Instal)
-  * [2. Environmental Sensing Module](#P1)
-    * [3. Environmental Characterization Module](#P2)
-      * [4. Reaction Norm Module](#P3)
-        * [5.Authorship](#P4)
-          * [6. Acknowledgments](#P5)
-            * [7. Simplified R script (Tutorial)](#P6)
+* [2. Environmental Sensing Module](#P1)
+* [3. Environmental Characterization Module](#P2)
+* [4. Reaction Norm Module](#P3)
+* [5.Authorship](#P4)
+* [6. Acknowledgments](#P5)
+* [7. Simplified R script (Tutorial)](#P6)
               
               
               <div id="Instal" />
