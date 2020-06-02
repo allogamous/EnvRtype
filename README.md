@@ -39,7 +39,7 @@ library(devtools)
 install_github('allogamous/EnvRtype')
 require(EnvRtype)
   ```
-### Using devtools in R
+### Manually installing
 
 > If the method above doesn't work, use the next lines by downloading the EnvRtype-master.zip file
 
