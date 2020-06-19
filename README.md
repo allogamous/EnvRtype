@@ -121,57 +121,71 @@ head(df.clim)
 
  ```{r}
  df.clim <-processWTH(env.data = df.clim)
-                  ```
-                  ### Basic summary statistics for environmental data
-                  ```{r}
-                  summaryWTH(df.clim)
-                  summaryWTH(df.clim,env.id = 'env')
-                  ```
+```
+> * Basic summary statistics for environmental data
+
+```{r}
+summaryWTH(df.clim)
+# or
+summaryWTH(df.clim,env.id = 'env')
+ ```
+
+> * Summary a particular environmental variable
+
+```{r}
+summaryWTH(df.clim,env.id = 'env',var.id = 'T2M')
+summaryWTH(df.clim,env.id = 'env',var.id = c('T2M','T2M_MAX')) # or more than one
+```
+
+> * Summary by time intervals. Dividing the development cycle into time intervals (e.g., phenology), whether phenological or fixed time intervals (e.g. 10-day intervals) helps to understand the temporal variation of environmental factors during the crop growth cycle.
+
+```{r}
+summaryWTH(df.clim,env.id = 'env',by.interval = T)
+```
+> * Summary by time intervals given by *time.window* argument.
+
+ ```{r}
+summaryWTH(df.clim,env.id = 'env',by.interval = T,time.window = c(0,14,35,60,90,120))
+```
+
+> * Summary by time intervals given by *time.window* and *names.window*.
+
+```{r}
+summaryWTH(df.clim,env.id = 'env',by.interval = T,time.window = c(0,14,35,60,90,120), names.window = c('P-E','E-V1','V1-V4','V4-VT','VT-GF','GF-PM'))
+ ```
+ 
+> * Returns only mean values
+
+```{r}
+summaryWTH(df.clim,env.id = 'env',statistic = 'mean')
+```
+
+> * Returns only sum values
+
+```{r}
+summaryWTH(df.clim,env.id = 'env',statistic = 'sum')
+```
+
+> * Returns quantile values (default = 25%, 50% and 75%)
+
+```{r}
+summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
+```
+
+> * For specific quantiles (e.g., 20%, 76% and 90%)
+
+```{r}
+summaryWTH(df.clim,env.id = 'env',statistic = 'quantile',probs = c(.20,.76,.90))
+```
+
+### Building Environmental Covariable Matrices
                   
-                  - Summary a particular environmental variable
-                  ```{r}
-                  summaryWTH(df.clim,env.id = 'env',var.id = 'T2M')
-                  summaryWTH(df.clim,env.id = 'env',var.id = c('T2M','T2M_MAX')) # or more than one
-                  ```
-                  - Summary by time intervals (e.g., phenology)
-                  ```{r}
-                  summaryWTH(df.clim,env.id = 'env',by.interval = T)
-                  ```
-                  - Summary by time intervals given by time.window
-                  ```{r}
-                  summaryWTH(df.clim,env.id = 'env',by.interval = T,time.window = c(0,14,35,60,90,120))
-                  ```
-                  - Summary by time intervals given by time.window and names.window
-                  ```{r}
-                  summaryWTH(df.clim,env.id = 'env',by.interval = T,
-                             time.window = c(0,14,35,60,90,120),
-                             names.window = c('P-E','E-V1','V1-V4','V4-VT','VT-GF','GF-PM'))
-                  
-                  ```
-                  - Returns only mean values
-                  ```{r}
-                  summaryWTH(df.clim,env.id = 'env',statistic = 'mean')
-                  ```
-                  - Returns only sum values
-                  ```{r}
-                  summaryWTH(df.clim,env.id = 'env',statistic = 'sum')
-                  ```
-                  - Returns quantile values (default = 25%, 50% and 75%)
-                  ```{r}
-                  summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
-                  ```
-                  - For specific quantiles (e.g., 20%, 76% and 90%)
-                  ```{r}
-                  summaryWTH(df.clim,env.id = 'env',statistic = 'quantile',probs = c(.20,.76,.90))
-                  ```
-                  
-                  ### Building Environmental Covariable Matrices
-                  
-                  - Mean-centered and scaled matrix
-                  ```{r}
-                  W.matrix(env.data = df.clim,by.interval = F)
-                  ```
-                  - Same as summaryWTH, we can add time.windows
+> * Environmental variables can be used as indicators of the quality of an environment (experiment, location). A double entry table (environments x environmental factors) can be built as suggested by Jarquin et al (2014). Hereafther we will refer to this matrix as **W**, and therefore, it will be obtained by the function *W.matrix()*:
+
+```{r}
+W.matrix(env.data = df.clim,by.interval = F)
+```
+> * Same as summaryWTH, we can add time.windows
                   ```{r}
                   W.matrix(env.data = df.clim,by.interval = T,
                            time.window = c(0,14,35,60,90,120))
