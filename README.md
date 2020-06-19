@@ -180,17 +180,20 @@ summaryWTH(df.clim,env.id = 'env',statistic = 'quantile',probs = c(.20,.76,.90))
 
 ### Building Environmental Covariable Matrices
                   
-> * Environmental variables can be used as indicators of the quality of an environment (experiment, location). A double entry table (environments x environmental factors) can be built as suggested by Jarquin et al (2014). Hereafther we will refer to this matrix as **W**, and therefore, it will be obtained by the function *W.matrix()*:
+> * Environmental variables can be used as indicators of the quality of an environment (experiment, location). A double entry table (*q* environments x *k* environmental factors) can be built as suggested by Jarquin et al (2014). Hereafther we will refer to this matrix as **W**, and therefore, it will be obtained by the function *W.matrix*:
 
 ```{r}
 W.matrix(env.data = df.clim,by.interval = F)
 ```
-> * Same as summaryWTH, we can add time.windows
-                  ```{r}
-                  W.matrix(env.data = df.clim,by.interval = T,
-                           time.window = c(0,14,35,60,90,120))
-                  ```
-                  - Select the statistic to be used
+
+> * As shown in the summaryWTH function, we can create time windows to capture the temporal variability between environmental information.To do this, we use the arguments *by.interval = TRUE* and *time.window* to define time limits. Such limits refer to the beginning of climate information. In the example below, for example, the first interval is for 0 to 14 days after planting, the second for 15 to 35 days after planting, and so on respectively.
+
+```{r}
+W.matrix(env.data = df.clim,by.interval = T, time.window = c(0,14,35,60,90,120))
+```
+
+> * Select the statistic to be used
+
                   ```{r}
                   W.matrix(env.data = df.clim,by.interval = T,statistic = 'mean',
                            time.window = c(0,14,35,60,90,120))
