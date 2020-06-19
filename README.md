@@ -543,11 +543,6 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 > * [Germano Costa Neto](https://github.com/gcostaneto), PhD Candidate in Genetics and Plant Breeding
 
-> * [Giovanni Galli](https://github.com/giovannigalli), PhD in Genetics and Plant Breeding
-
-> * [Humberto Fanelli](https://github.com/humbertofanelli), PhD in Genetics and Plant Breeding
-
-> * [Roberto Fritsche-Neto](roberto.neto@usp.br), PhD Candidate in Genetics and Plant Breeding
 
 <div id="P5" />
 
@@ -558,6 +553,8 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 > * [Giovanni Galli](https://github.com/giovannigalli), PhD in Genetics and Plant Breeding
 
 > * [Humberto Fanelli](https://github.com/humbertofanelli), PhD in Genetics and Plant Breeding
+
+> * [Roberto Fritsche-Neto](roberto.neto@usp.br), PhD Candidate in Genetics and Plant Breeding
 
 > * [University of São Paulo (ESALQ/USP)](https://www.esalq.usp.br/)
 
