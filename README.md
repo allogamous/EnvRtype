@@ -211,28 +211,31 @@ W.matrix(env.data = df.clim,by.interval = T,statistic = 'quantile',time.window =
 W.matrix(env.data = df.clim,by.interval = F,QC = T)
 ```
 > *  We can perform a Quality Control (QC) based on the maximum sd tolered
-                  ```{r}
-                  W.matrix(env.data = df.clim,by.interval = F,QC = T,sd.tol = 3)
-                  ```
-                  - We can perform a Quality Control (QC) based on the maximum sd tolered
-                  ```{r}
-                  W.matrix(env.data = df.clim,by.interval = F,QC = T,sd.tol = 2)
-                  ```
-                  - Create for specific variables
-                  ```{r}
-                  id.var = c('T2M_MAX','T2M_MIN','T2M')
-                  W.matrix(env.data = df.clim,var.id = id.var)
-                  ```
-                  - Or even combine with summaryWTH by using is.processed=T
-                  ```{r}
-                  data<-summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
-                  W.matrix(env.data = data,is.processed = T)
-                  ```
-                  [Menu](#menu)
-                    
-                    <div id="P2" />
+
+```{r}
+W.matrix(env.data = df.clim,by.interval = F,QC = T,sd.tol = 3)
+W.matrix(env.data = df.clim,by.interval = F,QC = T,sd.tol = 2)
+```
+
+> *  Create for specific variables. To do this, insert the name of the variables in the *id.var* argument.
+
+```{r}
+id.var = c('T2M_MAX','T2M_MIN','T2M') # maximum temperature, minimum temperature and average temperature
+W.matrix(env.data = df.clim,var.id = id.var)
+```
+
+> *  Or even combine with summaryWTH by using *is.processed=TRUE*:
+
+```{r}
+data<-summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
+W.matrix(env.data = data,is.processed = T)
+```
+
+[Menu](#menu)
+
+<div id="P2" />
                       
-                      ## 3. Environmental Characterization Module
+## 3. Environmental Characterization Module
                       
                       ### Environmental Typologies based on Cardinal Limits
                       
