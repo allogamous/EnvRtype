@@ -112,6 +112,8 @@ df.clim <- get_weather(env.id = env,lat = lat,lon = lon,start.day = plant.date,e
 head(df.clim)
 
 ```
+<!-- toc -->
+[Menu](#menu)
 
  ### Additional variables (ecophysiological)
  
@@ -178,6 +180,10 @@ summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
 summaryWTH(df.clim,env.id = 'env',statistic = 'quantile',probs = c(.20,.76,.90))
 ```
 
+<!-- toc -->
+[Menu](#menu)
+
+
 ### Building Environmental Covariable Matrices
                   
 > * Environmental variables can be used as indicators of the quality of an environment (experiment, location). A double entry table (*q* environments x *k* environmental factors) can be built as suggested by Jarquin et al (2014). Hereafther we will refer to this matrix as **W**, and therefore, it will be obtained by the function *W.matrix*:
@@ -186,29 +192,25 @@ summaryWTH(df.clim,env.id = 'env',statistic = 'quantile',probs = c(.20,.76,.90))
 W.matrix(env.data = df.clim,by.interval = F)
 ```
 
-> * As shown in the summaryWTH function, we can create time windows to capture the temporal variability between environmental information.To do this, we use the arguments *by.interval = TRUE* and *time.window* to define time limits. Such limits refer to the beginning of climate information. In the example below, for example, the first interval is for 0 to 14 days after planting, the second for 15 to 35 days after planting, and so on respectively.
+> * As shown in the *summaryWTH* function, we can create time windows to capture the temporal variability between environmental information.To do this, we use the arguments *by.interval = TRUE* and *time.window* to define time limits. Such limits refer to the beginning of climate information. In the example below, for example, the first interval is for 0 to 14 days after planting, the second for 15 to 35 days after planting, and so on respectively.
 
 ```{r}
 W.matrix(env.data = df.clim,by.interval = T, time.window = c(0,14,35,60,90,120))
 ```
 
-> * Select the statistic to be used
+> * Different statistics can be used, as in *summaryWTH*. The statistic argument is used to select between *mean* or *quantile*. If the selection is made in quantile, the complementary argument *prob* is used to choose the quantiles to be used.
 
-                  ```{r}
-                  W.matrix(env.data = df.clim,by.interval = T,statistic = 'mean',
-                           time.window = c(0,14,35,60,90,120))
-                  
-                  
-                  W.matrix(env.data = df.clim,by.interval = T,statistic = 'quantile',
-                           time.window = c(0,14,35,60,90,120))
-                  
-                  ```
-                  
-                  - We can perform a Quality Control (QC) based on the maximum sd tolered
-                  ```{r}
-                  W.matrix(env.data = df.clim,by.interval = F,QC = T)
-                  ```
-                  - We can perform a Quality Control (QC) based on the maximum sd tolered
+```{r}
+W.matrix(env.data = df.clim,by.interval = T,statistic = 'mean'    ,time.window = c(0,14,35,60,90,120))
+W.matrix(env.data = df.clim,by.interval = T,statistic = 'quantile',time.window = c(0,14,35,60,90,120))
+```
+
+> *  We can perform a Quality Control (QC) based on the maximum sd tolered.
+
+```{r}
+W.matrix(env.data = df.clim,by.interval = F,QC = T)
+```
+> *  We can perform a Quality Control (QC) based on the maximum sd tolered
                   ```{r}
                   W.matrix(env.data = df.clim,by.interval = F,QC = T,sd.tol = 3)
                   ```
