@@ -237,7 +237,7 @@ W.matrix(env.data = data,is.processed = T)
                       
 ## Environmental Characterization Module
 
-> *  Environmental characterization is a fundamental step to understand how the environment regulates phenotypic expression and the adaptation of genotypes under different growing conditions. For this reason, based on envirotyping (environmental + typing) studies alredy published (see references), we provide mechanisms that enable the typing of environmental factors in terms of frequency of occurrence. We have also developed functions for collecting environmental factors and organizing them as covariates to be used in reaction norm studies.
+> *  Environmental characterization is a fundamental step to understand how the environment regulates the phenotypic expression and adaptation of the genotypes under different growing conditions. For this reason, based on envirotyping (environmental + typing) studies alredy published (see references), we provide mechanisms that enable the typing of environmental factors in terms of frequency of occurrence. We have also developed functions for collecting environmental factors and organizing them as covariates to be used in reaction norm studies.
 
 ### Environmental Typologies
 
@@ -252,6 +252,7 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M')
 ```{r}
 EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T)
 ```
+
 > * Typologies can be defined across **specific** time intervals by setting the argument *by.interval = TRUE* and and defining the time windows (in days after begining of the data) using the function *time.window*
 
 ```{r}
@@ -260,25 +261,26 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 > * Typologies by.intervals (specific time intervals and with specific names)
 
 ```{r}
-names.window = c('1-intial growing','2-leaf expansion I','3-leaf expansion II','4-flowering','5-grain filling','6-maturation')
-time.window  = c(0,15,35,65,90,120)
-out<-EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.window = time.window, names.window = names.window)
+names.window <- c('1-intial growing','2-leaf expansion I','3-leaf expansion II','4-flowering','5-grain filling','6-maturation')
+time.window  <- c(0,15,35,65,90,120)
+EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.window = time.window, names.window = names.window)
 ```
 > * The two-way table of typologies can be plotted based on this (code)[]
 
-> * For more than one variable, we can use the quantiles for all environments
+> * in *var.id* you can put the names of the desirable variables:
 
 ```{r}
 EnvTyping(env.data = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',by.interval = T)
 ```
-> * We can define the cardinals for each variable
+> * Then, we can define the different cardinals for each variable
 
 ```{r}
 # Create a list of cardinals
-cardinals= list(T2M=c(0,9,22,32,45),PRECTOT=c(0,5,10),WS2M=c(0,1,5))
+cardinals <- list(T2M=c(0,9,22,32,45),PRECTOT=c(0,5,10),WS2M=c(0,1,5))
 EnvTyping(env.data = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),cardinals = cardinals,env.id='env')
 ```
-                    - However, we do not always have ecophysiological information about the best possible cardinals ... so we use quantiles!
+
+> * These cardinals must respect ecophysiological limits for each crop, germplasm or region. For that, we recommend looking for ecophysiology literature and crop growth modeling, such as Soltani and Sinclar (2012) (Modeling physiology of crop development, growth and yield)[https://www.amazon.com.br/Modeling-Physiology-Development-Growth-Yield/dp/1845939700] However, we do not always have ecophysiological information about the best possible cardinals ... so we use quantiles!
                       If quantiles = NULL, 1%, 25%, 50%, 99% is assumed
                     ```{r}
                     (cardinals= list(T2M=c(0,9,22,32,45),PRECTOT=c(0,5,10),WS2M=NULL))
