@@ -237,19 +237,22 @@ W.matrix(env.data = data,is.processed = T)
                       
 ## Environmental Characterization Module
 
-> * 
+> *  Environmental characterization is a fundamental step to understand how the environment regulates phenotypic expression and the adaptation of genotypes under different growing conditions. For this reason, based on envirotyping (environmental + typing) studies alredy published (see references), we provide mechanisms that enable the typing of environmental factors in terms of frequency of occurrence. We have also developed functions for collecting environmental factors and organizing them as covariates to be used in reaction norm studies.
+
 ### Environmental Typologies
+
+> *  The *EnvTyping* function provides mechanisms for organizing environmental types through the selection of specific environmental factors and their analysis over time and space
                       
 ```{r}
 EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M')
 ```
 
-> * Typologies by.intervals (generic time intervals)
+> * Typologies can be defined across different time intervals by setting the argument *by.interval = TRUE* (generic time intervals)
 
 ```{r}
 EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T)
 ```
-> * Typologies by.intervals (specific time intervals)
+> * Typologies can be defined across **specific** time intervals by setting the argument *by.interval = TRUE* and and defining the time windows (in days after begining of the data) using the function *time.window*
 
 ```{r}
 EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.window = c(0,15,35,65,90,120))
