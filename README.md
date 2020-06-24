@@ -267,7 +267,7 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 ```
 > * The two-way table of typologies can be plotted based on this (code)[https://raw.githubusercontent.com/allogamous/EnvRtype/master/plot.R]
 
->* Example 1 : Mean Temperature (**T2M**)
+### **Example 1 : Mean Temperature (**T2M**)**
 
 **Option 1: facet by developmental stages**
 
@@ -282,7 +282,7 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
   </p>
 
 
->* Example 2 : Solar Radiation (**SRAD**)
+### **Example 2 : Solar Radiation (**SRAD**)**
 
 
 **Option 1: facet by developmental stages**
@@ -297,7 +297,7 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
  <img width="130" height="50" src="/fig/srad_freq.png">
   </p>
 
->* Example 3 : Vapour Pressure Deficit (**VPD**)
+### **Example 3 : Vapour Pressure Deficit (**VPD**)**
 
 
 **Option 1: facet by developmental stages**
