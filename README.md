@@ -265,7 +265,52 @@ names.window <- c('1-intial growing','2-leaf expansion I','3-leaf expansion II',
 time.window  <- c(0,15,35,65,90,120)
 EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.window = time.window, names.window = names.window)
 ```
-> * The two-way table of typologies can be plotted based on this (code)[]
+> * The two-way table of typologies can be plotted based on this (code)[https://raw.githubusercontent.com/allogamous/EnvRtype/master/plot.R]
+
+>* Example 1 : Mean Temperature (**T2M**)
+
+**Option 1: facet by developmental stages**
+
+ <p align="center">
+ <img width="130" height="50" src="/fig/t2m_full.png">
+  </p>
+
+**Option 2: envirotypes as a combination of environmental factor x cardinal class x developmental stage**
+
+ <p align="center">
+ <img width="130" height="50" src="/fig/t2m_freq.png">
+  </p>
+
+
+>* Example 2 : Solar Radiation (**SRAD**)
+
+
+**Option 1: facet by developmental stages**
+
+ <p align="center">
+ <img width="130" height="50" src="/fig/srad_full.png">
+  </p>
+
+**Option 2: envirotypes as a combination of environmental factor x cardinal class x developmental stage**
+
+ <p align="center">
+ <img width="130" height="50" src="/fig/srad_freq.png">
+  </p>
+
+>* Example 3 : Vapour Pressure Deficit (**VPD**)
+
+
+**Option 1: facet by developmental stages**
+
+ <p align="center">
+ <img width="130" height="50" src="/fig/vpd_full.png">
+  </p>
+
+**Option 2: envirotypes as a combination of environmental factor x cardinal class x developmental stage**
+
+ <p align="center">
+ <img width="130" height="50" src="/fig/vpd_freq.png">
+  </p>
 
 > * in *var.id* you can put the names of the desirable variables:
 
