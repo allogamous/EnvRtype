@@ -272,13 +272,13 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 **Option 1: facet by developmental stages**
 
  <p align="center">
- <img width="130" height="50" src="/fig/t2m_full.png">
+ <img width="100%" height="100% src="/fig/t2m_full.png">
   </p>
 
 **Option 2: envirotypes as a combination of environmental factor x cardinal class x developmental stage**
 
  <p align="center">
- <img width="530" height="2000" src="/fig/t2m_freq.png">
+ <img width="100%" height="100% src="/fig/t2m_freq.png">
   </p>
 
 
@@ -288,13 +288,13 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 **Option 1: facet by developmental stages**
 
  <p align="center">
- <img width="130" height="50" src="/fig/srad_full.png">
+ <img width="100%" height="100%" src="/fig/srad_full.png">
   </p>
 
 **Option 2: envirotypes as a combination of environmental factor x cardinal class x developmental stage**
 
  <p align="center">
- <img width="130" height="50" src="/fig/srad_freq.png">
+ <img width="100%" height="100% src="/fig/srad_freq.png">
   </p>
 
 ### **Example 3 : Vapour Pressure Deficit (**VPD**)**
@@ -303,13 +303,13 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 **Option 1: facet by developmental stages**
 
  <p align="center">
- <img width="130" height="50" src="/fig/vpd_full.png">
+ <img width="100%" height="100% src="/fig/vpd_full.png">
   </p>
 
 **Option 2: envirotypes as a combination of environmental factor x cardinal class x developmental stage**
 
  <p align="center">
- <img width="130" height="50" src="/fig/vpd_freq.png">
+ <img width="100%" height="100% src="/fig/vpd_freq.png">
   </p>
 
 > * in *var.id* you can put the names of the desirable variables:
