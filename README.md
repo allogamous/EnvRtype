@@ -210,7 +210,7 @@ W.matrix(env.data = df.clim,by.interval = T,statistic = 'quantile',time.window =
 ```{r}
 W.matrix(env.data = df.clim,by.interval = F,QC = T)
 ```
-> *  We can perform a Quality Control (QC) based on the maximum sd tolered
+> *  We can perform a Quality Control (QC) based on the maximum sd tolered.
 
 ```{r}
 W.matrix(env.data = df.clim,by.interval = F,QC = T,sd.tol = 3)
@@ -236,45 +236,45 @@ W.matrix(env.data = data,is.processed = T)
 <div id="P2" />
                       
 ## Environmental Characterization Module
+
+> * 
+### Environmental Typologies
                       
-                      ### Environmental Typologies based on Cardinal Limits
-                      
-                      ```{r}
-                    EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M')
-                    ```
-                    - Typologies by.intervals (generic time intervals)
-                    ```{r}
-                    EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T)
-                    ```
-                    - Typologies by.intervals (specific time intervals)
-                    ```{r}
-                    EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.window = c(0,15,35,65,90,120))
-                    ```
-                    - Typologies by.intervals (specific time intervals and with specific names)
-                    ```{r}
-                    names.window = c('1-intial growing','2-leaf expansion I','3-leaf expansion II',
-                                     '4-flowering','5-grain filling','6-maturation')
-                    out<-EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,
-                                   time.window = c(0,15,35,65,90,120),
-                                   names.window = names.window)
-                    ```
-                    - OBS: some possible plots with ggplot2....
-                    ```{r}
-                    
-                    
-                    ```
-                    - For more than one variable, we can use the quantiles for all environments
-                    ```{r}
-                    EnvTyping(env.data = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',by.interval = T)
-                    ```
-                    - We can define the cardinals for each variable
-                    ```{r}
-                    (cardinals= list(T2M=c(0,9,22,32,45),PRECTOT=c(0,5,10),WS2M=c(0,1,5)))
-                    
-                    EnvTyping(env.data = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),
-                              cardinals = cardinals,env.id='env')
-                    
-                    ```
+```{r}
+EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M')
+```
+
+> * Typologies by.intervals (generic time intervals)
+
+```{r}
+EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T)
+```
+> * Typologies by.intervals (specific time intervals)
+
+```{r}
+EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.window = c(0,15,35,65,90,120))
+```
+> * Typologies by.intervals (specific time intervals and with specific names)
+
+```{r}
+names.window = c('1-intial growing','2-leaf expansion I','3-leaf expansion II','4-flowering','5-grain filling','6-maturation')
+time.window  = c(0,15,35,65,90,120)
+out<-EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.window = time.window, names.window = names.window)
+```
+> * The two-way table of typologies can be plotted based on this (code)[]
+
+> * For more than one variable, we can use the quantiles for all environments
+
+```{r}
+EnvTyping(env.data = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',by.interval = T)
+```
+> * We can define the cardinals for each variable
+
+```{r}
+# Create a list of cardinals
+cardinals= list(T2M=c(0,9,22,32,45),PRECTOT=c(0,5,10),WS2M=c(0,1,5))
+EnvTyping(env.data = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),cardinals = cardinals,env.id='env')
+```
                     - However, we do not always have ecophysiological information about the best possible cardinals ... so we use quantiles!
                       If quantiles = NULL, 1%, 25%, 50%, 99% is assumed
                     ```{r}
