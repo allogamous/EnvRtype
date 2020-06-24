@@ -278,7 +278,7 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 **Option 2: envirotypes as a combination of environmental factor x cardinal class x developmental stage**
 
  <p align="center">
- <img width="130" height="50" src="/fig/t2m_freq.png">
+ <img width="530" height="2000" src="/fig/t2m_freq.png">
   </p>
 
 
