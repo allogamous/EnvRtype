@@ -267,23 +267,25 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 ```
 > * The two-way table of typologies can be plotted based on this (code)[https://raw.githubusercontent.com/allogamous/EnvRtype/master/plot.R]
 
-### **Example 1 : Mean Temperature (**T2M**)**
+### **Example 1 : Air Temperature (**T2M**)**
 
 
 **Option 1: facet by developmental stages**
 
 
  <p align="center">
- <img width="100%" height="100% src="/fig/t2m_full.png">
- </p>
+ <img width="100%" height="100%" src="/fig/t2m_full.png">
+  </p>
 
 
 **Option 2: envirotypes as a combination of environmental factor x cardinal class x developmental stage**
 
 
  <p align="center">
- <img width="50%" height="50%" src="/fig/t2m_freq.png">
+ <img width=50%" height="50%" src="/fig/t2m_freq.png">
   </p>
+  
+  
   
 
 ### **Example 2 : Solar Radiation (**SRAD**)**
@@ -305,24 +307,24 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
   </p>
   
   
-### **Example 3 : Vapour Pressure Deficit (**VPD**)**
+### **Example 3 : Valour Pressure Defict (**VPD**)**
 
 
 **Option 1: facet by developmental stages**
 
 
  <p align="center">
- <img width="100%" height="100% src="/fig/vpd_full.png">
+ <img width="100%" height="100%" src="/fig/vpd_full.png">
   </p>
 
 
 **Option 2: envirotypes as a combination of environmental factor x cardinal class x developmental stage**
 
 
-
  <p align="center">
- <img width="50%" height="50%" src="/fig/vpd_freq.png">
+ <img width=50%" height="50%" src="/fig/vpd_freq.png">
   </p>
+  
   
   
 > * in *var.id* you can put the names of the desirable variables:
