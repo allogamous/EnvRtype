@@ -347,20 +347,23 @@ EnvTyping(env.data = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),cardinals = car
 cardinals= list(T2M=c(0,9,22,32,45),PRECTOT=c(0,5,10),WS2M=NULL)
 EnvTyping(env.data = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),cardinals = cardinals,env.id='env')
 ```
-                    - All analyses can also be run considering centered on the mean and scaled x ~ N (0.1)
-                    ```{r}
-                    EnvTyping(env.data = df.clim,var.id = 'PRECTOT',env.id='env',scale = T)
-                    EnvTyping(env.data = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',scale = T) 
-                    ```
-                    [Menu](#menu)
-                      
-                      <div id="P3" />
+
+> * All analyses can also be run considering centered on the mean and scaled x ~ N (0.1)
+
+```{r}
+EnvTyping(env.data = df.clim,var.id = 'PRECTOT',env.id='env',scale = T)
+EnvTyping(env.data = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',scale = T) 
+```
+
+[Menu](#menu)
+
+<div id="P3" />
                         
-                        ------------------------------------------------------------
+------------------------------------------------------------
                         
-                        # 3. Reaction Norm Module
+# Reaction Norm Module
                         
-                        We provide Genomic and Envirotypic kernels for reaction norm prediction. After generate the kernels, the user must use the [BGGE](https://github.com/italo-granato/BGGE) package to run the models
+> * We provide Genomic and Envirotypic kernels for reaction norm prediction. After generate the kernels, the user must use the [BGGE](https://github.com/italo-granato/BGGE) package to run the models
                       
                       - Toy Example: genomic prediction for grain yield in tropical maize
                       ```{r}
