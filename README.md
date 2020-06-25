@@ -265,7 +265,7 @@ names.window <- c('1-intial growing','2-leaf expansion I','3-leaf expansion II',
 time.window  <- c(0,15,35,65,90,120)
 EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.window = time.window, names.window = names.window)
 ```
-> * The two-way table of typologies can be plotted based on this (code)[https://raw.githubusercontent.com/allogamous/EnvRtype/master/plot.R]
+> * The two-way table of typologies can be plotted based on this [code](https://raw.githubusercontent.com/allogamous/EnvRtype/master/plot.R)
 
 ### **Example 1 : Air Temperature (**T2M**)**
 
