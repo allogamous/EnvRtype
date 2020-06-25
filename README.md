@@ -365,96 +365,91 @@ EnvTyping(env.data = df.clim,var.id =  c('T2M','PRECTOT','WS2M'),env.id='env',sc
                         
 > * We provide Genomic and Envirotypic kernels for reaction norm prediction. After generate the kernels, the user must use the [BGGE](https://github.com/italo-granato/BGGE) package to run the models
                       
-                      - Toy Example: genomic prediction for grain yield in tropical maize
-                      ```{r}
-                      data("maizeYield") # 150 maize hybrids over 5 environments (grain yield data)
-                      data("maizeG")     # GRM for maizeYield
-                      data('maizeWTH')   # weather data for maize Yield
+### **Toy Example: genomic prediction for grain yield in tropical maize**
+
+```{r}
+require(EnvRtype)
+data("maizeYield") # 150 maize hybrids over 5 environments (grain yield data)
+data("maizeG")     # GRM for maizeYield
+data('maizeWTH')   # weather data for maize Yield
+
+Y <- maizeYield
+G <- maizeG
+df.clim <- maizeWTH
+```
+
+### **Statistical Models**
                       
-                      Y <- maizeYield
-                      G <- maizeG
-                      df.clim <- maizeWTH
-                      
-                      ```
-                      - Statistical Models
-                      
-                      <p align="center">
-                        <img src="/fig/summary_pkg.png" width="70%" height="70%">
-                        </p>
+<p align="center">
+<img src="/fig/summary_pkg.png" width="70%" height="70%">
+</p>
                         
-                        - Returns benchmark main effect model: 
+> * Returns benchmark main effect model: 
                         
-                        <p align="center">
-                        <img width="120" height="18" src="/fig/mod1.png">
-                        </p>
+<p align="center">
+<img width="120" height="18" src="/fig/mod1.png">
+ </p>
                         
-                        ```{r}
-                      MM <- get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MM')
-                      ```
-                      - Returns benchmark main GxE deviation model:
+```{r}
+MM <- get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MM')
+```
+> *  Returns benchmark main GxE deviation model:
                         
-                        <p align="center">
-                        <img width="160" height="18" src="/fig/mod2.png">
-                        </p>
+<p align="center">
+<img width="160" height="18" src="/fig/mod2.png">
+</p>
+
+```{r}
+MDs <-get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MDs')
+```
+> * Obtaining environmental variables based on quantiles
+                      
+```{r}
+W.cov<-W.matrix(env.data = df.clim,by.interval = T,statistic = 'quantile',time.window = c(0,14,35,60,90,120))
+dim(W.cov)
+```
+> * Creating Env Kernels from W matrix and Y dataset
+
+```{r}
+H <- EnvKernel(env.data = W.cov,Y = Y,merge = T,env.id = 'env')
+dim(H)
+dim(H$varCov) # variable relationship
+dim(H$envCov) # environmental relationship
+
+require(superheat)
+superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
+ ```
+ 
+> * Parametrization by 
+                      
+<p align="center">
+<img width="110" height="50" src="/fig/mod3.png">
+</p>
                         
-                        ```{r}
-                      MDs <-get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MDs')
-                      ```
-                      - Obtaining environmental variables based on quantiles
+```{r}
+H <- EnvKernel(env.data = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=FALSE)
+dim(H)
+dim(H$varCov) # variable relationship
+dim(H$envCov) # environmental relationship
+superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
+```
+
+> * Parametrization by 
                       
-                      ```{r}
-                      W.cov<-W.matrix(env.data = df.clim,by.interval = T,statistic = 'quantile',
-                                      time.window = c(0,14,35,60,90,120))
-                      dim(W.cov)
+<p align="center">
+<img width="130" height="50" src="/fig/mod4.png">
+</p>
+resulting in diag(K_W) = 1
                       
-                      ```
-                      - Creating Env Kernels from W matrix and Y dataset
-                      
-                      ```{r}
-                      H <- EnvKernel(env.data = W.cov,Y = Y,merge = T,env.id = 'env')
-                      dim(H)
-                      dim(H$varCov) # variable relationship
-                      dim(H$envCov) # environmental relationship
-                      
-                      #env.plots(H$envCov,row.dendrogram = T,col.dendrogram = T) # superheat
-                      superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
-                      
-                      ```
-                      - Parametrization by 
-                      
-                      <p align="center">
-                        <img width="110" height="50" src="/fig/mod3.png">
-                        </p>
-                        
-                        ```{r}
-                      H <- EnvKernel(env.data = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=FALSE)
-                      dim(H)
-                      dim(H$varCov) # variable relationship
-                      dim(H$envCov) # environmental relationship
-                      
-                      #env.plots(H$envCov,row.dendrogram = T,col.dendrogram = T) # superheat
-                      superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
-                      
-                      ```
-                      - Parametrization by 
-                      
-                      <p align="center">
-                        <img width="130" height="50" src="/fig/mod4.png">
-                        </p>
-                        
-                        resulting in diag(K_W) = 1
-                      
-                      ```{r}
-                      H <- EnvKernel(env.data = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=TRUE)
-                      dim(H)
-                      dim(H$varCov) # variable relationship
-                      dim(H$envCov) # environmental relationship
-                      
-                      #env.plots(H$envCov,row.dendrogram = T,col.dendrogram = T) # superheat
-                      superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
-                      
-                      ```
-                      - Gaussian parametrization by 
+```{r}
+H <- EnvKernel(env.data = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=TRUE)
+dim(H)
+dim(H$varCov) # variable relationship
+dim(H$envCov) # environmental relationship
+superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
+ ```
+ 
+> * Gaussian parametrization by 
                       
                       <p align="center">
                         <img width="130" height="50" src="/fig/mod5.png">
