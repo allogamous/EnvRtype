@@ -273,7 +273,7 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 
  <p align="center">
  <img width="100%" height="100% src="/fig/t2m_full.png">
-  </p>
+ </p>
 
 **Option 2: envirotypes as a combination of environmental factor x cardinal class x developmental stage**
 
@@ -293,10 +293,11 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 
 **Option 2: envirotypes as a combination of environmental factor x cardinal class x developmental stage**
 
- <p align="center">
- <img width="100%" height="100% src="/fig/srad_freq.png">
-  </p>
 
+ <p align="center">
+ <img width="100%" height="100%" src="/fig/srad_freq.png">
+  </p>
+  
 ### **Example 3 : Vapour Pressure Deficit (**VPD**)**
 
 
