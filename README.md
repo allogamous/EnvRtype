@@ -269,7 +269,9 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 
 ### **Example 1 : Mean Temperature (**T2M**)**
 
+
 **Option 1: facet by developmental stages**
+
 
  <p align="center">
  <img width="100%" height="100% src="/fig/t2m_full.png">
