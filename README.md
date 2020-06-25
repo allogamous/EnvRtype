@@ -451,28 +451,25 @@ superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
  
 > * Gaussian parametrization by 
                       
-                      <p align="center">
-                        <img width="130" height="50" src="/fig/mod5.png">
-                        </p>
+<p align="center">
+<img width="130" height="50" src="/fig/mod5.png">
+</p>
+
+which d = dist(W), q = median(d) and h = gaussian parameter (default = 1)
+                      
+```{r}
+H <- EnvKernel(env.data = W.cov,Y = Y,merge = T,env.id = 'env',gaussian=TRUE)
+dim(H)
+dim(H$varCov) # variable relationship
+dim(H$envCov) # environmental relationship
+superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
+```
+**________________________________________________________________________________________________________**  
                         
-                        which d = dist(W), q = median(d) and h = gaussian parameter (default = 1)
-                      
-                      ```{r}
-                      H <- EnvKernel(env.data = W.cov,Y = Y,merge = T,env.id = 'env',gaussian=TRUE)
-                      dim(H)
-                      dim(H$varCov) # variable relationship
-                      dim(H$envCov) # environmental relationship
-                      
-                      #env.plots(H$envCov,row.dendrogram = T,col.dendrogram = T) # superheat
-                      superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
-                      
-                      ```
-                      **________________________________________________________________________________________________________**  
-                        
-                        **Attention**:\
-                      K_G = list of genomic kernels;\
-                      K_E = list of environmental kernels;\
-                      reaction = TRUE, build the haddamard's product between genomic and envirotype-based kernels;\
+**Attention**:\
+K_G = list of genomic kernels;\
+K_E = list of environmental kernels;\
+reaction = TRUE, build the haddamard's product between genomic and envirotype-based kernels;\
 reaction = FALSE, but K_E != NULL, only random environmental effects using K_E are incorporated in the model  
 
 **________________________________________________________________________________________________________**  
