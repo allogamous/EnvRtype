@@ -314,7 +314,7 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 
 
  <p align="center">
- <img width="100%" height="100%" src="/fig/srad_full.png">
+ <img width="100%" height="100%" src="/fig/vpd_full.png">
   </p>
 
 
