@@ -129,3 +129,82 @@ ggplot() +
         legend.title = element_text(size=17),
         strip.background = element_rect(fill="gray95",size=1),
         legend.position = 'bottom')
+
+
+# plot 3: distribution of envirotypes per environment
+
+out=EnvTyping(env.data = df.clim,env.id = 'env',var.id='VPD',by.interval = T,time.window = time.window, names.window = names.window)
+require(reshape2)
+out=data.frame(out,colsplit(out$env.variable,pattern = '_',names = c('var2','freq','stages')))
+
+ggplot() + 
+  #theme_void()+
+  scale_x_discrete(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0))+
+  # theme_pubclean()+
+  #scale_fill_manual(values=c('red2','orange2','green3','blue3','violet'))+
+  facet_grid(~env)+ #coord_flip()+
+  geom_bar(data=out, aes(y=Freq, x=interval,fill=freq), 
+           position = "fill",stat = "identity",width = 1,size=.2)+
+  # scale_y_continuous(labels = scales::percent,expand = c(0,0))+ #coord_flip()+
+  ylab('Absolute Frequency\n of Occurence\n')+ 
+  xlab("\nEnvironment ID")+
+  labs(fill='Envirotype')+
+  theme(axis.title = element_text(size=19),
+           axis.text.x  = element_text(hjust=1,angle=45),
+        legend.text = element_text(size=9),
+        strip.text = element_text(size=17),
+        legend.title = element_text(size=17),
+        strip.background = element_rect(fill="gray95",size=1),
+        legend.position = 'bottom')
+
+
+out=EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.window = time.window, names.window = names.window)
+require(reshape2)
+out=data.frame(out,colsplit(out$env.variable,pattern = '_',names = c('var2','freq','stages')))
+
+ggplot() + 
+  #theme_void()+
+  scale_x_discrete(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0))+
+  # theme_pubclean()+
+  #scale_fill_manual(values=c('red2','orange2','green3','blue3','violet'))+
+  facet_grid(~env)+ #coord_flip()+
+  geom_bar(data=out, aes(y=Freq, x=interval,fill=freq), 
+           position = "fill",stat = "identity",width = 1,size=.2)+
+  # scale_y_continuous(labels = scales::percent,expand = c(0,0))+ #coord_flip()+
+  ylab('Absolute Frequency\n of Occurence\n')+ 
+  xlab("\nEnvironment ID")+
+  labs(fill='Envirotype')+
+  theme(axis.title = element_text(size=19),
+        axis.text.x  = element_text(hjust=1,angle=45),
+        legend.text = element_text(size=9),
+        strip.text = element_text(size=17),
+        legend.title = element_text(size=17),
+        strip.background = element_rect(fill="gray95",size=1),
+        legend.position = 'bottom')
+
+out=EnvTyping(env.data = df.clim,env.id = 'env',var.id='SRAD',by.interval = T,time.window = time.window, names.window = names.window)
+require(reshape2)
+out=data.frame(out,colsplit(out$env.variable,pattern = '_',names = c('var2','freq','stages')))
+
+ggplot() + 
+  #theme_void()+
+  scale_x_discrete(expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0))+
+  # theme_pubclean()+
+  #scale_fill_manual(values=c('red2','orange2','green3','blue3','violet'))+
+  facet_grid(~env)+ #coord_flip()+
+  geom_bar(data=out, aes(y=Freq, x=interval,fill=freq), 
+           position = "fill",stat = "identity",width = 1,size=.2)+
+  # scale_y_continuous(labels = scales::percent,expand = c(0,0))+ #coord_flip()+
+  ylab('Absolute Frequency\n of Occurence\n')+ 
+  xlab("\nEnvironment ID")+
+  labs(fill='Envirotype')+
+  theme(axis.title = element_text(size=19),
+        axis.text.x  = element_text(hjust=1,angle=45),
+        legend.text = element_text(size=9),
+        strip.text = element_text(size=17),
+        legend.title = element_text(size=17),
+        strip.background = element_rect(fill="gray95",size=1),
+        legend.position = 'bottom')
