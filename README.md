@@ -286,6 +286,14 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
   </p>
   
   
+  **Option 3: envirotypes per environnment**
+
+
+ <p align="center">
+ <img width=50%" height="50%" src="/fig/per_env_t2m.png">
+  </p>
+  
+  
   
 
 ### **Example 2 : Solar Radiation (**SRAD**)**
@@ -306,7 +314,14 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
  <img width=50%" height="50%" src="/fig/srad_freq.png">
   </p>
   
-  
+
+  **Option 3: envirotypes per environnment**
+
+
+ <p align="center">
+ <img width=50%" height="50%" src="/fig/per_env_srad.png">
+  </p>
+                                                        
 ### **Example 3 : Valour Pressure Defict (**VPD**)**
 
 
@@ -326,6 +341,12 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
   </p>
   
   
+    **Option 3: envirotypes per environnment**
+
+
+ <p align="center">
+ <img width=50%" height="50%" src="/fig/per_env_vpd.png">
+  </p>
   
 > * in *var.id* you can put the names of the desirable variables:
 
