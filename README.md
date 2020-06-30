@@ -290,7 +290,7 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 
 
  <p align="center">
- <img width=50%" height="50%" src="/fig/per_env_t2m.png">
+ <img width=100%" height="100%" src="/fig/per_env_t2m.png">
   </p>
   
   
@@ -319,7 +319,7 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 
 
  <p align="center">
- <img width=50%" height="50%" src="/fig/per_env_srad.png">
+ <img width=100%" height="100%" src="/fig/per_env_srad.png">
   </p>
                                                         
 ### **Example 3 : Valour Pressure Defict (**VPD**)**
@@ -337,15 +337,15 @@ EnvTyping(env.data = df.clim,env.id = 'env',var.id='T2M',by.interval = T,time.wi
 
 
  <p align="center">
- <img width=100%" height="100%" src="/fig/vpd_freq.png">
+ <img width=50%" height="50%" src="/fig/vpd_freq.png">
   </p>
   
   
-    **Option 3: envirotypes per environnment**
+   **Option 3: envirotypes per environnment**
 
 
  <p align="center">
- <img width=50%" height="50%" src="/fig/per_env_vpd.png">
+ <img width=100%" height="100%" src="/fig/per_env_vpd.png">
   </p>
   
 > * in *var.id* you can put the names of the desirable variables:
