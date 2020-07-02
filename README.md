@@ -89,6 +89,8 @@ library(EnvRtype)
  
  > The [Raster Package](https://cran.r-project.org/web/packages/raster/raster.pdf) also offers a digital platform for downloading files in raster format of climatic data (from the [WorldClim database](https://www.worldclim.org/)) and [SRTM (elevation)](http://srtm.csi.cgiar.org/) using only geographical coordinates (Latitude and Longitude).
  
+  ### Remote Data Collection
+ 
  > To facilitate the use by researchers, especially in the field of genetics and plant breeding, we have integrated these platforms in the functions below:
  
 > * Preparing de informations (latitude, longitude, start day and end date)
