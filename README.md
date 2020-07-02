@@ -184,6 +184,15 @@ summaryWTH(df.clim,env.id = 'env',statistic = 'quantile',probs = c(.20,.76,.90))
 [Menu](#menu)
 
 
+[Menu](#menu)
+
+<div id="P2" />
+                      
+## Environmental Characterization Module
+
+> *  Environmental characterization is a fundamental step to understand how the environment regulates the phenotypic expression and adaptation of the genotypes under different growing conditions. For this reason, based on envirotyping (environmental + typing) studies alredy published (see references), we provide mechanisms that enable the typing of environmental factors in terms of frequency of occurrence. We have also developed functions for collecting environmental factors and organizing them as covariates to be used in reaction norm studies.
+
+
 ### Building Environmental Covariable Matrices
                   
 > * Environmental variables can be used as indicators of the quality of an environment (experiment, location). A double entry table (*q* environments x *k* environmental factors) can be built as suggested by Jarquin et al (2014). Hereafther we will refer to this matrix as **W**, and therefore, it will be obtained by the function *W.matrix*:
@@ -231,13 +240,6 @@ data<-summaryWTH(df.clim,env.id = 'env',statistic = 'quantile')
 W.matrix(env.data = data,is.processed = T)
 ```
 
-[Menu](#menu)
-
-<div id="P2" />
-                      
-## Environmental Characterization Module
-
-> *  Environmental characterization is a fundamental step to understand how the environment regulates the phenotypic expression and adaptation of the genotypes under different growing conditions. For this reason, based on envirotyping (environmental + typing) studies alredy published (see references), we provide mechanisms that enable the typing of environmental factors in terms of frequency of occurrence. We have also developed functions for collecting environmental factors and organizing them as covariates to be used in reaction norm studies.
 
 ### Environmental Typologies
 
