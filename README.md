@@ -83,7 +83,7 @@ library(EnvRtype)
                     
  ## Environmental Sensing Module
  
- ### Geographic Information Dabases
+ ### Geographic Information Databases
  
  > The collection, organization and processing of environmental data is a step that requires equipment installed in the field. Such equipment can be expensive or difficult to access for some research groups in certain regions or countries. For this reason, we decided to insert a routine for collecting climatic data through the [NASA POWER base](https://power.larc.nasa.gov/), which can access information on a daily scale anywhere on the globe.
  
@@ -115,7 +115,10 @@ head(df.clim)
 <!-- toc -->
 [Menu](#menu)
 
- ### Additional variables (ecophysiological)
+
+ ### Data Processing
+ 
+**Additional variables (ecophysiological)**
  
  
 > * Basic processing of get_weather() 
@@ -183,8 +186,6 @@ summaryWTH(df.clim,env.id = 'env',statistic = 'quantile',probs = c(.20,.76,.90))
 <!-- toc -->
 [Menu](#menu)
 
-
-[Menu](#menu)
 
 <div id="P2" />
                       
