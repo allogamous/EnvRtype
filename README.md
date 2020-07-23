@@ -119,7 +119,7 @@ head(df.clim)
 
 > The argument *country* were setted to collect elevation data from Brazil (BRA). For other countries please consult the ISO in the following table:
 
-                      <img align="center" src="/fig/ISO3.png" width="90%" height="90%">
+<img align="center" src="/fig/ISO3.png" width="90%" height="90%">
 
 <!-- toc -->
 [Menu](#menu)
