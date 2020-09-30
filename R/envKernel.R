@@ -10,7 +10,7 @@
 #' @param Y data.frame. Phenotypic data set containing environment id, genotype id and trait value.
 #' @param merge boolean. if TRUE, the environmental covariables are merged with Y to build a n x n dimension env.kernel.
 #' @param env.id character. Identification of experiment.
-#' @param bydiag boolean. If TRUE, the parametrization by WW'/diag(WW') is applied. If FALSE, WW'/ncol(W).
+#' @param Z_E matrix. NULL by default. is the model.matrix for environments (if merge = TRUE)
 #' @param gaussian boolean. If TRUE, uses the gaussian kernel parametrization for W, where envCov = exp(-h*d/q).
 #' @param h.gaussian numeric. If gaussian = TRUE, returns the h parameter for exp(-h*d/q).
 #'
@@ -45,13 +45,21 @@
 #' @importFrom stats sd dist
 #' @export
 
-EnvKernel <-function(env.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
-                     tol=1E-3, bydiag=FALSE, merge=FALSE,
-                     env.id=NULL,gaussian=FALSE, h.gaussian=NULL){
 
+EnvKernel <-function(env.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
+                     tol=1E-3, merge=FALSE,Z_E = NULL,
+                     env.id='env',gaussian=FALSE, h.gaussian=NULL){
+  
   nr<-nrow(env.data)
   nc <-ncol(env.data)
-
+  
+  GB_Kernel <-function(X,is.center=FALSE){
+    if(isFALSE(is.center)) X = scale(x = X,center = T,scale = F)
+    XXl <- X %*% t(X)
+    K_G <- XXl/(sum(diag(XXl))/nrow(X)) + diag(1e-6, nrow(XXl))
+    return(K_G)
+  }
+  
   if(!is.matrix(env.data)){stop('env.data must be a matrix')}
   if(isFALSE(is.scaled)){
     Amean <- env.data-apply(env.data,2,mean)+tol
@@ -66,37 +74,32 @@ EnvKernel <-function(env.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
     cat(paste0(r,' from ',t,'\n'))
     cat(paste0(removed,'\n'))
     cat(paste0('------------------------------------------------','\n'))
-
+    
   }
-
+  
   if(isTRUE(merge)){
-    if(is.null(env.id)) env.id <- 'env'
-    env.data <- envK(env.data = env.data,df.pheno=Y,env.id=env.id)
-  }
+    if(is.null(Z_E)){
+      .DF = data.frame(Y[,env.id])
+      names(.DF) ='env'
+      Z_E = model.matrix(~0+env,.DF)
+    }
+    env.data = Z_E %*% env.data
+  } 
+  
   if(isTRUE(gaussian)){
     O <- gaussian(x = env.data,h=h.gaussian)
     H <- gaussian(x = t(env.data),h=h.gaussian)
-    return(list(varCov=H,envCov=O))
-
   }
   if(isFALSE(gaussian)){
-    O <- tcrossprod(env.data)#/ncol(env.data)  # env.relatedness kernel from covariates
-    H <- crossprod(env.data)#/nrow(env.data)   # covariable relatedness kernel from covariates
-    if(isTRUE(bydiag)){
-      O <- O/(sum(diag(O))/nc) + diag(1e-2, nrow(O))
-      H <- H/(sum(diag(H))/nr) + diag(1e-2, nrow(H))
-    }
-    if(isFALSE(bydiag)){
-      O <- O/nc + diag(1e-2, nrow(O))
-      H <- H/nr + diag(1e-2, nrow(H))
-    }
-
-
+    
+    O = GB_Kernel(env.data)
+    H = GB_Kernel(t(env.data))
+    
   }
+  
+ 
   return(list(varCov=H,envCov=O))
 }
-
-
 
 gaussian <- function(x,h=NULL){
   d<-as.matrix(dist(x,upper = TRUE,diag = TRUE))^2
