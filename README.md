@@ -1,7 +1,7 @@
 
 # *EnvRtype*: a tool for envirotyping analysis and genomic prediction considering reaction norms  <img align="right" src="/fig/logo3_300.png" width="20%" height="20%">
 
-# * package maintenance between 07th september to 14th september 2020*
+*package maintenance between 07th september to 14th september 2020*
 
 <div id="menu" />
   
