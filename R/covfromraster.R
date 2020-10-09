@@ -6,6 +6,10 @@
 #'
 #' @param covraster RasterLayer. A raster from which data is going to be extracted.
 #' @param env.data data.frame. A \code{get_weather} output.
+#' @param Latitude character, the name of latitude column in env.data
+#' @param Longitude character, the name of longitude column in env.data
+#' @param env.id character, the name of environmental identification column in env.data
+#' @param name.out character, output name
 #'
 #' @return
 #' The original dataframe with additional geographic/weather information.
@@ -41,21 +45,3 @@ Extract_GIS <- function(covraster=NULL,Latitude=NULL, Longitude=NULL,env.data=NU
   names(env)[!names(env) %in% env.id] <- name.out
   return(raster::merge(env,env.data,by=env.id))
 }
-
-#RasterToCov <-function(raster=NULL,env.data=NULL, lon=NULL,
-                     #    lat=NULL, env.id=NULL, .crs=NULL,.path=NUL,covname=NULL){
-
- # if(is.numeric(lon) | is.numeric(lat)) loc <- data.frame(x=lon,y=lat)
-  #if(!is.numeric(lon) | !is.numeric(lat)) loc  <- data.frame(x=env.data[,lon],y=env.data[,lat])
-  #if(is.null(env.id)) env <- paste0('env_',1:length(lat))
-  #if(!is.null(env.data) | !is.null(env.id)) env <- env.data[,env.id]
-
-  #coordinates(loc)= ~x+y
-  #proj4string(loc) = CRS("+proj=longlat +datum=WGS84")
-
-  #for(i in 1:length(names(raster))) env = cbind(env,data.frame(extract(raster[[i]], loc)))
-  #names(env)[-1] = names(raster)
-  #env<-data.frame(unique(env))
-  #if(!is.null(covname)) names(env)[!names(env) %in% 'env'] <- covname
-  #return(merge(env,env.data,by='env'))
-#}
