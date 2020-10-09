@@ -43,35 +43,36 @@
 # http://www.fao.org/3/X0490E/x0490e07.htm#atmospheric%20parameters
 
 Param_Atmospheric <- function(env.data, PREC=NULL, Tdew=NULL,
-                            Tmin=NULL, Tmax=NULL, RH=NULL,
-                            Rad=NULL, G=NULL, alpha=1.26,
-                            merge=FALSE){
-
-
+                              Tmin=NULL, Tmax=NULL, RH=NULL,
+                              Rad=NULL, G=NULL, Alt=600, alpha=1.26,
+                              merge=FALSE){
+  
+  
   teten <- function(Temp) return(.61078*exp((17.27*Temp)/(Temp+237.3)))
   psyco <- function(atm) return((((1.013*1E-3)*atm)/.622*2.45)*.665*atm*1E-3)
   AtmP <-  function(elevation=600) return(101.3*((293-.0065*elevation)/293)^5.26)
   slope.vapor <- function(Tmed) return(4098*(.6108*exp((17.27*Tmed)/(Tmed+237.3)))/(Tmed+237.2)^2)
-
+  
   # Pristley-Taylor Equation
   EToPT<-function(alfa=1.26,Srad,G=NULL,slope,psyc){
     if(is.null(G)){G=0}
     W = slope/(slope+psyc)
     return(alfa*W*(Srad-G)*.408)}
-
-
-
+  
+  
+  
   if(is.null(PREC)) PREC <-'PRECTOT'; PREC <- env.data[,PREC]
   if(is.null(Tdew)) Tdew <-'T2MDEW';Tdew <- env.data[,Tdew]
   if(is.null(Tmin)) Tmin <-'T2M_MIN';Tmin<- env.data[,Tmin]
   if(is.null(Tmax)) Tmax <-'T2M_MAX';Tmax <- env.data[,Tmax]
-  Alt <- env.data[,'ALT']
+  if(is.null(Alt)){ Alt <-'ALT';Alt <- env.data[,Alt]}
+ # if(is.null(Alt)) Alt <- 600
   #if(isFALSE(Alt  %in% names(env.data))){Alt <- 600; cat('Missing ALT value. We adopted 600m. Please use the Extract_GIS funciton to collect ALT from SRTM files \n')}
-
+  
   if(is.null(RH))  RH <-'RH2M'; RH<- env.data[,RH]
   if(is.null(Rad)) Rad <- 'SRAD';Rad <- env.data[,Rad]
-
-
+  
+  
   Tmed <- (Tmin+Tmax)/2
   ATP <- AtmP(Alt)
   Es <- teten(Tdew)
@@ -83,7 +84,7 @@ Param_Atmospheric <- function(env.data, PREC=NULL, Tdew=NULL,
   Slope <- 4098*(.6108*exp((17.27*Tmed)/(Tmed+237.3)))/(Tmed+237.2)^2
   ETo <- EToPT(alfa=alpha,Srad=Rad,G=G,slope=Slope,psyc=Psy)
   PETo <- PREC-ETo
-
+  
   cat('---------------------------------------------------------------------- \n')
   cat('Slope of saturation vapour pressure curve (SPV, in kPa.Celsius) \n')
   cat('Vapour pressure deficit (VPD, in kPa) \n')
@@ -91,11 +92,11 @@ Param_Atmospheric <- function(env.data, PREC=NULL, Tdew=NULL,
   cat('Deficit by Precipitation - ETP (PETP, in mm.day) \n')
   cat('---------------------------------------------------------------------- \n')
   cat('\n')
-
+  
   if(isFALSE(merge)) return(data.frame(VPD=VPD,SPV=Slope,ETP=ETo,PETP=PETo))
   if(isTRUE(merge)) return(data.frame(env.data,data.frame(VPD=VPD,SPV=Slope,ETP=ETo,PETP=PETo)))
-
-
+  
+  
 }
 
 
