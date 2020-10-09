@@ -24,19 +24,24 @@
 #'
 #' @export
 
-Extract_GIS <- function(covraster=NULL,env.data=NULL){
-
-  loc  = data.frame(x=env.data[,'LON'],y=env.data[,'LAT'])
-  env = env.data[,'env']
+Extract_GIS <- function(covraster=NULL,Latitude=NULL, Longitude=NULL,env.data=NULL,env.id=NULL,name.out = NULL){
+  
+  if(is.null(name.out)) name.out = 'ALT'
+  if(is.null(Latitude)) Latitude <- 'LAT'
+  if(is.null(Longitude)) Longitude <-'LON'
+  if(is.null(env.id)) env.id <- 'env'
+  loc  = data.frame(x=env.data[,Longitude],y=env.data[,Latitude])
+  env = env.data[,env.id]
   sp::coordinates(loc)= ~x+y
   sp::proj4string(loc) = sp::CRS("+proj=longlat +datum=WGS84") # acho interessante colocar essa informacao no help da funcao.
-
+  
   for(i in 1:length(names(covraster))) env = cbind(env,data.frame(raster::extract(covraster[[i]], loc)))
   names(env)[-1] = names(covraster)
   env<-data.frame(unique(env))
-  names(env)[!names(env) %in% 'env'] <- 'ALT'
-  return(raster::merge(env,env.data,by='env'))
+  names(env)[!names(env) %in% env.id] <- name.out
+  return(raster::merge(env,env.data,by=env.id))
 }
+
 #RasterToCov <-function(raster=NULL,env.data=NULL, lon=NULL,
                      #    lat=NULL, env.id=NULL, .crs=NULL,.path=NUL,covname=NULL){
 
