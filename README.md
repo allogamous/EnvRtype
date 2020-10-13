@@ -438,13 +438,13 @@ MDs <-get_kernel(K_G = list(G=G),Y = Y,reaction = F,model = 'MDs')
 > * Obtaining environmental variables based on quantiles
                       
 ```{r}
-W.cov<-W.matrix(env.data = df.clim,by.interval = T,statistic = 'quantile',time.window = c(0,14,35,60,90,120))
-dim(W.cov)
+Env.data<-W.matrix(env.data = df.clim,by.interval = T,statistic = 'quantile',time.window = c(0,14,35,60,90,120))
+dim(Env.data)
 ```
 > * Creating Env Kernels from W matrix and Y dataset
 
 ```{r}
-H <- EnvKernel(env.data = W.cov,Y = Y,merge = T,env.id = 'env')
+H <- EnvKernel(env.data = Env.data,Y = Y,merge = T,env.id = 'env')
 dim(H)
 dim(H$varCov) # variable relationship
 dim(H$envCov) # environmental relationship
@@ -460,7 +460,7 @@ superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 </p>
                         
 ```{r}
-H <- EnvKernel(env.data = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=FALSE)
+H <- EnvKernel(env.data = Env.data,Y = Y,merge = T,env.id = 'env',bydiag=FALSE)
 dim(H)
 dim(H$varCov) # variable relationship
 dim(H$envCov) # environmental relationship
@@ -475,7 +475,7 @@ superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 resulting in diag(K_W) = 1
                       
 ```{r}
-H <- EnvKernel(env.data = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=TRUE)
+H <- EnvKernel(env.data = Env.data,Y = Y,merge = T,env.id = 'env',bydiag=TRUE)
 dim(H)
 dim(H$varCov) # variable relationship
 dim(H$envCov) # environmental relationship
@@ -491,7 +491,7 @@ superheat(H$envCov,row.dendrogram = T,col.dendrogram = T)
 which d = dist(W), q = median(d) and h = gaussian parameter (default = 1)
                       
 ```{r}
-H <- EnvKernel(env.data = W.cov,Y = Y,merge = T,env.id = 'env',gaussian=TRUE)
+H <- EnvKernel(env.data = Env.data,Y = Y,merge = T,env.id = 'env',gaussian=TRUE)
 dim(H)
 dim(H$varCov) # variable relationship
 dim(H$envCov) # environmental relationship
@@ -551,10 +551,10 @@ fullRN <-get_kernel(K_G = list(G=G),K_E = list(W=H$envCov), Y = Y,model = 'RNMDs
 - Advanced options: **lets build again the W matrix**
 
 ```{r}
-W.cov<-W.matrix(env.data = df.clim,by.interval = T,statistic = 'quantile',
+Env.data<-W.matrix(env.data = df.clim,by.interval = T,statistic = 'quantile',
                 time.window = c(0,14,35,60,90,120))
 
-W <- EnvKernel(env.data = W.cov,Y = Y,merge = T,env.id = 'env',bydiag=TRUE)
+W <- EnvKernel(env.data = Env.data,Y = Y,merge = T,env.id = 'env',bydiag=TRUE)
 
 # by using size_E = 'environment', get_kernel directly takes a W of q x q environments and builds a n x n matrix as EnvKernel()
 EMM <-get_kernel(K_G = list(G=G),K_E = list(W=W$envCov), Y = Y,,model = 'EMM',size_E = 'environment')
