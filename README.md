@@ -610,7 +610,7 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 > * [Humberto Fanelli](https://github.com/humbertofanelli), PhD in Genetics and Plant Breeding
 
-> * [Roberto Fritsche-Neto](roberto.neto@usp.br), PhD Candidate in Genetics and Plant Breeding
+> * [Roberto Fritsche-Neto](roberto.neto@usp.br), Professor in Genetics and Plant Breeding, Head of Allogamous Plant Breedig Lab (ESALQ/USP)
 
 > * [University of São Paulo (ESALQ/USP)](https://www.esalq.usp.br/)
 
