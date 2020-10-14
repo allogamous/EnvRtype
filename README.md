@@ -27,7 +27,7 @@
 * [4. Reaction Norm Module](#P3)
 * [5.Authorship](#P4)
 * [6. Acknowledgments](#P5)
-* [7. Simplified R script (Tutorial)](#P6)
+* [7. Publications)](#P6)
 
 
               
