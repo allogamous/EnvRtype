@@ -30,16 +30,6 @@
 * [7. Simplified R script (Tutorial)](#P6)
 
 
-
-
-## Publications
-
-Galli G, Horne DW, Collins SD, Jung J, Chang A, Fritsche‐Neto R, et al. (2020). Optimization of UAS‐based high‐throughput phenotyping to estimate plant health and grain yield in sorghum. Plant Phenome J 3: 1–14.
-
-Costa-Neto G, Fritsche-Neto R, Crossa J (2020). Nonlinear kernels, dominance, and envirotyping data increase the accuracy of genome-based prediction in multi-environment trials. Heredity (Edinb).
-
-Costa-Neto G, Galli G, Fanelli H, Crossa J, Fritsche-Neto R (2020). EnvRtype : a software to interplay enviromics and quantitative genomics in agriculture. bioRxiv (in press).
-              
               
 <div id="Instal" />
                 
@@ -633,9 +623,16 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 ------------------------------------------------------------
 
-## 7. Simplified R script (Tutorial)
+## 7. Publications
 
-[Simplified Tutorial (R script)](https://raw.githubusercontent.com/allogamous/EnvRtype/master/tutorial_script_R.R)
+## Publications
+
+Galli G, Horne DW, Collins SD, Jung J, Chang A, Fritsche‐Neto R, et al. (2020). Optimization of UAS‐based high‐throughput phenotyping to estimate plant health and grain yield in sorghum. Plant Phenome J 3: 1–14.
+
+Costa-Neto G, Fritsche-Neto R, Crossa J (2020). Nonlinear kernels, dominance, and envirotyping data increase the accuracy of genome-based prediction in multi-environment trials. Heredity (Edinb).
+
+Costa-Neto G, Galli G, Fanelli H, Crossa J, Fritsche-Neto R (2020). EnvRtype : a software to interplay enviromics and quantitative genomics in agriculture. bioRxiv (in press).
+              
 
 
 
