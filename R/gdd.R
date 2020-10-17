@@ -35,7 +35,7 @@
 #'
 #' @export
 
-Param_Temperature <- function(env.data,Tmax=NULL, Tmin=NULL,
+param_temperature <- function(env.data,Tmax=NULL, Tmin=NULL,
                               Tbase1=9,Tbase2=45, Topt1=26,Topt2=32,merge=FALSE) {
 
   if(is.null(Tmin)) Tmin <-'T2M_MIN';Tmin<- env.data[,Tmin]
