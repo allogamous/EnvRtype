@@ -21,14 +21,14 @@
 #' # TODO
 # env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 # srtm = raster::getData('worldclim', var='tmin', lat = -13.05, lon = -56.05, res = 0.5)
-# env.data = Extract_GIS(covraster = srtm, env.data = env.data)
+# env.data = extract_GIS(covraster = srtm, env.data = env.data)
 #'
 #' @importFrom raster extract merge
 #' @importFrom sp proj4string CRS coordinates<- proj4string<- coordinates
 #'
 #' @export
 
-Extract_GIS <- function(covraster=NULL,Latitude=NULL, Longitude=NULL,env.data=NULL,env.id=NULL,name.out = NULL){
+extract_GIS <- function(covraster=NULL,Latitude=NULL, Longitude=NULL,env.data=NULL,env.id=NULL,name.out = NULL){
   
   if(is.null(name.out)) name.out = 'ALT'
   if(is.null(Latitude)) Latitude <- 'LAT'
