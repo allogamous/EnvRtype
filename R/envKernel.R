@@ -24,29 +24,29 @@
 #' data('maizeYield'); data("maizeWTH")
 #'
 #' ### getting the W matrix from weather data
-#' W.cov <- W.matrix(env.data = maizeWTH)
+#' W.cov <- W_matrix(env.data = maizeWTH)
 #'
-#' ### Parametrization by K_W = WW'/ncol(W)
-#' EnvKernel(env.data = W.cov,
+#' ### Parametrization by a linear kernel
+#' env_kernel(env.data = W.cov,
 #'           Y = maizeYield,
 #'           merge = FALSE,
 #'           env.id = 'env',
 #'           gaussian = FALSE)
 #'
-#' ### Parametrization by K_W = WW'/diag( WW')
-#' EnvKernel(env.data = W.cov,
+#'### Parametrization by a nonlinear kernel (gaussian)
+#' env_kernel(env.data = W.cov,
 #'           Y = maizeYield,
 #'           merge = FALSE,
 #'           env.id = 'env',
 #'           bydiag = TRUE)
 #'
-#' @seealso W.matrix
+#' @seealso W_matrix
 #'
 #' @importFrom stats sd dist
 #' @export
 
 
-EnvKernel <-function(env.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
+env_kernel <-function(env.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
                      tol=1E-3, merge=FALSE,Z_E = NULL,
                      env.id='env',gaussian=FALSE, h.gaussian=NULL){
   
@@ -97,7 +97,7 @@ EnvKernel <-function(env.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
     
   }
   
- 
+  
   return(list(varCov=H,envCov=O))
 }
 
@@ -105,7 +105,7 @@ gaussian <- function(x,h=NULL){
   d<-as.matrix(dist(x,upper = TRUE,diag = TRUE))^2
   q <- median(d)
   if(is.null(h)) h <- 1
-
+  
   return(exp(-h*d/q))
 }
 
@@ -115,5 +115,5 @@ envK = function(env.data,df.pheno,skip=3,env.id){
   env.data$env <- as.factor(rownames(env.data))
   W <- as.matrix(merge(df.pheno,env.data, by=env.id)[,-c(1:skip)])
   return(W)
-
+  
 }
