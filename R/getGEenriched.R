@@ -8,8 +8,11 @@
 #' @param model character. Model structure for genomic predicion. It can be \code{c('MM','MDs','E-MM','E-MDs')}, in which MM (main effect model \eqn{Y=fixed + G}) and MDs (\eqn{Y=fixed+G+GxE}).
 #' @param reaction boolean. Indicates the inclusion of a reaction norm based GxE kernel (default = FALSE).
 #' @param intercept.random boolean. Indicates the inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.
-#' @param size_E character. \code{size_E=c('full','environment')}. In the first, 'full' means taht the environmental relationship kernel has the dimensions of n x n observations, which n = pq (p genotypes, q environments). If 'environment' the size of E-kernel is q x q.
-#'
+#' @param dimension_KE character. \code{size_E=c('q','n')}. In the first, 'k' means taht the environmental relationship kernel has the dimensions of q x q observations,in which q is the number of environments. If 'n', the relationship kernel has the dimension n=pq, in which p is the number of genotypes
+#' @param ne numeric. denotes the number of environments (q)
+#' @param ng numeric. denotes the number of genotypes (p)
+#' @param gid.id character. denotes the name of the column respectively to genotypes
+#' @param env.id character. denotes the name of the column respectively to environments
 #' @return
 #' A list of kernels (relationship matrices) to be used in genomic models.
 #'
@@ -28,8 +31,8 @@
 #'                   Y = maizeYield, model = 'MDs')
 #'
 #' ### Enriching models with weather data
-#' W.cov <- W.matrix(env.data = maizeWTH)
-#' H <- EnvKernel(env.data = W.cov, Y = maizeYield, merge = TRUE, env.id = 'env')
+#' W.cov <- W_matrix(env.data = maizeWTH)
+#' H <- env_kernel(env.data = W.cov, Y = maizeYield,gaussian=TRUE)
 #'
 #' EMM <- get_kernel(K_G = list(G = as.matrix(maizeG)),
 #'                   Y = maizeYield,K_E = list(W = H$envCov),
@@ -54,7 +57,7 @@
 #'                      model = 'RNMDs')
 #'
 #' @seealso
-#' BGGE::getk W.matrix
+#' BGGE::getk W_matrix
 #'
 #' @importFrom BGGE getK
 #' @importFrom stats model.matrix
@@ -86,7 +89,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
   if(model == 'EMDs' ){reaction <- FALSE; model_b <-'MDs'}
   if(model == 'RNMM' ){reaction <- TRUE; model_b <- 'MM'}
   if(model == 'RNMDs'){reaction <- TRUE; model_b <- 'MDs'}
-  
+
   #----------------------------------------------------------------------------
   # getting genomic kernels (see BGGE)
   #----------------------------------------------------------------------------
@@ -94,7 +97,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
   Y <- droplevels(Y)
   K = BGGE::getK(Y = Y, setKernel = K_G, model = model_b,intercept.random = intercept.random);
   names(K)   <- paste0('KG_',names(K))
-  
+
   if(is.null(ne)) ne = length(unique(Y$env))
   Zg <- stats::model.matrix(~0+gid,Y)
   ng <- length(unique(Y$gid))
@@ -117,30 +120,30 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
       return(K)
     }
     return(K)
-    
+
   }
   #----------------------------------------------------------------------------
   # Envirotype-enriched models (for E effects)
   #----------------------------------------------------------------------------
-  if(is.null(dimension_KE)) dimension_KE <- 'k'
+  if(is.null(dimension_KE)) dimension_KE <- 'q'
   # main envirotype effect
-  
-  if(dimension_KE == 'k'){
+
+  if(dimension_KE == 'q'){
     K_Em = list()
     for(q in 1:length(K_E)) K_Em[[q]] <- K_E[[q]] %x% matrix(1,ncol=ng,nrow = ng)
-    
+
     h <- length(K_E);
     n <- length(K);
   }
   if(dimension_KE =='n') K_Em <- K_E
-  
+
   K_e <- c()
   for(q in 1:h) K_e[[q]] = list(Kernel = K_Em[[q]], Type = "D")
   names(K_e) <- paste0('KE_',names(K_E))
-  
-  
+
+
   K_f <- Map(c,c(K,K_e))
-  
+
   #----------------------------------------------------------------------------
   # Envirotype-enriched models (for GE+E effects)
   #----------------------------------------------------------------------------
@@ -174,14 +177,14 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
       names(K_GE) <- nome
       K_f <- Map(c,c(K,K_e,K_GE))
     }
-    
+
   }
-  
+
   if(isTRUE(intercept.random)) K_f<-K_f[-grep(names(K_f),pattern = 'GE_Gi')]
   #----------------------------------------------------------------------------
   # Reporting status
   #----------------------------------------------------------------------------
-  
+
   cat("----------------------------------------------------- \n")
   cat(paste0('Model: ',model_b,'\n'))
   cat(paste0('Reaction Norm for E effects: ',TRUE,'\n'))

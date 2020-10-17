@@ -11,7 +11,11 @@ get_kernel(
   model = NULL,
   intercept.random = FALSE,
   reaction = FALSE,
-  size_E = NULL
+  dimension_KE = NULL,
+  ne = NULL,
+  ng = NULL,
+  env.id = "env",
+  gid.id = "gid"
 )
 }
 \arguments{
@@ -27,7 +31,15 @@ get_kernel(
 
 \item{reaction}{boolean. Indicates the inclusion of a reaction norm based GxE kernel (default = FALSE).}
 
-\item{size_E}{character. \code{size_E=c('full','environment')}. In the first, 'full' means taht the environmental relationship kernel has the dimensions of n x n observations, which n = pq (p genotypes, q environments). If 'environment' the size of E-kernel is q x q.}
+\item{dimension_KE}{character. \code{size_E=c('q','n')}. In the first, 'k' means taht the environmental relationship kernel has the dimensions of q x q observations,in which q is the number of environments. If 'n', the relationship kernel has the dimension n=pq, in which p is the number of genotypes}
+
+\item{ne}{numeric. denotes the number of environments (q)}
+
+\item{ng}{numeric. denotes the number of genotypes (p)}
+
+\item{env.id}{character. denotes the name of the column respectively to environments}
+
+\item{gid.id}{character. denotes the name of the column respectively to genotypes}
 }
 \value{
 A list of kernels (relationship matrices) to be used in genomic models.
@@ -50,8 +62,8 @@ MDs <- get_kernel(K_G = list(G = as.matrix(maizeG)),
                   Y = maizeYield, model = 'MDs')
 
 ### Enriching models with weather data
-W.cov <- W.matrix(env.data = maizeWTH)
-H <- EnvKernel(env.data = W.cov, Y = maizeYield, merge = TRUE, env.id = 'env')
+W.cov <- W_matrix(env.data = maizeWTH)
+H <- env_kernel(env.data = W.cov, Y = maizeYield,gaussian=TRUE)
 
 EMM <- get_kernel(K_G = list(G = as.matrix(maizeG)),
                   Y = maizeYield,K_E = list(W = H$envCov),
@@ -77,7 +89,7 @@ fullRN <- get_kernel(K_G = list(G = as.matrix(maizeG)),
 
 }
 \seealso{
-BGGE::getk W.matrix
+BGGE::getk W_matrix
 }
 \author{
 Germano Costa Neto

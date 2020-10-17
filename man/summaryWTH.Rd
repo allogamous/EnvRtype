@@ -46,7 +46,7 @@ TODO
 }
 \examples{
 ### Fetching weather information from NASA-POWER
-env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+env.data = get_weather(lat = -13.05, lon = -56.05)
 
 ### Basic summary
 summaryWTH(env.data)

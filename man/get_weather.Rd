@@ -63,7 +63,7 @@ The available variables are:
 ## Temperature for a single location:
 get_weather(env.id = "NM", lat = -13.05, lon = -56.05,
             start.day = "2015-02-15", end.day = "2015-06-15",
-            variables.names = c("T2M"), country = 'BRA')
+            variables.names = c("T2M"))
 
 ## All variables for two locations:
 env = c("NM","SO")
@@ -71,8 +71,7 @@ lat = c(-13.05,-12.32); lon = c(-56.05,-55.42)
 plant.date = c("2015-02-15",'2015-02-13')
 harv.date = rep("2015-06-15", 2)
 get_weather(env.id = env, lat = lat, lon = lon,
-            start.day = plant.date, end.day = harv.date,
-            country = 'BRA')
+            start.day = plant.date, end.day = harv.date)
 
 }
 \references{

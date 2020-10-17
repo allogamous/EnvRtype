@@ -30,15 +30,13 @@
 #' env_kernel(env.data = W.cov,
 #'           Y = maizeYield,
 #'           merge = FALSE,
-#'           env.id = 'env',
 #'           gaussian = FALSE)
 #'
 #'### Parametrization by a nonlinear kernel (gaussian)
 #' env_kernel(env.data = W.cov,
 #'           Y = maizeYield,
 #'           merge = FALSE,
-#'           env.id = 'env',
-#'           bydiag = TRUE)
+#'           gaussian = TRUE)
 #'
 #' @seealso W_matrix
 #'
@@ -49,17 +47,17 @@
 env_kernel <-function(env.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
                      tol=1E-3, merge=FALSE,Z_E = NULL,
                      env.id='env',gaussian=FALSE, h.gaussian=NULL){
-  
+
   nr<-nrow(env.data)
   nc <-ncol(env.data)
-  
+
   GB_Kernel <-function(X,is.center=FALSE){
     if(isFALSE(is.center)) X = scale(x = X,center = T,scale = F)
     XXl <- X %*% t(X)
     K_G <- XXl/(sum(diag(XXl))/nrow(X)) + diag(1e-6, nrow(XXl))
     return(K_G)
   }
-  
+
   if(!is.matrix(env.data)){stop('env.data must be a matrix')}
   if(isFALSE(is.scaled)){
     Amean <- env.data-apply(env.data,2,mean)+tol
@@ -74,9 +72,9 @@ env_kernel <-function(env.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
     cat(paste0(r,' from ',t,'\n'))
     cat(paste0(removed,'\n'))
     cat(paste0('------------------------------------------------','\n'))
-    
+
   }
-  
+
   if(isTRUE(merge)){
     if(is.null(Z_E)){
       .DF = data.frame(Y[,env.id])
@@ -84,20 +82,20 @@ env_kernel <-function(env.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
       Z_E = model.matrix(~0+env,.DF)
     }
     env.data = Z_E %*% env.data
-  } 
-  
+  }
+
   if(isTRUE(gaussian)){
     O <- gaussian(x = env.data,h=h.gaussian)
     H <- gaussian(x = t(env.data),h=h.gaussian)
   }
   if(isFALSE(gaussian)){
-    
+
     O = GB_Kernel(env.data)
     H = GB_Kernel(t(env.data))
-    
+
   }
-  
-  
+
+
   return(list(varCov=H,envCov=O))
 }
 
@@ -105,7 +103,7 @@ gaussian <- function(x,h=NULL){
   d<-as.matrix(dist(x,upper = TRUE,diag = TRUE))^2
   q <- median(d)
   if(is.null(h)) h <- 1
-  
+
   return(exp(-h*d/q))
 }
 
@@ -115,5 +113,5 @@ envK = function(env.data,df.pheno,skip=3,env.id){
   env.data$env <- as.factor(rownames(env.data))
   W <- as.matrix(merge(df.pheno,env.data, by=env.id)[,-c(1:skip)])
   return(W)
-  
+
 }

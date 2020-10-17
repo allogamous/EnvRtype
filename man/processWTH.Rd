@@ -4,16 +4,57 @@
 \alias{processWTH}
 \title{Basic Processing Tools for Enriching get_weather outputs}
 \usage{
-processWTH(env.data)
+processWTH(
+  env.data,
+  PREC = NULL,
+  Tdew = NULL,
+  Tmin = NULL,
+  Tmax = NULL,
+  RH = NULL,
+  Rad = NULL,
+  G = NULL,
+  Alt = 600,
+  Tbase1 = 9,
+  Tbase2 = 45,
+  Topt1 = 26,
+  Topt2 = 32,
+  alpha = 1.26
+)
 }
 \arguments{
 \item{env.data}{data.frame. A \code{get_weather()} output.}
+
+\item{PREC}{character. Indicates the column of precipitation.}
+
+\item{Tdew}{character. Indicates the column of dew/frost.}
+
+\item{Tmin}{character. Indicates the column of minimum temperature.}
+
+\item{Tmax}{character. Indicates the column of maximum temperature.]}
+
+\item{RH}{character. Indicates the column of reative humidity.}
+
+\item{Rad}{character. Indicates the column of solar radiation. This parameter can be calculated from \code{Param_Radiation()}.}
+
+\item{G}{numeric. Flux of heat conducted into the ground. Default is 0.}
+
+\item{Alt}{numeric. Elevation above sea level (meters)}
+
+\item{Tbase1}{numeric. Minimum cardinal value for temperature base for phenological development (Celsius).}
+
+\item{Tbase2}{numeric. Maximum cardinal value for temperature base for phenological development (Celsius).}
+
+\item{Topt1}{numeric. Lower temperature bound for phenological development (Celsius).}
+
+\item{Topt2}{numeric. Upper temperature bound for phenological development (Celsius).}
+
+\item{alpha}{Alpha of Priestley & Taylor's (1972) equation. Default is 1.26, which fit data from most sources.}
 }
 \value{
 Returns a \code{get_wheather()} object with an additional set of parameters calculated from the nasapower data.
 }
 \description{
-A wraper of \code{Param_Radiation()}, \code{Param_Atmospheric()}, and \code{Param_Temperature()} for evaluating get_weather() datasets. Calculates a series of parameters based on the \code{get_weather()} object.
+A wraper of \code{param_padiation()}, \code{param_atmospheric()}, and \code{param_temperature()} for evaluating get_weather() datasets. Calculates a series of parameters based on the \code{get_weather()} object.
 }
 \details{
 This function requires a dataframe with all parameters listed above. If any is missing, an error will be returned.
@@ -34,7 +75,7 @@ The estimated variables are:
 }
 \examples{
 ### Fetching weather information from NASA-POWER
-env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
+env.data = get_weather(lat = -13.05, lon = -56.05)
 
 ### Returning calculated parameters merged to the \code{get_weather()} dataframe
 processWTH(env.data)
