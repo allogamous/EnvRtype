@@ -28,17 +28,17 @@
 #' env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 #'
 #' ### By.intervals (generic time intervals)
-#' EnvTyping(env.data = env.data, env.id = 'env', var.id = 'T2M', by.interval = TRUE)
+#' env_typing(env.data = env.data, env.id = 'env', var.id = 'T2M', by.interval = TRUE)
 #'
 #' ### By.intervals (specific time intervals)
-#' EnvTyping(env.data = env.data,
+#' env_typing(env.data = env.data,
 #'           env.id = 'env',
 #'           var.id = 'T2M',
 #'           by.interval = TRUE,
 #'           time.window = c(0, 15, 35, 65, 90, 120))
 #'
 #' ### By.intervals (specific time intervals and with specific names
-#' EnvTyping(env.data = env.data,
+#' env_typing(env.data = env.data,
 #'                  env.id = 'env',
 #'                  var.id = 'T2M',
 #'                  by.interval = TRUE,
@@ -51,7 +51,7 @@
 #'                                   '6-maturation'))
 #'
 #' ### With set cardinals.
-#' EnvTyping(env.data = env.data,
+#' env_typing(env.data = env.data,
 #'           var.id = c('T2M','PRECTOT','WS2M'),
 #'           cardinals = list(T2M = c(0, 9, 22, 32, 45),
 #'                            PRECTOT = c(0, 5, 10),
@@ -64,33 +64,33 @@
 #'
 #' @export
 
-EnvTyping <- function(env.data,var.id,env.id,cardinals=NULL,days.id=NULL,
+env_typing <- function(env.data,var.id,env.id,cardinals=NULL,days.id=NULL,
                       time.window=NULL,names.window=NULL,quantiles=NULL,
                       id.names=NULL,by.interval=FALSE,scale=FALSE,
                       format=NULL){
-
+  
   x <- j <- s <- median <-  NULL #supressor
-
+  
   #creating local functions based on '%:%' and '%dopar%'
   '%:%' <- foreach::'%:%'
   '%dopar%' <- foreach::'%dopar%'
-
+  
   if(isTRUE(scale)) env.data[,var.id] <- scale(env.data[,var.id],center = TRUE,scale = TRUE)
-
+  
   .GET <- meltWTH(.GeTw = env.data,days = days.id,
                   by.interval = by.interval,
                   time.window = time.window,
                   names.window = names.window,
                   id.names =  id.names,var.id = var.id,
                   env.id=env.id)
-
+  
   if(isFALSE(by.interval)) .GET <-data.frame(.GET,interval='full-cycle')
   env <- as.character(unique(.GET$env))
   int <- as.character(unique(.GET$interval))
   vars <- as.character(unique(.GET$variable))
-
+  
   if(is.null(quantiles)) quantiles <- c(.01,.25,.50,.75,.99)
-
+  
   if(is.null(cardinals)){
     cardinals <- vector('list',length = length(vars))
     names(cardinals) = vars
@@ -105,13 +105,13 @@ EnvTyping <- function(env.data,var.id,env.id,cardinals=NULL,days.id=NULL,
       cardinals[[i]] <- SM
     }
   }
-
-
+  
+  
   results <- foreach::foreach(s=1:length(vars), .combine = "rbind") %:% foreach::foreach(j=1:length(env), .combine = "rbind") %:% foreach::foreach(t=1:length(int), .combine = "rbind") %dopar% {
-
+    
     .out=data.frame(table(cut(x =  .GET$value[which(.GET$env == env[j] & .GET$variable == vars[s] & .GET$interval == int[t])],
                               breaks = cardinals[[s]],right = TRUE)),env=env[j],interval=int[t],var=vars[s])
-
+    
     return(.out)
   }
   names(results)[1] <- 'env.variable'
