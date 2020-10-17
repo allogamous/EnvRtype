@@ -22,18 +22,18 @@
 #' env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 #'
 #' ### Calculating solar radiation
-#' Param_Radiation(env.data)
+#' param_radiation(env.data)
 #'
 #' @importFrom stats median
 #'
 #' @export
 
 # http://www.fao.org/3/X0490E/x0490e07.htm#radiation
-Param_Radiation <-function(env.data, merge=FALSE){
-
+param_radiation <-function(env.data, merge=FALSE){
+  
   DOY <- env.data[,'DOY']
   LAT <- env.data[,'LAT']
-
+  
   Ra <- function(J,lat){
     rlat = deg2rad(lat)
     fi = .409*sin((2*pi/365)*J-1.39)
@@ -44,11 +44,11 @@ Param_Radiation <-function(env.data, merge=FALSE){
     cat('---------------------------------------------------------------------- \n')
     cat('Extraterrestrial radiation (RTA, MJ/m^2/day)  \n')
     cat('Daylight hours (N, hours) \n')
-
+    
     return(data.frame(Ra=Ra,N=N))
   }
-
-
+  
+  
   RadN <-Ra(J = DOY,lat = LAT)
   LWD <- env.data$ALLSKY_SFC_LW_DWN
   DWN <- env.data$ALLSKY_SFC_SW_DWN
@@ -56,18 +56,18 @@ Param_Radiation <-function(env.data, merge=FALSE){
   DWN[DWN == -99] <- NA
   LWD[is.na(LWD)] <- median(LWD,na.rm=TRUE)
   DWN[is.na(DWN)] <- median(DWN,na.rm=TRUE)
-
+  
   Srad <- LWD-DWN
   n <- RadN$N*(Srad/RadN$Ra)
-
+  
   cat('Actual duration of sunshine (n, hours) \n')
   cat('Solar Radiation (SRAD, MJ/m^2/day) \n')
   cat('---------------------------------------------------------------------- \n')
   cat('\n')
-
+  
   if(!isTRUE(merge)) return(data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad))
   if(isTRUE(merge)) return(data.frame(env.data,data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad)))
-
+  
 }
 
 
