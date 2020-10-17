@@ -36,13 +36,13 @@
 #' env.data = Param_Radiation(env.data, merge = TRUE)
 #'
 #' ### Calculating solar radiation
-#' Param_Atmospheric(env.data)
+#' param_atmospheric(env.data)
 
 #' @export
 
 # http://www.fao.org/3/X0490E/x0490e07.htm#atmospheric%20parameters
 
-Param_Atmospheric <- function(env.data, PREC=NULL, Tdew=NULL,
+param_atmospheric <- function(env.data, PREC=NULL, Tdew=NULL,
                               Tmin=NULL, Tmax=NULL, RH=NULL,
                               Rad=NULL, G=NULL, Alt=600, alpha=1.26,
                               merge=FALSE){
@@ -66,7 +66,7 @@ Param_Atmospheric <- function(env.data, PREC=NULL, Tdew=NULL,
   if(is.null(Tmin)) Tmin <-'T2M_MIN';Tmin<- env.data[,Tmin]
   if(is.null(Tmax)) Tmax <-'T2M_MAX';Tmax <- env.data[,Tmax]
   if(is.null(Alt)){ Alt <-'ALT';Alt <- env.data[,Alt]}
- # if(is.null(Alt)) Alt <- 600
+  # if(is.null(Alt)) Alt <- 600
   #if(isFALSE(Alt  %in% names(env.data))){Alt <- 600; cat('Missing ALT value. We adopted 600m. Please use the Extract_GIS funciton to collect ALT from SRTM files \n')}
   
   if(is.null(RH))  RH <-'RH2M'; RH<- env.data[,RH]
