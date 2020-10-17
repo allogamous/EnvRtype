@@ -161,8 +161,8 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
     }
     if(dimension_KE == 'k'){
       Ng<-names(K_G)
-   #   for(i in 1:ng) K_G[[i]] <- matrix(1,ncol=ne,nrow=ne) %x% K_G[[i]]#tcrossprod(Zg%*%K_G[[i]])
-    #  ne <- length(K_E)
+      #   for(i in 1:ng) K_G[[i]] <- matrix(1,ncol=ne,nrow=ne) %x% K_G[[i]]#tcrossprod(Zg%*%K_G[[i]])
+      #  ne <- length(K_E)
       A<-c()
       nome<-c()
       Ne<-names(K_E)
@@ -174,7 +174,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
       names(K_GE) <- nome
       K_f <- Map(c,c(K,K_e,K_GE))
     }
-
+    
   }
   
   if(isTRUE(intercept.random)) K_f<-K_f[-grep(names(K_f),pattern = 'GE_Gi')]
