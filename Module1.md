@@ -125,10 +125,9 @@ summaryWTH(df.clim,env.id = 'env',statistic = 'quantile',probs = c(.20,.76,.90))
 ```
 
 <!-- toc -->
-[Menu](#menu)
+[Menu](https://github.com/allogamous/EnvRtype)
 
 
-<div id="P2" />
 
 ------------------------------------------------------------
 
