@@ -25,10 +25,9 @@
 * [2. Environmental Sensing Module](https://github.com/allogamous/EnvRtype/blob/master/Module1.md)
 * [3. Environmental Characterization Module](https://github.com/allogamous/EnvRtype/blob/master/Module2.md)
 * [4. Reaction-Norm Module](https://github.com/allogamous/EnvRtype/blob/master/Module3.md)
-* [5.Global Envirotyping](https://github.com/allogamous/EnvRtype/blob/master/globalenv.md)
-* [6.Authorship](#P4)
-* [7. Acknowledgments](#P5)
-* [8. Publications](#P6)
+* [Authorship](#P4)
+* [Acknowledgments](#P5)
+* [Publications](#P6)
 
 
               
@@ -87,7 +86,7 @@ library(EnvRtype)
   
 ------------------------------------------------------------
 
-## 5. Authorship
+## Authorship
 
 This package is a initiative from the [Allogamous Plant Breeding Lab (University of São Paulo, ESALQ/USP, Brazil)](http://www.genetica.esalq.usp.br/en/lab/allogamous-plant-breeding-laboratory).
 
@@ -109,7 +108,7 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 ------------------------------------------------------------
 
-## 6. Acknowledgments
+## Acknowledgments
 
 > * [Giovanni Galli](https://github.com/giovannigalli), PhD in Genetics and Plant Breeding
 
@@ -129,13 +128,15 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 ------------------------------------------------------------
 
-## 7. Publications
+## Publications
+
+
+Costa-Neto G, Galli G, Fanelli H, Crossa J, Fritsche-Neto R (2020). EnvRtype : a software to interplay enviromics and quantitative genomics in agriculture. bioRxiv [in press](https://www.biorxiv.org/content/10.1101/2020.10.14.339705v1)
 
 Galli G, Horne DW, Collins SD, Jung J, Chang A, Fritsche‐Neto R, et al. (2020). Optimization of UAS‐based high‐throughput phenotyping to estimate plant health and grain yield in sorghum. **Plant Phenome** J 3: 1–14.
 
 Costa-Neto G, Fritsche-Neto R, Crossa J (2020). Nonlinear kernels, dominance, and envirotyping data increase the accuracy of genome-based prediction in multi-environment trials. **Heredity** (Edinb).
 
-Costa-Neto G, Galli G, Fanelli H, Crossa J, Fritsche-Neto R (2020). EnvRtype : a software to interplay enviromics and quantitative genomics in agriculture. bioRxiv (in press).
               
 
 
