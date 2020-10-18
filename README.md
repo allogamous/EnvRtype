@@ -115,7 +115,7 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 > * [Humberto Fanelli](https://github.com/humbertofanelli), PhD in Genetics and Plant Breeding
 
-> * [Jose Crossa], Biometrics and Statistic Unit at CIMMYT.
+> * **Jose Crossa**, Biometrics and Statistic Unit at CIMMYT.
 
 > * [Roberto Fritsche-Neto](roberto.neto@usp.br), Professor in Genetics and Plant Breeding, Head of Allogamous Plant Breedig Lab (ESALQ/USP)
 
