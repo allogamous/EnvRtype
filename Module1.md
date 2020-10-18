@@ -1,10 +1,22 @@
 # **Remote Environmental Sensing**
+
+* [Geographic Information Databases](#P1)
+* [Remote Data Collection](#P2)
+* [Raw Data Processing](#P3)
+* [Raw Data Summary](#P4)
+
+              
+<div id="P1" />
+
  
  ### Geographic Information Databases
  
  > The collection, organization and processing of environmental data is a step that requires equipment installed in the field. Such equipment can be expensive or difficult to access for some research groups in certain regions or countries. For this reason, we decided to insert a routine for collecting climatic data through the [NASA POWER base](https://power.larc.nasa.gov/), which can access information on a daily scale anywhere on the globe.
  
  > The [Raster Package](https://cran.r-project.org/web/packages/raster/raster.pdf) also offers a digital platform for downloading files in raster format of climatic data (from the [WorldClim database](https://www.worldclim.org/)) and [SRTM (elevation)](http://srtm.csi.cgiar.org/) using only geographical coordinates (Latitude and Longitude).
+ 
+ 
+ <div id="P2" />
  
   ### Remote Data Collection
  
@@ -40,7 +52,9 @@ head(df.clim)
 [Menu](#menu)
 
 
- ### Data Processing
+<div id="P3" />
+
+ ### Raw Data Processing
  
 **Additional variables (ecophysiological)**
  
@@ -51,6 +65,9 @@ head(df.clim)
  ```{r}
  df.clim <-processWTH(env.data = df.clim)
 ```
+<div id="P4" />
+
+### Raw Data Summary
 > * Basic summary statistics for environmental data
 
 ```{r}
