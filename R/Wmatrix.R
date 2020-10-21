@@ -105,7 +105,7 @@ W.scale <-function(env.data, center=TRUE,scale=TRUE, sd.tol = 4,tol=1E-3,QC=FALS
 
   sdA   <- apply(env.data,2,sd)
   t <- ncol(env.data)
-  removed <- names(sdA[sdA > sd.tol])
+  removed <- names(sdA[sdA < sd.tol])
   if(!is.matrix(env.data)){stop('env.data must be a matrix')}
   env.data<- scale(env.data+tol,center = center,scale = scale)
   if(isTRUE(QC)) env.data <- env.data[,!colnames(env.data) %in% removed]
