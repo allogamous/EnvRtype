@@ -25,6 +25,10 @@
 * [2. Environmental Sensing Module](https://github.com/allogamous/EnvRtype/blob/master/Module1.md)
 * [3. Environmental Characterization Module](https://github.com/allogamous/EnvRtype/blob/master/Module2.md)
 * [4. Reaction-Norm Module](https://github.com/allogamous/EnvRtype/blob/master/Module3.md)
+
+**Information**
+
+* [Example of Envirotyping pipeline](https://github.com/allogamous/EnvRtype/blob/master/Enviromic_pipeline.md)
 * [Authorship](#P4)
 * [Acknowledgments](#P5)
 * [Publications](#P6)
