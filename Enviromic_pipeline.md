@@ -87,26 +87,4 @@ df.clim = merge(df.clim,soil_data,by='env')
 ```
 
 
-### 3. Environmental Typing
-
-> * Soil Features can be download from https://soilgrids.org/. We made available a ZIP file containing some soil features for the locations above described.
-
->* Here we used the extract_GIS function to collect environmental covariables from raster files. Below there is a code for automatize this extraction for multiple raster files disposed into a same directory.
-
-```{r, eval=FALSE}
-home.dir = getwd()
-dir = paste0(home.dir,'/SoilGrid')
-unzip(zipfile = 'SoilGrid.zip')
-
-(soil_grid = list.files(path = dir,pattern = 'tif'))
-(soil_name = gsub(soil_grid,pattern = '.tif',replacement = ''))
-
-require(raster)
-env.data = data.frame(env = env.i,LAT = lat, LON = lon)
-soil_data = c()
-for(i in 1:length(soil_grid)) soil_data = rbind(soil_data,data.frame(Feature = soil_name[i],extract_GIS(covraster = raster(paste0(dir,'/',soil_grid[i])),name.out = 'Soil_Grid',env.data = env.data)))
-
-head(soil_data)
-
-```
 
