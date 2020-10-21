@@ -55,7 +55,7 @@ head(df.clim) # novel processed df.clim set
 
 ### 2. Soil Features and other raster-based properties
 
-> * Soil Features can be download from https://soilgrids.org/. We made available a ZIP file containing some soil features for the locations above described.
+> * Soil Features can be download from https://soilgrids.org/. We made available a [ZIP file containing some soil features for the locations above described](https://github.com/allogamous/EnvRtype/blob/master/SoilGrid.zip).
 
 >* Here we used the extract_GIS function to collect environmental covariables from raster files. Below there is a code for automatize this extraction for multiple raster files disposed into a same directory.
 
