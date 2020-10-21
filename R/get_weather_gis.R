@@ -62,9 +62,9 @@
 # adaptation from nansapower package's get_power function
 #----------------------------------------------------------------------------------------
 
-get_weather=function (env.id = NULL, lat = NULL, lon = NULL, start.day = NULL, 
-                     end.day = NULL, variables.names = NULL, dir.path = NULL, 
-                     save = FALSE, temporal.scale = "DAILY", country = NULL) 
+get_weather = function (env.id = NULL, lat = NULL, lon = NULL, start.day = NULL, 
+                        end.day = NULL, variables.names = NULL, dir.path = NULL, 
+                        save = FALSE, temporal.scale = "DAILY", country = NULL) 
 {
   cat("------------------------------------------------ \n")
   cat("ATTENTION: This function requires internet access \n")
@@ -118,12 +118,11 @@ get_weather=function (env.id = NULL, lat = NULL, lon = NULL, start.day = NULL,
   names(.C) = env.id
   .C = plyr::ldply(.C)
   names(.C)[names(.C) %in% ".id"] = "env"
-  df  = .C
+  df <- .C
   try(if (!is.null(country)) {
     if (!requireNamespace("raster")) 
       utils::install.packages("raster")
-    srtm <- raster::getData("alt", country = country, mask = TRUE)
-    df <- extract_GIS(covraster = srtm, env.data = df)
+    df <- extract_GIS(covraster = raster::getData("alt", country = country, mask = TRUE), Latitude = 'LAT', Longitude = 'LON',env.id = 'env',name.out = 'ALT',env.data = df)
   })
   return(df)
 }
