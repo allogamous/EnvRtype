@@ -20,15 +20,20 @@
   > EnvRtype consists in three modules (sections 2-4), which collectively generate a simple workflow to collect, process and integrates envirotyping data into genomic prediction over multiple environments.
   
   <img align="right" src="/fig/workflow.png" width="50%" height="50%">
+  
+  
+  **Main Functions**
 
 * [1. Install and Required Packages](#Instal)
 * [2. Environmental Sensing Module](https://github.com/allogamous/EnvRtype/blob/master/Module1.md)
 * [3. Environmental Characterization Module](https://github.com/allogamous/EnvRtype/blob/master/Module2.md)
 * [4. Reaction-Norm Module](https://github.com/allogamous/EnvRtype/blob/master/Module3.md)
 
-**Information**
+**Tutorials**
 
 * [Example of Envirotyping pipeline](https://github.com/allogamous/EnvRtype/blob/master/Enviromic_pipeline.md)
+
+**Information**
 * [Authorship](#P4)
 * [Acknowledgments](#P5)
 * [Publications](#P6)
