@@ -3,9 +3,11 @@
 *last update: 21th October 2020*
 
 * [Software](#P1)
-* [1. Daily weather and elevation](#P2)
-* [2. Soil Features](#P3)
-
+* [Daily weather and elevation](#P2)
+* [Soil Features](#P3)
+* [Environmental Typing](#P4)
+* [Environmental Covaraibles](#P5)
+* [Environmental Similarity](#P6)
               
 <div id="P1" />
 
@@ -83,6 +85,53 @@ head(soil_data)
 require(reshape2)
 (soil_data = dcast(soil_data,env~Feature,value.var = 'Soil_Grid'))
 df.clim = merge(df.clim,soil_data,by='env')
+
+```
+
+<div id="P4" />
+
+# Environmental Typing (ETs)
+
+> * the function env_typing allow the creation of panels of environmental types
+
+```{r, eval=FALSE}
+source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/plot_panel.R')
+
+(var.i = names(df.clim)[c(2,10:16,21:31)])
+
+ET = env_typing(env.data = df.clim,env.id = 'env',var.id = var.i,format = 'wide')
+
+plot_panel(ET,title = 'Panel of Environmental Types')
+
+```
+
+<div id="P5" />
+
+# Environmental Covariables (ECs)
+
+> * the function W_matrix allow the creation of panels of environmental covariables and a matrix of ECs for predictive breeding (**W**):
+
+```{r, eval=FALSE}
+(var.i = names(df.clim)[c(2,10:16,21:31)])
+
+EC = W_matrix(env.data = df.clim,env.id = 'env',var.id = var.i,statistic = 'mean')
+
+plot_panel(EC,title = 'Panel of Environmental Covariables')
+
+```
+
+<div id="P6" />
+
+# Environmental Similarity
+
+> * env_kernel supports the creation of environmental similarity kernels
+
+```{r, eval=FALSE}
+
+K_E = env_kernel(env.data = EC)[[2]]
+
+plot_panel(ECs = K_E,title = 'Environmental Similarity')
+
 
 ```
 
