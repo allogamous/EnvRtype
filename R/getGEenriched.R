@@ -162,7 +162,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
       names(K_GE) <- nome
       K_f <- Map(c,c(K,K_e,K_GE))
     }
-    if(dimension_KE == 'k'){
+    if(dimension_KE == 'q'){
       Ng<-names(K_G)
       #   for(i in 1:ng) K_G[[i]] <- matrix(1,ncol=ne,nrow=ne) %x% K_G[[i]]#tcrossprod(Zg%*%K_G[[i]])
       #  ne <- length(K_E)
