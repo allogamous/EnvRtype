@@ -9,9 +9,11 @@ env_kernel(
   Y = NULL,
   is.scaled = TRUE,
   sd.tol = 1,
+  digits = 5,
   tol = 0.001,
   merge = FALSE,
   Z_E = NULL,
+  stages = NULL,
   env.id = "env",
   gaussian = FALSE,
   h.gaussian = NULL
@@ -26,11 +28,15 @@ env_kernel(
 
 \item{sd.tol}{numeric. Maximum standard deviation value for quality control. Coluns above this value are eliminated.}
 
+\item{digits}{numeric. Number of digits for round (default is 5)}
+
 \item{tol}{numeric. Value of tolerance (default = 0.001).}
 
 \item{merge}{boolean. if TRUE, the environmental covariables are merged with Y to build a n x n dimension env.kernel.}
 
 \item{Z_E}{matrix. NULL by default. is the model.matrix for environments (if merge = TRUE)}
+
+\item{stages}{vector of character names for each stage or time interval. Default is NULL. Is is.null(stages) = FALSE, the env_kernel will create different kernels for each development stage}
 
 \item{env.id}{character. Identification of experiment.}
 

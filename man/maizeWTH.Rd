@@ -3,7 +3,7 @@
 \docType{data}
 \name{maizeWTH}
 \alias{maizeWTH}
-\title{Maize Weather Datta}
+\title{Maize Weather Data}
 \format{
 A data.frame containing weather variables for each environment in HEL dataset
 }

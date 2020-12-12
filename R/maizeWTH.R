@@ -1,4 +1,4 @@
-#' Maize Weather Datta
+#' Maize Weather Data
 #'
 #' Weather data collected from NASA POWER for each one of the five environments in HELIX dataset.
 #'

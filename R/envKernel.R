@@ -13,7 +13,10 @@
 #' @param Z_E matrix. NULL by default. is the model.matrix for environments (if merge = TRUE)
 #' @param gaussian boolean. If TRUE, uses the gaussian kernel parametrization for W, where envCov = exp(-h*d/q).
 #' @param h.gaussian numeric. If gaussian = TRUE, returns the h parameter for exp(-h*d/q).
-#'
+#' @param stages vector of character names for each stage or time interval. Default is NULL. Is is.null(stages) = FALSE, the env_kernel will create different kernels for each development stage
+#' @param digits numeric. Number of digits for round (default is 5)
+
+
 #' @return A list with environmental kinships for reaction norm models. Two matrices are produced. varCov with the distance for environmental covariables, and envCov with distances for genotypes.
 #'
 #' @details
@@ -44,9 +47,45 @@
 #' @export
 
 
-env_kernel <-function(env.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
-                     tol=1E-3, merge=FALSE,Z_E = NULL,
+env_kernel <-function(env.data,Y=NULL, is.scaled=TRUE, sd.tol = 1, digits=5,
+                     tol=1E-3, merge=FALSE,Z_E = NULL, stages=NULL,
                      env.id='env',gaussian=FALSE, h.gaussian=NULL){
+
+  if(is.null(stages)){
+    K_E <- env_kernel_0(env.data=env.data,Y=Y, is.scaled=is.scaled, sd.tol = sd.tol,
+                        tol= tol, merge=merge,Z_E = Z_E,
+                        env.id=env.id,gaussian=gaussian, h.gaussian=h.gaussian)
+
+    return(list(varCov=round(K_E[[1]],digits),envCov=round(K_E[[2]],digits)))
+  }
+
+  if(!is.null(stages)){
+
+    K_E <- list()
+    K_W <- list()
+    for(i in 1:length(stages))
+    {
+      id <- grep(colnames(env.data),pattern = stages[i])
+      K_E[[i]] <- round(env_kernel_0(env.data=env.data[,id],Y=Y, is.scaled=is.scaled, sd.tol = sd.tol,
+                          tol= tol, merge=merge,Z_E = Z_E,
+                          env.id=env.id,gaussian=gaussian, h.gaussian=h.gaussian)[[2]],digits)
+      K_W[[i]] <- round(env_kernel_0(env.data=env.data[,id],Y=Y, is.scaled=is.scaled, sd.tol = sd.tol,
+                                     tol= tol, merge=merge,Z_E = Z_E,
+                                     env.id=env.id,gaussian=gaussian, h.gaussian=h.gaussian)[[1]],digits)
+
+    }
+    names(K_E) = names(K_W) = stages
+
+    return(list(varCov=K_W,envCov=K_E))
+
+  }
+
+}
+
+
+env_kernel_0 <-function(env.data,Y=NULL, is.scaled=TRUE, sd.tol = 1,
+                      tol=1E-3, merge=FALSE,Z_E = NULL,
+                      env.id='env',gaussian=FALSE, h.gaussian=NULL){
 
   nr<-nrow(env.data)
   nc <-ncol(env.data)
