@@ -1,5 +1,5 @@
 
-# *EnvRtype*: Envirotyping Tools to support Agricultural Research <img align="right" src="/fig/logo3_300.png" width="20%" height="20%">
+# *EnvRtype*: Envirotyping Tools For Breeding and Crop Research <img align="right" src="/fig/logo3_300.png" width="20%" height="20%">
 
 *ATTENTION: package maintenance between 15th October to 31th October 2020.*
 
