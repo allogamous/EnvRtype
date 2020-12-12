@@ -1,6 +1,72 @@
 #'@title  Envirotype-informed kernels for statistical models
 #'
 #' @description Get multiple genomic and/or envirotype-informed kernels for bayesian genomic prediciton.
+  #' @author Germano Costa Neto
+#' @param K_E list. Contains nmatrices of envirotype-related kernels (n x n genotypes-environment). If NULL, benchmarck genomic kernels are built.
+#' @param K_G list. Constains matrices of genomic enabled kernels (p x p genotypes). See BGGE::getK for more information.
+#' @param Y data.frame. Should contain the following colunms: environemnt, genotype, phenotype.
+#' @param model character. Model structure for genomic predicion. It can be \code{c('MM','MDs','E-MM','E-MDs')}, in which MM (main effect model \eqn{Y=fixed + G}) and MDs (\eqn{Y=fixed+G+GxE}).
+#' @param reaction boolean. Indicates the inclusion of a reaction norm based GxE kernel (default = FALSE).
+#' @param intercept.random boolean. Indicates the inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.
+#' @param dimension_KE character. \code{size_E=c('q','n')}. In the first, 'k' means taht the environmental relationship kernel has the dimensions of q x q observations,in which q is the number of environments. If 'n', the relationship kernel has the dimension n=pq, in which p is the number of genotypes
+#' @param ne numeric. denotes the number of environments (q)
+#' @param ng numeric. denotes the number of genotypes (p)
+#' @param gid.id character. denotes the name of the column respectively to genotypes
+#' @param env.id character. denotes the name of the column respectively to environments
+#' @return
+#' A list of kernels (relationship matrices) to be used in genomic models.
+#'
+#' @details
+#' TODO Define models.
+#'
+#' @examples
+#' ### Loading the genomic, phenotype and weather data
+#' data('maizeG'); data('maizeYield'); data("maizeWTH")
+#'
+#' ### Y = fixed + G
+#' MM <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+#'                  Y = maizeYield, model = 'MM')
+#' ### Y = fixed + G + GE
+#' MDs <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+#'                   Y = maizeYield, model = 'MDs')
+#'
+#' ### Enriching models with weather data
+#' W.cov <- W_matrix(env.data = maizeWTH)
+#' H <- env_kernel(env.data = W.cov, Y = maizeYield,gaussian=TRUE)
+#'
+#' EMM <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+#'                   Y = maizeYield,K_E = list(W = H$envCov),
+#'                   model = 'EMM') # or model = MM
+#'
+#' ### Y = fixed + G + W + GE
+#' EMDs <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+#'                    Y = maizeYield,
+#'                    K_E = list(W = H$envCov),
+#'                    model = 'MDs') # or model = MDs
+#'
+#' ### Y = fixed + W + G + GW
+#' RN <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+#'                  Y = maizeYield,
+#'                  K_E = list(W = H$envCov),
+#'                  model = 'RNMM')
+#'
+#' ### Y = fixed + W + G + GW + GE
+#' fullRN <- get_kernel(K_G = list(G = as.matrix(maizeG)),
+#'                      Y = maizeYield,
+#'                      K_E = list(W = H$envCov),
+#'                      model = 'RNMDs')
+#'
+#' @seealso
+#' BGGE::getk W_matrix
+#'
+#' @importFrom BGGE getK
+#' @importFrom stats model.matrix
+#'
+#' @export
+
+#'@title  Envirotype-informed kernels for statistical models
+#'
+#' @description Get multiple genomic and/or envirotype-informed kernels for bayesian genomic prediciton.
 #' @author Germano Costa Neto
 #' @param K_E list. Contains nmatrices of envirotype-related kernels (n x n genotypes-environment). If NULL, benchmarck genomic kernels are built.
 #' @param K_G list. Constains matrices of genomic enabled kernels (p x p genotypes). See BGGE::getK for more information.
@@ -80,8 +146,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
   # Start Step
   #  Y <- data.frame(env=Y[,env.id],gid=Y[,gen.id],value=Y[,trait.id])
   if (is.null(K_G))   stop('Missing the list of genomic kernels')
-  if (!requireNamespace('BGGE')) utils::install.packages("BGGE")
-  # if(!any(model %in% c("MM","MDs",'E-MM','E-MDs'))) stop("Model not specified. Choose between MM or MDs")
+ 
   if(is.null(model)) model <- 'MM'
   if(model == 'MM'   ){reaction <- FALSE; model_b <- 'MM';K_E=NULL}
   if(model == 'MDs'  ){reaction <- FALSE; model_b <-'MDs';K_E=NULL}
@@ -95,7 +160,151 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
   #----------------------------------------------------------------------------
   names(Y)[1:2] = c('env','gid')
   Y <- droplevels(Y)
-  K = BGGE::getK(Y = Y, setKernel = K_G, model = model_b,intercept.random = intercept.random);
+  
+  getK <- function(Y, X, kernel = c("GK", "GB"), setKernel = NULL, bandwidth = 1, model = c("SM", "MM", "MDs", "MDe"), quantil = 0.5,
+                 intercept.random = FALSE)
+{
+  #Force to data.frame
+  Y <- as.data.frame(Y)
+  
+  Y[colnames(Y)[1:2]] <- lapply(Y[colnames(Y)[1:2]], factor)
+  
+  subjects <- levels(Y[,2])
+  env <- levels(Y[,1])
+  nEnv <- length(env)
+  
+  # check for repeated genotypes
+  if(any(table(Y[,c(1:2)]) > 1))
+    warning("There are repeated genotypes in some environment. They were kept")
+
+  switch(model,
+         'SM' = {
+           if (nEnv > 1)
+             stop("Single model choosen, but more than one environment is in the phenotype file")
+           Zg <- model.matrix(~factor(Y[,2L]) - 1)
+         },
+         'Cov' = {
+           Zg <- model.matrix(~factor(subjects) - 1)
+         },{
+           Ze <- model.matrix(~factor(Y[,1L]) - 1)
+           Zg <- model.matrix(~factor(Y[,2L]) - 1)
+         })
+  
+  if(is.null(setKernel)){
+    if(is.null(rownames(X)))
+      stop("Genotype names are missing")
+    
+    if (!all(subjects %in% rownames(X)))
+      stop("Not all genotypes presents in the phenotypic file are in marker matrix")
+    
+    X <- X[subjects,]
+    
+    switch(kernel,
+           'GB' = {
+             # case 'G-BLUP'...
+             ker.tmp <- tcrossprod(X) / ncol(X)
+             #G <- list(Zg %*% tcrossprod(ker.tmp, Zg))
+             G <- list(list(Kernel = Zg %*% tcrossprod(ker.tmp, Zg), Type = "D"))
+           },
+           'GK' = {
+             # case 'GK'...
+             D <- (as.matrix(dist(X))) ^ 2
+             
+             G <- list()
+             for(i in 1:length(bandwidth)){
+               ker.tmp <- exp(-bandwidth[i] * D / quantile(D, quantil))
+               #G[[i]] <- Zg %*% tcrossprod(ker.tmp, Zg)
+               G[[i]] <- list(Kernel = Zg %*% tcrossprod(ker.tmp, Zg), Type = "D")
+               }
+             },
+           {
+             stop("kernel selected is not available. Please choose one method available or make available other kernel through argument K")
+            })
+    
+    names(G) <- seq(length(G))
+    
+    }else{
+      ## check kernels
+      nullNames <- sapply(setKernel, function(x) any(sapply(dimnames(x), is.null)))
+      if(any(nullNames))
+        stop("Genotype names are missing in some kernel")
+      
+      # Condition to check if all genotype names are compatible
+      equalNames <- sapply(setKernel, function(x) mapply(function(z, y) all(z %in% y), z=list(subjects), y=dimnames(x)) )
+      if(!all(equalNames))
+        stop("Not all genotypes presents in phenotypic file are in the kernel matrix.
+             Please check dimnames")
+      
+      K <- lapply(setKernel, function(x) x[subjects, subjects]) # reordering kernel
+      
+      ker.tmp <- K
+      #G <- list(Zg %*% tcrossprod(ker.tmp, Zg))
+      G <- lapply(ker.tmp, function(x) list(Kernel = Zg %*% tcrossprod(x, Zg), Type = "D") )
+      
+      
+      # Setting names
+      if(is.null(names(K))){ 
+        names(G) <- seq(length(G))
+      }else{
+        names(G) <- names(setKernel)
+      }
+  }
+  
+  tmp.names <- names(G)
+  names(G) <- if(length(G) > 1) paste("G", tmp.names, sep ="_") else "G"
+  
+
+  switch(model,
+       
+         'SM' = {
+           out <- G
+         }, 
+         
+         'MM' = {
+           out <- G
+         },
+         
+         'MDs' = {
+           E <- tcrossprod(Ze)
+           #GE <- Map('*', G, list(E))
+           GE <- lapply(G, function(x) list(Kernel = x$Kernel * E, Type = "BD"))
+           names(GE) <- if(length(G) > 1) paste("GE", tmp.names, sep ="_") else "GE"
+           out <- c(G, GE)
+         },
+         
+         'MDe' = {
+           ZEE <- matrix(data = 0, nrow = nrow(Ze), ncol = ncol(Ze))
+           
+           out.tmp <- list()
+           
+           for(j in 1:length(G)){
+           out.tmp <- c(out.tmp, lapply(1:nEnv, function(i){
+             ZEE[,i] <- Ze[,i]
+             ZEEZ <- ZEE %*% t(Ze)
+             #K3 <- G[[j]] * ZEEZ
+             K3 <- list(Kernel = G[[j]]$Kernel * ZEEZ, Type = "BD")
+             return(K3)
+           }))
+           }
+           if(length(G) > 1){
+             names(out.tmp) <- paste(rep(env, length(G)), rep(tmp.names, each = nEnv), sep = "_" )
+           }else{
+             names(out.tmp) <-  env 
+           }
+           out <- c(G, out.tmp)
+           }, #DEFAULT CASE
+         {
+           stop("Model selected is not available ")
+         })
+    
+    if(intercept.random){
+      Gi <- list(Kernel = Zg %*% tcrossprod(diag(length(subjects)), Zg), Type = "D")
+      out <- c(out, list(Gi = Gi))
+    }
+  
+  return(out)
+}
+  K = getK(Y = Y, setKernel = K_G, model = model_b,intercept.random = intercept.random);
   names(K)   <- paste0('KG_',names(K))
 
   if(is.null(ne)) ne = length(unique(Y$env))
@@ -162,7 +371,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
       names(K_GE) <- nome
       K_f <- Map(c,c(K,K_e,K_GE))
     }
-    if(dimension_KE == 'k'){
+    if(dimension_KE == 'q'){
       Ng<-names(K_G)
       #   for(i in 1:ng) K_G[[i]] <- matrix(1,ncol=ne,nrow=ne) %x% K_G[[i]]#tcrossprod(Zg%*%K_G[[i]])
       #  ne <- length(K_E)
