@@ -1,7 +1,7 @@
 
 # *EnvRtype*: Envirotyping Tools in R <img align="right" src="/fig/logo3_300.png" width="20%" height="20%">
 
-*ATTENTION: package maintenance between 15th October to 31th October 2020.*
+*An Interplay between Quantitative Genetics and Ecophysiology for GxE analysis.*
 
 <div id="menu" />
   
