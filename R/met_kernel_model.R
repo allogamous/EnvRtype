@@ -402,11 +402,11 @@ kernel_model <- function(phenotypes, random = NULL, fixed = NULL,env, gid, verbo
   }
 
 
-  Vcomp.BGGE<-function(model,env,gid,digits=digits){
+  Vcomp.BGGE<-function(model,env,gid,digits=digits,alfa=.10){
 
-    p = length(unique(gid))
-    q = length(unique(env))
-    GLres = p*q - (p-1) - (q-1)
+    t = length(unique(gid))
+    e = length(unique(env))
+    #GLres = p*q - (p-1) - (q-1)
     K = model$K
     size = length(K)
     comps = data.frame(matrix(NA,ncol=3,nrow=size))
@@ -424,13 +424,33 @@ kernel_model <- function(phenotypes, random = NULL, fixed = NULL,env, gid, verbo
 
 
     comps$Type <- comps$K
-    comps <- comps[,c(4,1:3)]
-    comps$Type[grep(comps$Type,pattern = 'KE_')] = 'Environment (E)'
-    comps$Type[grep(comps$Type,pattern = 'KGE_')] = 'GxE'
-    comps$Type[grep(comps$Type,pattern = 'KG_')] = 'Genotype (G)'
 
-    #comps$CI_upper = NA
-    #comps$CI_lower = NA
+
+    comps$Type[grep(comps$K,pattern = 'KGE_')] = 'GxE'
+    comps$Type[grep(comps$K,pattern = 'KG_')] = 'Genotype (G)'
+    comps$Type[grep(comps$K,pattern = 'E')] = 'GxE'
+    comps$Type[grep(comps$K,pattern = 'KE_')] = 'Environment (E)'
+
+    comps$CI_upper = NA
+    comps$CI_lower = NA
+
+      ENV = which(comps$Type %in% 'Environment (E)')
+      GID = which(comps$Type %in% 'Genotype (G)')
+      GE = which(comps$Type %in% 'GxE')
+      R = which(comps$Type %in% 'Residual')
+    comps$CI_upper[ENV] = (n-e)  *comps$Var[ENV]/qchisq((alfa/2), n-e)
+    comps$CI_upper[GID] = (n-t)  *comps$Var[GID]/qchisq((alfa/2), n-t)
+    comps$CI_upper[GE ] = (n-t-e)*comps$Var[GE]/qchisq((alfa/2), n-t-e)
+    comps$CI_upper[R  ] = (n-t-e)*comps$Var[R]/qchisq((alfa/2), n-t-e)
+    comps$CI_lower[ENV] = (n-e)  *comps$Var[ENV]/qchisq((1-alfa/2), n-e)
+    comps$CI_lower[GID] = (n-t)  *comps$Var[GID]/qchisq((1-alfa/2), n-t)
+    comps$CI_lower[GE ] = (n-t-e)*comps$Var[GE]/qchisq((1-alfa/2), n-t-e)
+    comps$CI_lower[R  ] = (n-t-e)*comps$Var[R]/qchisq((1-alfa/2), n-t-e)
+
+    comps$CI_upper = round(comps$CI_upper,digits)
+    comps$CI_lower = round(comps$CI_lower,digits)
+
+    comps <- comps[,c(4,1:2,6,5,3)]
 
 
     return(comps)
