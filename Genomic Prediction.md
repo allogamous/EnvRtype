@@ -71,7 +71,9 @@ K_F <- list(E = K_F)
 
 ### Preparing the Kernels for Prediction (get_kernel function)
 
-> * In this example, we show the use of the Reaction-Norm Main Effect Model, assuming: $y = 1 \mu + X \Beta$
+y=\mu \mathbf{1}+\boldsymbol{X}_{f} \boldsymbol{\beta}+\sum_{r=1}^{q} \boldsymbol{u}_{r}+\boldsymbol{\varepsilon}
+
+> * In this example, we show the use of the Reaction-Norm Main Effect Model, assuming: 
 ```{r, eval=FALSE}
 ## Assembly Genomic and Enviromic Kernel Models
 M1 = get_kernel(K_G = K_G, Y = Y, model = "MDs") # baseline model
