@@ -407,6 +407,7 @@ kernel_model <- function(phenotypes, random = NULL, fixed = NULL,env, gid, verbo
     t = length(unique(gid))
     e = length(unique(env))
     #GLres = p*q - (p-1) - (q-1)
+    n = e*t
     K = model$K
     size = length(K)
     comps = data.frame(matrix(NA,ncol=3,nrow=size))
