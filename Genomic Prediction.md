@@ -105,6 +105,8 @@ iter = 10E3 # number of iterations
 burn = 5E3  # number of burn in
 thin = 10   # number for thining
 
+Z_E = model.matrix(~0+env,data=Y) # fixed environmental effects
+
 Vcomp <- c()
 for(MODEL in 1:length(Models)){
   fit <- kernel_model(phenotypes = Y$value,env = Y$env,gid = Y$gid,
