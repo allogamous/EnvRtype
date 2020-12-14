@@ -10,7 +10,8 @@
 * [Preparing the Kernels for Prediction](#P5)
 * [Fitting bayesian kernel models ](#P6)
 * [Cross-validation to assess predictive ability](#P7)
-              
+* [Author's Suggestions](#P8)
+
 <div id="P1" />
 
 
@@ -173,5 +174,14 @@ ddply(results,.(Model),summarise, pa = round(mean(rTs),3),sd = round(sd(rTs),4))
 
 ```
 
+<div id="P7" />
 
+### Our Suggestions
+
+> * Although we provide a function to run predictions, the user can also use the kernels created in get_kernel to run analyzes on other packages, such as BGLR or asreml. These packages are interesting because they also allow the modeling of the variance-covariance structure of the residues (errors), in addition to allows the inclusion of factor analytic structures, which can increase the predictive ability of the models;
+
+> * When running genomic prediction (GP) for multiple environments, we enviasage that CV schemes such as CV0 (prediction of novel environments) and CV00 (prediction of novel genotypes at novel environments) are indispensable to better assess the potential predictive ability of yours GP models. The power of models with ECs will be better highlighted when prediction scenarios involve a lack of environmental inforamtion. Schemes such as CV1 or CV2, perhpas, will not be enought to discriminate the predictive ability of the  non-enviromic and enviromic-based GP models.
+
+
+> * Finally, in addition to the predictive ability assessed at model level, for multi-environment conditons is necessary to assess the predictive ability of the models at each environment. Thus, a better discrimination of the model's potentialities can be achvied.
 
