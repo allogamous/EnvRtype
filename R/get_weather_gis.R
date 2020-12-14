@@ -54,6 +54,7 @@
 #' @importFrom nasapower get_power
 #' @importFrom plyr ldply
 #' @importFrom utils install.packages
+#' @importFrom raster getData
 #'
 #' @export
 
@@ -133,10 +134,12 @@ get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
   # if(isTRUE(asdataframe))
   .C = plyr::ldply(.C)
   names(.C)[names(.C) %in% '.id'] = 'env'
-  df = .C
+
+  df<-.C
+
   ###section from processWTH.R
   try(if(!is.null(country)){
-  #  if(!requireNamespace('raster')) utils::install.packages("raster")
+    if(!requireNamespace('raster')) utils::install.packages("raster")
 
     # collecting altitude data from raster SRTM database
     srtm <- raster::getData('alt', country=country,mask=TRUE)
