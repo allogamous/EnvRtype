@@ -32,7 +32,7 @@ data("maizeWTH")
 data("maizeYield")
 Y  = maizeYield
 ```
-### Environmental Covariables (ECs) for **W** Matrix
+### Environmental Covariables (ECs) for **W** Matrix (W.matrix function)
 
 ```{r, eval=FALSE}
 ## Organizing Environmental Covariables (ECs) in W matrix
@@ -51,7 +51,7 @@ W.matrix = W_matrix(env.data = maizeWTH,env.id = 'env',
 
 
 
-### Kernels
+### Environmental Relatedness Kernels (env_kernel function)
 
 ```{r, eval=FALSE}
 ## Kernel for the involving all development stages
@@ -67,4 +67,14 @@ K_G = list(G = maizeG)
 K_F <- list(E = K_F)
 
 # for K_S, we dont need to create a list because K_S is already a list of kernels for each development stage
+```
+
+### Preparing the Kernels for Prediction (get_kernel function)
+
+> * In this example, we show the use of the Reaction-Norm Main Effect Model, assuming: $y = 1 \mu + X \Beta$
+```{r, eval=FALSE}
+## Assembly Genomic and Enviromic Kernel Models
+M1 = get_kernel(K_G = K_G, Y = Y, model = "MDs") # baseline model
+M2 = get_kernel(K_G = K_G, K_E = K_F, Y = Y, model = "RNMM",dimension_KE = 'q') # reaction-norm 1
+M3 = get_kernel(K_G = K_G, K_E = K_S, Y = Y, model = "RNMM",reaction = T,dimension_KE = 'q') # reaction-norm 2
 ```
