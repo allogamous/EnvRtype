@@ -4,10 +4,11 @@
 
 * [Software](#P1)
 * [Data Sets](#P2)
-* [Soil Features](#P3)
-* [Environmental Typing](#P4)
-* [Environmental Covaraibles](#P5)
-* [Environmental Similarity](#P6)
+* [Environmental Covariables (ECs)](#P3)
+* [Environmental Relatedness Kernels](#P4)
+* [Preparing the Kernels for Prediction](#P5)
+* [Fitting bayesian kernel models ](#P6)
+* [Cross-validation to assess predictive ability](#P7)
               
 <div id="P1" />
 
@@ -32,6 +33,9 @@ data("maizeWTH")
 data("maizeYield")
 Y  = maizeYield
 ```
+
+<div id="P3" />
+
 ### Environmental Covariables (ECs) for **W** Matrix (W.matrix function)
 
 ```{r, eval=FALSE}
@@ -49,7 +53,7 @@ W.matrix = W_matrix(env.data = maizeWTH,env.id = 'env',
 
 ```
 
-
+<div id="P4" />
 
 ### Environmental Relatedness Kernels (env_kernel function)
 
@@ -69,14 +73,99 @@ K_F <- list(E = K_F)
 # for K_S, we dont need to create a list because K_S is already a list of kernels for each development stage
 ```
 
+<div id="P5" />
+
 ### Preparing the Kernels for Prediction (get_kernel function)
 
-y=\mu \mathbf{1}+\boldsymbol{X}_{f} \boldsymbol{\beta}+\sum_{r=1}^{q} \boldsymbol{u}_{r}+\boldsymbol{\varepsilon}
+> * the get_kernel function creates the modeling structure for predictive purposes
 
-> * In this example, we show the use of the Reaction-Norm Main Effect Model, assuming: 
+> * In this example, we show the use of the Reaction-Norm Main Effect Model (RNMM), assuming: y = intercept + fixed effects + enviromic + genomic + enviromic x genomic + error.
+
 ```{r, eval=FALSE}
 ## Assembly Genomic and Enviromic Kernel Models
 M1 = get_kernel(K_G = K_G, Y = Y, model = "MDs") # baseline model
 M2 = get_kernel(K_G = K_G, K_E = K_F, Y = Y, model = "RNMM",dimension_KE = 'q') # reaction-norm 1
 M3 = get_kernel(K_G = K_G, K_E = K_S, Y = Y, model = "RNMM",reaction = T,dimension_KE = 'q') # reaction-norm 2
 ```
+
+<div id="P6" />
+
+
+### Fitting bayesian kernel models (kernel_model function)
+
+> * kernel_model runs a bayesian kernel model regression.
+> * in the example below, we run the function in order to compute the variance components for each genomic and enviromic effect
+
+```{r, eval=FALSE}
+model = c('Baseline Genomic','Reaction-Norm','Reaction-Norm for each Dev.Stage')
+iter = 10E3 # number of iterations
+burn = 5E3  # number of burn in
+thin = 10   # number for thining
+
+Vcomp <- c()
+for(MODEL in 1:length(Models)){
+  fit <- kernel_model(phenotypes = Y$value,env = Y$env,gid = Y$gid,
+                      random = Models[[MODEL]],fixed = Z_E,
+                      iterations = iter,burnin = burn,thining = thin)
+  
+  Vcomp <- rbind(Vcomp,data.frame(fit$VarComps,Model=model[MODEL]))
+}
+
+```
+
+<div id="P7" />
+
+## Cross-validation to assess predictive ability of GP models (kernel_model function)
+
+> * creating the training sets (prediction scenario: prediction of novel genotypes, CV1)
+
+```{r, eval=FALSE}
+source('https://raw.githubusercontent.com/gcostaneto/SelectivePhenotyping/master/cvrandom.R')
+gid  = Y$gid
+env  = Y$env
+rep  = 10
+seed = 7121
+f    = 0.80
+iter = 5E3
+burn = 1E3
+thin = 10
+TS = Sampling.CV1(gids = Y$gid,f = f,seed = seed,rep = rep,gidlevel = F)
+```
+
+> * running predictive models
+
+```{r, eval=FALSE}
+require(foreach)
+results <-foreach(REP = 1:rep, .combine = "rbind")%:%
+  foreach(MODEL = 1:length(model), .combine = "rbind")%dopar% {
+    
+    
+    yNA      <- Y$value
+    tr       <- TS[[REP]]
+    yNA[-tr] <- NA
+    
+    Z_E = model.matrix(~0+env,data=Y) # fixed environmental effects
+    
+    fit <- kernel_model(phenotypes = yNA,env = Y$env,gid = Y$gid,
+                        random = Models[[MODEL]],fixed = Z_E,
+                        iterations = iter,burnin = burn,thining = thin)
+   
+
+    df<-data.frame(Model = model[MODEL],rep=REP,
+                   rTr=cor(Y$value[tr ], fit$fitted$yHat[tr ],use = 'complete.obs'),
+                   rTs=cor(Y$value[-tr], fit$fitted$yHat[-tr],use = 'complete.obs'))
+    
+    write.table(x = df,file = 'PA_models.txt',sep=',',append = T,row.names=T)
+    return(df)
+  }
+  
+saveRDS(object = results, file = 'PA_cv1_2' )
+require(plyr)
+
+# predictive ability
+ddply(results,.(Model),summarise, pa = round(mean(rTs),3),sd = round(sd(rTs),4))
+
+```
+
+
+
