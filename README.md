@@ -33,7 +33,8 @@
 **Tutorials**
 
 * [Envirotyping pipeline](https://github.com/allogamous/EnvRtype/blob/master/Enviromic_pipeline.md)
-* [Genomic Prediction using Environmental Covariates and Considering Reaction-Norms](https://github.com/allogamous/EnvRtype/blob/master/Genomic%20Prediction.md)
+* [Genomic Prediction using Environmental Covariates](https://github.com/allogamous/EnvRtype/blob/master/Genomic%20Prediction.md)
+
 **Information**
 * [Authorship](#P4)
 * [Acknowledgments](#P5)
