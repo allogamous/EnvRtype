@@ -1,4 +1,5 @@
 # **Genomic Prediction using Environmental Covariates and Considering Reaction-Norms**
+* author: Germano Costa Neto
 
 *last update: 13th December 2020*
 
