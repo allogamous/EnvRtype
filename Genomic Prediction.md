@@ -116,9 +116,10 @@ for(MODEL in 1:length(Models)){
 
 <div id="P7" />
 
-## Cross-validation to assess predictive ability of GP models (kernel_model function)
+### Cross-validation to assess predictive ability of GP models (kernel_model function)
 
 > * creating the training sets (prediction scenario: prediction of novel genotypes, CV1)
+> * to speed up your analysis, we suggest to use foreach to run the cross-validation
 
 ```{r, eval=FALSE}
 source('https://raw.githubusercontent.com/gcostaneto/SelectivePhenotyping/master/cvrandom.R')
