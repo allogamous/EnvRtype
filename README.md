@@ -50,7 +50,7 @@
 
 ```{r}
 library(devtools)
-install_github('allogamous/EnvRtype') # current version: 0.1.5
+install_github('allogamous/EnvRtype') # current version:  0.1.6 (December 14th 2020)
 require(EnvRtype)
   ```
 ### Manually installing
@@ -62,7 +62,7 @@ setwd("~/EnvRtype-master.zip") # ~ is the path from where you saved the file.zip
 unzip("EnvRtype-master.zip") 
 file.rename("EnvRtype-master", "EnvRtype") 
 shell("R CMD build EnvRtype") # or system("R CMD build EnvRtype")
-install.packages("EnvRtype_0.1.9.tar.gz", repos = NULL, type="source") # Make sure to use the current verision
+install.packages("EnvRtype_0.1.6.tar.gz", repos = NULL, type="source") # Make sure to use the current verision
 ```
  
  ### Required packages
