@@ -99,6 +99,8 @@ M3 = get_kernel(K_G = K_G, K_E = K_S, Y = Y, model = "RNMM",dimension_KE = 'q') 
 
 ```{r, eval=FALSE}
 model = c('Baseline Genomic','Reaction-Norm','Reaction-Norm for each Dev.Stage')
+Models = list(M1,M2,M3) # for running all models in loop
+
 iter = 10E3 # number of iterations
 burn = 5E3  # number of burn in
 thin = 10   # number for thining
