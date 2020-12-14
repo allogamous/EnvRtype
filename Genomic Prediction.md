@@ -185,3 +185,106 @@ ddply(results,.(Model),summarise, pa = round(mean(rTs),3),sd = round(sd(rTs),4))
 
 > * Finally, in addition to the predictive ability assessed at model level, for multi-environment conditons is necessary to assess the predictive ability of the models at each environment. Thus, a better discrimination of the model's potentialities can be achvied.
 
+
+### CV1 and CV00
+
+> * CV1
+```{r, eval=FALSE}
+gid  = Y$gid
+env  = Y$env
+rep  = 30
+seed = 1010
+f    = 0.20
+iter = 2E3
+burn = 5E2
+thin = 10
+
+source('https://raw.githubusercontent.com/gcostaneto/SelectivePhenotyping/master/cvrandom.R')
+TS = Sampling.CV1(gids = Y$gid,f = f,seed = seed,rep = rep,gidlevel = F)
+
+
+require(foreach)
+require(doParallel)
+
+cl <- makeCluster(3)
+registerDoParallel(cl)
+
+
+results <-foreach(REP = 1:rep, .combine = "rbind")%:%
+  foreach(MODEL = 1:length(model), .combine = "rbind")%dopar% {
+    
+    
+    yNA      <- Y$value
+    tr       <- TS[[REP]]
+    yNA[-tr] <- NA
+    
+    Z_E = model.matrix(~0+env,data=Y)
+    fit <- kernel_model(phenotypes = yNA,env = Y$env,gid = Y$gid,
+                        random = Models[[MODEL]],fixed = Z_E,
+                        iterations = iter,burnin = burn,thining = thin)
+    
+    
+    df<-data.frame(Model = model[MODEL],rep=REP,
+                   rTr=cor(Y$value[tr ], fit$fitted$yHat[tr ],use = 'complete.obs'),
+                   rTs=cor(Y$value[-tr], fit$fitted$yHat[-tr],use = 'complete.obs'))
+    
+    cat(paste0(model[MODEL],' ',REP," r = ",round(cor(Y$value[-tr], fit$fitted$yHat[-tr]),3),'\n'))
+    
+    write.table(x = df,file = 'PA_models.txt',sep=',',append = T,row.names=T)
+    
+    output <- data.frame(obs=Y$value,pred=fit$fitted$yHat,
+                         gid=Y$gid, env=Y$env,
+                         Model = model[MODEL],rep=REP,pop=NA)
+    
+    
+    output$pop[tr ] <- 'training'
+    output$pop[-tr] <- 'testing'
+    
+    return(output)
+  }
+
+stopCluster(cl)
+
+pa = ddply(results,.(rep,pop,Model),summarise,r = cor(obs,pred))
+ddply(pa,.(pop,Model),summarise, pa = round(mean(r),3),sd = round(sd(r),3))
+```
+
+> * CV00 
+
+```{r, eval=FALSE}
+seed = 8172
+TS=Sampling.CV0(gids = gid,envs = env,out.env = 2,f = f,seed = seed,rep = rep)
+
+cl <- makeCluster(3)
+registerDoParallel(cl)
+
+results <-foreach(REP = 1:rep, .combine = "rbind")%:%
+  foreach(MODEL = 1:length(model), .combine = "rbind")%dopar% {
+    
+    
+    yNA      <- Y$value
+    tr       <- TS[[REP]]$training
+    yNA[-tr] <- NA
+    
+    Z_E = model.matrix(~0+env,data=Y)
+    fit <- kernel_model(phenotypes = yNA,env = Y$env,gid = Y$gid,
+                        random = Models[[MODEL]],fixed = Z_E,
+                        iterations = iter,burnin = burn,thining = thin)
+    
+    
+    output <- data.frame(obs=Y$value,pred=fit$fitted$yHat,
+                         gid=Y$gid, env=Y$env,
+                         Model = model[MODEL],rep=REP,pop=NA)
+    
+    
+    output$pop[tr ] <- 'training'
+    output$pop[-tr] <- 'testing'
+    
+    return(output)
+  }
+  
+  stopCluster(cl)
+
+pa = ddply(results,.(rep,pop,Model),summarise,r = cor(obs,pred))
+ddply(pa,.(pop,Model),summarise, pa = round(mean(r),3),sd = round(sd(r),3))
+```
