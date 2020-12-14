@@ -86,7 +86,7 @@ K_F <- list(E = K_F)
 ## Assembly Genomic and Enviromic Kernel Models
 M1 = get_kernel(K_G = K_G, Y = Y, model = "MDs") # baseline model
 M2 = get_kernel(K_G = K_G, K_E = K_F, Y = Y, model = "RNMM",dimension_KE = 'q') # reaction-norm 1
-M3 = get_kernel(K_G = K_G, K_E = K_S, Y = Y, model = "RNMM",reaction = T,dimension_KE = 'q') # reaction-norm 2
+M3 = get_kernel(K_G = K_G, K_E = K_S, Y = Y, model = "RNMM",dimension_KE = 'q') # reaction-norm 2
 ```
 
 <div id="P6" />
