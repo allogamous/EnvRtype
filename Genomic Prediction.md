@@ -10,7 +10,7 @@
 * [Preparing the Kernels for Prediction](#P5)
 * [Fitting bayesian kernel models ](#P6)
 * [Cross-validation to assess predictive ability](#P7)
-* [Author's Suggestions](#P8)
+* [Codes (G3 paper) ](#P8)
 
 <div id="P1" />
 
