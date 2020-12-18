@@ -185,6 +185,9 @@ ddply(results,.(Model),summarise, pa = round(mean(rTs),3),sd = round(sd(rTs),4))
 
 > * Finally, in addition to the predictive ability assessed at model level, for multi-environment conditons is necessary to assess the predictive ability of the models at each environment. Thus, a better discrimination of the model's potentialities can be achvied.
 
+---------------------------------------------------------------------------------------
+## G3 Paper: Codes for Genomic Prediction using Reaction-Norm
+
 
 ### CV1 and CV00
 
