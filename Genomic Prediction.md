@@ -29,10 +29,12 @@ library(EnvRtype)
 
 > * Toy example using 
 ```{r, eval=FALSE}
-library(EnvRtype)
-data("maizeG")
-data("maizeWTH")
-data("maizeYield")
+data("maizeYield") # toy set of phenotype data (grain yield per environment)
+data("maizeG"    ) # toy set of genomic relationship for additive effects 
+data("maizeWTH")   # toy set of environmental data
+y   = "value"      # name of the vector of phenotypes
+gid = "gid"        # name of the vector of genotypes
+env = "env"        # name of the vector of environments
 Y  = maizeYield
 ```
 
@@ -85,9 +87,9 @@ K_F <- list(E = K_F)
 
 ```{r, eval=FALSE}
 ## Assembly Genomic and Enviromic Kernel Models
-M1 = get_kernel(K_G = K_G, Y = Y, model = "MDs") # baseline model
-M2 = get_kernel(K_G = K_G, K_E = K_F, Y = Y, model = "RNMM",dimension_KE = 'q') # reaction-norm 1
-M3 = get_kernel(K_G = K_G, K_E = K_S, Y = Y, model = "RNMM",dimension_KE = 'q') # reaction-norm 2
+M1 = get_kernel(K_G = K_G,data = maizeYield,env = env,gid = gid,y = y, model = "MDs") # baseline model
+M2 = get_kernel(K_G = K_G, K_E = K_F, data = maizeYield,env = env,gid = gid,y = y, model = "RNMM",dimension_KE = 'q') # reaction-norm 1
+M3 = get_kernel(K_G = K_G, K_E = K_S, data = maizeYield,env = env,gid = gid,y = y,model = "RNMM",dimension_KE = 'q') # reaction-norm 2
 ```
 
 <div id="P6" />
@@ -110,7 +112,7 @@ Z_E = model.matrix(~0+env,data=Y) # fixed environmental effects
 
 Vcomp <- c()
 for(MODEL in 1:length(Models)){
-  fit <- kernel_model(phenotypes = Y$value,env = Y$env,gid = Y$gid,
+  fit <- kernel_model(data = maizeYield,y = y,env = env,gid = gid,
                       random = Models[[MODEL]],fixed = Z_E,
                       iterations = iter,burnin = burn,thining = thin)
   
@@ -128,8 +130,6 @@ for(MODEL in 1:length(Models)){
 
 ```{r, eval=FALSE}
 source('https://raw.githubusercontent.com/gcostaneto/SelectivePhenotyping/master/cvrandom.R')
-gid  = Y$gid
-env  = Y$env
 rep  = 10
 seed = 7121
 f    = 0.80
@@ -146,14 +146,13 @@ require(foreach)
 results <-foreach(REP = 1:rep, .combine = "rbind")%:%
   foreach(MODEL = 1:length(model), .combine = "rbind")%dopar% {
     
-    
-    yNA      <- Y$value
+    yNA      <- Y
     tr       <- TS[[REP]]
-    yNA[-tr] <- NA
+    yNA$value[-tr] <- NA
     
-    Z_E = model.matrix(~0+env,data=Y) # fixed environmental effects
+    Z_E = model.matrix(~0+env,data=yNA) # fixed environmental effects
     
-    fit <- kernel_model(phenotypes = yNA,env = Y$env,gid = Y$gid,
+    fit <- kernel_model(data = yNA,y = y,env = env,gid = gid,
                         random = Models[[MODEL]],fixed = Z_E,
                         iterations = iter,burnin = burn,thining = thin)
    
@@ -193,8 +192,6 @@ ddply(results,.(Model),summarise, pa = round(mean(rTs),3),sd = round(sd(rTs),4))
 
 > * CV1
 ```{r, eval=FALSE}
-gid  = Y$gid
-env  = Y$env
 rep  = 30
 seed = 1010
 f    = 0.20
@@ -215,17 +212,17 @@ registerDoParallel(cl)
 
 results <-foreach(REP = 1:rep, .combine = "rbind")%:%
   foreach(MODEL = 1:length(model), .combine = "rbind")%dopar% {
-    
-    
-    yNA      <- Y$value
+     
+    yNA      <- Y
     tr       <- TS[[REP]]
-    yNA[-tr] <- NA
+    yNA$value[-tr] <- NA
     
-    Z_E = model.matrix(~0+env,data=Y)
-    fit <- kernel_model(phenotypes = yNA,env = Y$env,gid = Y$gid,
+    Z_E = model.matrix(~0+env,data=yNA) # fixed environmental effects
+    
+    fit <- kernel_model(data = yNA,y = y,env = env,gid = gid,
                         random = Models[[MODEL]],fixed = Z_E,
                         iterations = iter,burnin = burn,thining = thin)
-    
+   
     
     df<-data.frame(Model = model[MODEL],rep=REP,
                    rTr=cor(Y$value[tr ], fit$fitted$yHat[tr ],use = 'complete.obs'),
@@ -263,17 +260,16 @@ registerDoParallel(cl)
 
 results <-foreach(REP = 1:rep, .combine = "rbind")%:%
   foreach(MODEL = 1:length(model), .combine = "rbind")%dopar% {
-    
-    
-    yNA      <- Y$value
+            
+    yNA      <- Y
     tr       <- TS[[REP]]$training
-    yNA[-tr] <- NA
+    yNA$value[-tr] <- NA
     
     Z_E = model.matrix(~0+env,data=Y)
-    fit <- kernel_model(phenotypes = yNA,env = Y$env,gid = Y$gid,
+    fit <- kernel_model(data = yNA,y = y,env = env,gid = gid,
                         random = Models[[MODEL]],fixed = Z_E,
                         iterations = iter,burnin = burn,thining = thin)
-    
+
     
     output <- data.frame(obs=Y$value,pred=fit$fitted$yHat,
                          gid=Y$gid, env=Y$env,
