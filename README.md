@@ -39,7 +39,7 @@
 * [Authorship](#P4)
 * [Acknowledgments](#P5)
 * [Publications](#P6)
-
+* [Updates and Maintence](#P7)
 
               
 <div id="Instal" />
@@ -149,8 +149,15 @@ Galli G, Horne DW, Collins SD, Jung J, Chang A, Fritsche‐Neto R, et al. (2020)
 
 Costa-Neto G, Fritsche-Neto R, Crossa J (2020). Nonlinear kernels, dominance, and envirotyping data increase the accuracy of genome-based prediction in multi-environment trials. **Heredity** (Edinb).
 
-              
-
+  
+  <div id="P7" />
+  
+  ---------------------------------------------
+  
+  ## Updates and Maintence
+  
+  > The current version of the pacakge is 0.1.9.
+  > From December 15th 2020 to January 10th 2021 this page will be under maintence. This means that we are now working in several updates and some changes will be made in some functions.
 
 
 <img align="right" width="110" height="100" src="/fig/logo_alogamas.png">
