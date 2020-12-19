@@ -75,7 +75,7 @@ get_weather(env.id = env, lat = lat, lon = lon,
 
 }
 \references{
-Sparks A (2019). _nasapower: NASA-POWER Data from R_. R package version 1.1.3, <URL:https://CRAN.R-project.org/package=nasapower>.
+Sparks A (2018). _nasapower: NASA-POWER Data from R_. R package version 1.1.3, <URL:https://CRAN.R-project.org/package=nasapower>.
 }
 \author{
 Germano Costa Neto

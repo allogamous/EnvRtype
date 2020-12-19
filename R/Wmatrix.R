@@ -28,14 +28,13 @@
 #' TODO
 #'
 #' @examples
-#' ### Fetching weather information from NASA-POWER
-#' env.data = get_weather(lat = -13.05, lon = -56.05,)
-#'
+#'data("maizeWTH")
+#'env.data = maizeWTH[maizeWTH$daysFromStart < 100,]
 #' ### Mean-centered and scaled matrix
-#' W <- W_matrix(env.data = env.data, by.interval = FALSE)
+#'W <- W_matrix(env.data = env.data)
 #'
 #' ### Same as SummaryWTH, we can add time.windows
-#' W <- W_matrix(env.data = env.data, by.interval = TRUE,
+#'W <- W_matrix(env.data = env.data, by.interval = TRUE,
 #'               time.window = c(0, 14, 35, 60, 90, 120))
 #'
 #' ### Selecting statistic to be used
@@ -56,9 +55,9 @@
 #' W <- W_matrix(env.data = env.data, var.id = id.var)
 #'
 #' ### Combining summaryWTH by using is.processed = TRUE
-#' data <- summaryWTH(env.data, env.id = 'env', statistic = 'quantile')
+#'data <- summaryWTH(env.data, env.id = 'env', statistic = 'quantile')
 #' W <- W_matrix(env.data = data, is.processed = TRUE)
-#'
+
 #' @importFrom stats sd
 #' @importFrom reshape2 acast
 #'
@@ -68,6 +67,30 @@ W_matrix = function(env.data, is.processed=FALSE,id.names=NULL,env.id=NULL,var.i
                     probs=NULL,by.interval=NULL,time.window=NULL,names.window=NULL,
                     center=TRUE,scale=TRUE, sd.tol = 10,statistic=NULL,
                     tol=1E-3, QC=FALSE){
+
+  W.scale <-function(env.data, center=TRUE,scale=TRUE, sd.tol = 4,tol=1E-3,QC=FALSE){
+
+    sdA   <- apply(env.data,2,sd)
+    t <- ncol(env.data)
+    removed <- names(sdA[sdA > sd.tol])
+    if(!is.matrix(env.data)){stop('env.data must be a matrix')}
+    env.data<- scale(env.data+tol,center = center,scale = scale)
+    if(isTRUE(QC)) env.data <- env.data[,!colnames(env.data) %in% removed]
+
+    r <- length(removed)
+
+    if(isTRUE(QC)){
+      cat(paste0('------------------------------------------------','\n'))
+      cat(paste0('Quality Control based on sd.tol=',sd.tol,'\n'))
+      cat(paste0('Removed variables:','\n'))
+      cat(paste0(r,' from ',t,'\n'))
+      cat(paste0(removed,'\n'))
+      cat(paste0('------------------------------------------------','\n'))
+    }
+
+    return(env.data)
+  }
+
 
   if(is.null(statistic)) statistic <-'mean'
   if(is.null(by.interval)) by.interval <- FALSE
@@ -101,25 +124,3 @@ W_matrix = function(env.data, is.processed=FALSE,id.names=NULL,env.id=NULL,var.i
 
 
 
-W.scale <-function(env.data, center=TRUE,scale=TRUE, sd.tol = 4,tol=1E-3,QC=FALSE){
-
-  sdA   <- apply(env.data,2,sd)
-  t <- ncol(env.data)
-  removed <- names(sdA[sdA > sd.tol])
-  if(!is.matrix(env.data)){stop('env.data must be a matrix')}
-  env.data<- scale(env.data+tol,center = center,scale = scale)
-  if(isTRUE(QC)) env.data <- env.data[,!colnames(env.data) %in% removed]
-
-  r <- length(removed)
-
-  if(isTRUE(QC)){
-    cat(paste0('------------------------------------------------','\n'))
-    cat(paste0('Quality Control based on sd.tol=',sd.tol,'\n'))
-    cat(paste0('Removed variables:','\n'))
-    cat(paste0(r,' from ',t,'\n'))
-    cat(paste0(removed,'\n'))
-    cat(paste0('------------------------------------------------','\n'))
-  }
-
-  return(env.data)
-}

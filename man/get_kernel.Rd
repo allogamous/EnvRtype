@@ -6,16 +6,17 @@
 \usage{
 get_kernel(
   K_E = NULL,
-  K_G,
-  Y,
+  K_G = NULL,
+  data = NULL,
   model = NULL,
   intercept.random = FALSE,
   reaction = FALSE,
   dimension_KE = NULL,
   ne = NULL,
   ng = NULL,
-  env.id = "env",
-  gid.id = "gid"
+  env = "env",
+  gid = "gid",
+  y = "value"
 )
 }
 \arguments{
@@ -23,7 +24,7 @@ get_kernel(
 
 \item{K_G}{list. Constains matrices of genomic enabled kernels (p x p genotypes). See BGGE::getK for more information.}
 
-\item{Y}{data.frame. Should contain the following colunms: environemnt, genotype, phenotype.}
+\item{data}{data.frame. Should contain the following colunms: environemnt, genotype, phenotype.}
 
 \item{model}{character. Model structure for genomic predicion. It can be \code{c('MM','MDs','E-MM','E-MDs')}, in which MM (main effect model \eqn{Y=fixed + G}) and MDs (\eqn{Y=fixed+G+GxE}).}
 
@@ -37,9 +38,11 @@ get_kernel(
 
 \item{ng}{numeric. denotes the number of genotypes (p)}
 
-\item{env.id}{character. denotes the name of the column respectively to environments}
+\item{env}{character. denotes the name of the column respectively to environments}
 
-\item{gid.id}{character. denotes the name of the column respectively to genotypes}
+\item{gid}{character. denotes the name of the column respectively to genotypes}
+
+\item{y}{character. denotes the name of the column respectively to phenotype values}
 }
 \value{
 A list of kernels (relationship matrices) to be used in genomic models.
@@ -54,42 +57,32 @@ TODO Define models.
 ### Loading the genomic, phenotype and weather data
 data('maizeG'); data('maizeYield'); data("maizeWTH")
 
-### Y = fixed + G
-MM <- get_kernel(K_G = list(G = as.matrix(maizeG)),
-                 Y = maizeYield, model = 'MM')
-### Y = fixed + G + GE
-MDs <- get_kernel(K_G = list(G = as.matrix(maizeG)),
-                  Y = maizeYield, model = 'MDs')
-
-### Enriching models with weather data
-W.cov <- W_matrix(env.data = maizeWTH)
-H <- env_kernel(env.data = W.cov, Y = maizeYield,gaussian=TRUE)
-
-EMM <- get_kernel(K_G = list(G = as.matrix(maizeG)),
-                  Y = maizeYield,K_E = list(W = H$envCov),
-                  model = 'EMM') # or model = MM
-
-### Y = fixed + G + W + GE
-EMDs <- get_kernel(K_G = list(G = as.matrix(maizeG)),
-                   Y = maizeYield,
-                   K_E = list(W = H$envCov),
-                   model = 'MDs') # or model = MDs
-
-### Y = fixed + W + G + GW
-RN <- get_kernel(K_G = list(G = as.matrix(maizeG)),
-                 Y = maizeYield,
-                 K_E = list(W = H$envCov),
-                 model = 'RNMM')
-
-### Y = fixed + W + G + GW + GE
-fullRN <- get_kernel(K_G = list(G = as.matrix(maizeG)),
-                     Y = maizeYield,
-                     K_E = list(W = H$envCov),
-                     model = 'RNMDs')
+data("maizeYield") # toy set of phenotype data (grain yield per environment)
+data("maizeG"    ) # toy set of genomic relationship for additive effects
+data("maizeWTH")   # toy set of environmental data
+y   = "value"      # name of the vector of phenotypes
+gid = "gid"        # name of the vector of genotypes
+env = "env"        # name of the vector of environments
+ECs  = W_matrix(env.data = maizeWTH[maizeWTH$daysFromStart < 100, ], var.id = c("FRUE",'PETP',"SRAD","T2M_MAX"),statistic = 'mean')
+## KG and KE might be a list of kernels
+KE = list(W = env_kernel(env.data = ECs)[[2]])
+KG = list(G=maizeG);
+## Creating kernel models with get_kernel
+## y = fixed + Genomic + error (main effect model, MM)
+MM    = get_kernel(K_G = KG, y = y,gid = gid,env = env, data = maizeYield,model = "MM")
+## y = fixed + Genomic + Genomic x Environment + error (MM plus a single GE deviation, MDs model, assuming GE as a block diagonal genomic effects)
+MDs   = get_kernel(K_G = KG, y = y,gid = gid,env = env,  data = maizeYield, model = "MDs")
+EMM   = get_kernel(K_G = KG, K_E = KE, y = y,gid = gid,env = env,  data = maizeYield, model = "EMM")
+EMDs  = get_kernel(K_G = KG, K_E = KE, y = y,gid = gid,env = env,  data = maizeYield, model = "EMDs")
+RMMM  = get_kernel(K_G = KG, K_E = KE, y = y,gid = gid,env = env,  data = maizeYield, model = "RNMM")
+RNMDs = get_kernel(K_G = KG, K_E = KE, y = y,gid = gid,env = env,  data = maizeYield, model = "RNMDs")
+## Examples of Models without any genetic relatedness, which G = I a identity for genotypes
+MDs   = get_kernel(K_G = NULL, y = y,gid = gid,env = env,  data = maizeYield, model = "MDs")
+EMDs  = get_kernel(K_G = NULL, K_E = KE, y = y,gid = gid,env = env,  data = maizeYield, model = "EMDs")
 
 }
 \seealso{
-BGGE::getk W_matrix
+env_typing W_matrix kernel_model
 }
 \author{
 Germano Costa Neto

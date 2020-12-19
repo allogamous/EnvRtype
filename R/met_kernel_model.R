@@ -5,9 +5,9 @@
 #'
 #' @author Germano Costa Neto (Adapted from Granato et al. 2018, BGGE package)
 
-#' @param phenotypes Vector of data. Should be numeric and NAs are allowed.
-#' @param gid Vector of characters for genotypes identification.
-#' @param env Vector of characters for environments identification.
+#' @param env character. denotes the name of the column respectively to environments
+#' @param y character. denotes the name of the column respectively to phenotype values
+#' @param data data.frame. Should contain the following colunms: environemnt, genotype, phenotype.
 #' @param random list A two-level list Specify the regression kernels (co-variance matrix). The former is the \code{Kernel},
 #' where is included the regression kernels. The later is the \code{Type}, specifying if the matrix is either \code{D} Dense or
 #' \code{BD} Block Diagonal. A number of regression kernels or random effects to be fitted are specified in this list.
@@ -21,7 +21,6 @@
 #' @param tol a numeric tolerance level. Eigenvalues lower than \code{tol} are discarded. Default is \code{1e-10}.
 #' @param R2 the proportion of variance expected to be explained by the regression.
 #'
-#'
 #' @details
 #' TODO
 #'
@@ -31,7 +30,7 @@
 #'  values along with the chains are released.
 
 
-kernel_model <- function(phenotypes, random = NULL, fixed = NULL,env, gid, verbose=FALSE, iterations=1E3, burnin=2E2, thining=10, tol=1e-20, R2=0.5, digits=4 ){
+kernel_model <- function(y, data=NULL, random = NULL, fixed = NULL,env, gid, verbose=FALSE, iterations=1E3, burnin=2E2, thining=10, tol=1e-20, R2=0.5, digits=4 ){
 
   cat(paste0('--------------------------------------------------------','\n'))
   cat(paste0('Running BGGE (Bayesian Genotype + Genotype x Environment)','\n'))
@@ -39,6 +38,9 @@ kernel_model <- function(phenotypes, random = NULL, fixed = NULL,env, gid, verbo
   cat(paste0('--------------------------------------------------------','\n'))
 
   if(is.null(random)) stop('Missing the list of kernels for random effects')
+  Y <- data.frame(env=data[,env],gid=data[,gid],y=data[,y])
+
+
   BGGE <- function(y, K, XF = NULL, ne, ite = 1000, burn = 200, thin = 3, verbose = FALSE, tol = 1e-10, R2 = 0.5) {
 
     ### PART I  - Conditional distributions functions and eigen descomposition ####
@@ -406,8 +408,8 @@ kernel_model <- function(phenotypes, random = NULL, fixed = NULL,env, gid, verbo
 
     t = length(unique(gid))
     e = length(unique(env))
+    n = t*e
     #GLres = p*q - (p-1) - (q-1)
-    n = e*t
     K = model$K
     size = length(K)
     comps = data.frame(matrix(NA,ncol=3,nrow=size))
@@ -437,8 +439,9 @@ kernel_model <- function(phenotypes, random = NULL, fixed = NULL,env, gid, verbo
 
       ENV = which(comps$Type %in% 'Environment (E)')
       GID = which(comps$Type %in% 'Genotype (G)')
-      GE = which(comps$Type %in% 'GxE')
-      R = which(comps$Type %in% 'Residual')
+      GE  = which(comps$Type %in% 'GxE')
+      R   = which(comps$Type %in% 'Residual')
+
     comps$CI_upper[ENV] = (n-e)  *comps$Var[ENV]/qchisq((alfa/2), n-e)
     comps$CI_upper[GID] = (n-t)  *comps$Var[GID]/qchisq((alfa/2), n-t)
     comps$CI_upper[GE ] = (n-t-e)*comps$Var[GE]/qchisq((alfa/2), n-t-e)
@@ -453,14 +456,18 @@ kernel_model <- function(phenotypes, random = NULL, fixed = NULL,env, gid, verbo
 
     comps <- comps[,c(4,1:2,6,5,3)]
 
+    p = c('KG_','KE_','KGE_')
+    for(i in 1:3) comps$K = gsub(x = comps$K,pattern = p[i],replacement = '')
+
 
     return(comps)
   }
 
 
-  ne <- as.vector(table(env))
+  ne <- as.vector(table(Y$env))
   start=Sys.time()
-  fit <- BGGE(y = phenotypes,
+
+  fit <- BGGE(y = Y$y,
               K = random,
               tol = tol,
               ne = ne,
@@ -472,7 +479,7 @@ kernel_model <- function(phenotypes, random = NULL, fixed = NULL,env, gid, verbo
 
   cat(paste0('Start at: ', start,' | Ended at: ', end,'\n'))
 
-  return(list(fitted = fit, VarComps = Vcomp.BGGE(model = fit,env = env,gid = gid, digits=digits)))
+  return(list(fitted = fit, VarComps = Vcomp.BGGE(model = fit,env = Y$env,gid = Y$gid, digits=digits)))
 
 }
 

@@ -5,7 +5,8 @@
 \title{Kernel Models for Predicting Phenotypes across Multi-Environment Conditions}
 \usage{
 kernel_model(
-  phenotypes,
+  y,
+  data = NULL,
   random = NULL,
   fixed = NULL,
   env,
@@ -20,7 +21,9 @@ kernel_model(
 )
 }
 \arguments{
-\item{phenotypes}{Vector of data. Should be numeric and NAs are allowed.}
+\item{y}{character. denotes the name of the column respectively to phenotype values}
+
+\item{data}{data.frame. Should contain the following colunms: environemnt, genotype, phenotype.}
 
 \item{random}{list A two-level list Specify the regression kernels (co-variance matrix). The former is the \code{Kernel},
 where is included the regression kernels. The later is the \code{Type}, specifying if the matrix is either \code{D} Dense or
@@ -28,9 +31,7 @@ where is included the regression kernels. The later is the \code{Type}, specifyi
 
 \item{fixed}{matrix Design matrix (\eqn{n \times p}) for fixed effects}
 
-\item{env}{Vector of characters for environments identification.}
-
-\item{gid}{Vector of characters for genotypes identification.}
+\item{env}{character. denotes the name of the column respectively to environments}
 
 \item{verbose}{Should iteration history be printed on console? If TRUE or 1 then it is printed,
 otherwise, if another number $n$ is choosen the history is printed every $n$ times. The default is \code{FALSE}}

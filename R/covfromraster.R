@@ -19,9 +19,12 @@
 #'
 #' @examples
 #' # TODO
-# env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
-# srtm = raster::getData('worldclim', var='tmin', lat = -13.05, lon = -56.05, res = 0.5)
-# env.data = extract_GIS(covraster = srtm, env.data = env.data)
+#' # Extraction of clay soil content for Nairobi, Kenya
+#'require(EnvRtype)
+#'data("clay_5_15")
+#'env.data = data.frame(LAT = -1.367, LON = 36.834, env = 'NAIROBI')
+#'env.data = extract_GIS(covraster = clay_5_15,name.out = 'clay_5_15',env.data = env.data)
+#'head(env.data)
 #'
 #' @importFrom raster extract merge
 #' @importFrom sp proj4string CRS coordinates<- proj4string<- coordinates
@@ -29,7 +32,7 @@
 #' @export
 
 extract_GIS <- function(covraster=NULL,Latitude=NULL, Longitude=NULL,env.data=NULL,env.id=NULL,name.out = NULL){
-  
+
   if(is.null(name.out)) name.out = 'ALT'
   if(is.null(Latitude)) Latitude <- 'LAT'
   if(is.null(Longitude)) Longitude <-'LON'
@@ -38,7 +41,7 @@ extract_GIS <- function(covraster=NULL,Latitude=NULL, Longitude=NULL,env.data=NU
   env = env.data[,env.id]
   sp::coordinates(loc)= ~x+y
   sp::proj4string(loc) = sp::CRS("+proj=longlat +datum=WGS84") # acho interessante colocar essa informacao no help da funcao.
-  
+
   for(i in 1:length(names(covraster))) env = cbind(env,data.frame(raster::extract(covraster[[i]], loc)))
   names(env)[-1] = names(covraster)
   env<-data.frame(unique(env))

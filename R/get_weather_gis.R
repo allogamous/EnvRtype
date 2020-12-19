@@ -48,7 +48,7 @@
 #'             start.day = plant.date, end.day = harv.date)
 #'
 #' @references
-#' Sparks A (2019). _nasapower: NASA-POWER Data from R_. R package version 1.1.3, <URL:https://CRAN.R-project.org/package=nasapower>.
+#' Sparks A (2018). _nasapower: NASA-POWER Data from R_. R package version 1.1.3, <URL:https://CRAN.R-project.org/package=nasapower>.
 #'
 #' @importFrom utils write.csv
 #' @importFrom nasapower get_power

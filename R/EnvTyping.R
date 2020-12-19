@@ -8,7 +8,7 @@
 #' @param id.names vector (character). Indicates the name of the columns to be used as id for the environmental variables to be analysed.
 #' @param env.id   vector (character). Indicates the name of the columns to be used as id for environments.
 #' @param var.id  character. Indicates which variables will be used in the analysis.
-#' @param cardinals vector (numeric). It can be a list of cardinals for each variable. Indicates the cardinal limtis for each environmental type. If is NULL, see quantles argument.
+#' @param cardinals list (numeric). A list of cardinals (vector of numeric thresholds) for each variable. Indicates the cardinal limtis for each environmental type. If is NULL, see quantles argument.
 #' @param days.id character. Name of the columns indicating the days from start.
 #' @param quantiles vector (numeric). Indicates the probability quantiles, as probs = {0,1}, if cardinals is \code{NULL}. If is \code{quantiles=NULL}, \code{quantiles = c(0.01,.25,.50,.99)}.
 #' @param by.interval boolean. Indicates if temporal intervals must be computed insied of each environment. Default = FALSE.

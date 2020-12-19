@@ -63,11 +63,10 @@ Estimates a weather covariable realized matrix with dimensions of q x k, for q e
 TODO
 }
 \examples{
-### Fetching weather information from NASA-POWER
-env.data = get_weather(lat = -13.05, lon = -56.05,)
-
+data("maizeWTH")
+env.data = maizeWTH[maizeWTH$daysFromStart < 100,]
 ### Mean-centered and scaled matrix
-W <- W_matrix(env.data = env.data, by.interval = FALSE)
+W <- W_matrix(env.data = env.data)
 
 ### Same as SummaryWTH, we can add time.windows
 W <- W_matrix(env.data = env.data, by.interval = TRUE,
@@ -93,7 +92,6 @@ W <- W_matrix(env.data = env.data, var.id = id.var)
 ### Combining summaryWTH by using is.processed = TRUE
 data <- summaryWTH(env.data, env.id = 'env', statistic = 'quantile')
 W <- W_matrix(env.data = data, is.processed = TRUE)
-
 }
 \author{
 Germano Costa Neto
