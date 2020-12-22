@@ -22,7 +22,7 @@
   
   > The envirotyping pipeline provided by EnvRtype consists in three modules (1 - Environmental Sensing, 2- Macro-Environmental Characterization and 3 - Enviromic Similarity and Phenotype Prediction). Collectively, the EnvRtyping functions generate a simple workflow to collect, process and integrates envirotyping data into several fields of agricultural research, specially for predictive breeding that may include the use of genomic x enviromic relatedness information.
   
-  <img align="right" src="/fig/workflow_2.png" width="50%" height="50%">
+  <img align="center" src="/fig/workflow_2.png" width="70%" height="70%">
   
 
 
