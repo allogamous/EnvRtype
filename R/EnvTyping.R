@@ -200,7 +200,7 @@ env_typing <- function(env.data,var.id,env.id,cardinals=NULL,days.id=NULL,
                   id.names =  id.names,var.id = var.id,
                   env.id=env.id)
 
-  if(isFALSE(by.interval)) .GET <-data.frame(.GET,interval='full-cycle')
+  if(isFALSE(by.interval)) .GET <-data.frame(.GET,interval='by environment')
   env <- as.character(unique(.GET$env))
   int <- as.character(unique(.GET$interval))
   vars <- as.character(unique(.GET$variable))
