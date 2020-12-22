@@ -232,6 +232,7 @@ fixed = model.matrix(~0+env,maizeWTH)
 iter = 1000
 burn = 500
 seed = 78172
+thin = 10
 model = paste0('M',0:6)
 Models = list(M0,M1,M2,M3,M4,M5,M6)
 Vcomp <- c()
