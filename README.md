@@ -24,9 +24,10 @@
   
   <img align="center" src="/fig/workflow_2.png" width="70%" height="70%">
   
+  ---------------------------------------------
 
 
-**Tutorials**
+ ## Tutorials
 
 * [Envirotyping pipeline](https://github.com/allogamous/EnvRtype/blob/master/Enviromic_pipeline.md)
 * [Genomic Prediction using Environmental Covariates](https://github.com/allogamous/EnvRtype/blob/master/Genomic%20Prediction.md)
