@@ -1,12 +1,12 @@
 # **Envirotyping Pipeline with EnvRtype**
 
-*last update: 21th October 2020*
+*last update: December 21th 2020*
 
 * [Software](#P1)
 * [Daily weather and elevation](#P2)
 * [Soil Features](#P3)
 * [Environmental Typing](#P4)
-* [Environmental Covaraibles](#P5)
+* [Environmental Covariables](#P5)
 * [Environmental Similarity](#P6)
               
 <div id="P1" />
