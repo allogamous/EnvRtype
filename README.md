@@ -22,18 +22,13 @@
   
   <img align="right" src="/fig/workflow.png" width="50%" height="50%">
   
-  
-  **Main Functions**
 
-* [1. Install and Required Packages](#Instal)
-* [Maintence (from December 19th to January 10th) 2. Environmental Sensing Module](https://github.com/allogamous/EnvRtype/blob/master/Module1.md)
-* [Maintence (from December 19th to January 10th) 3. Environmental Characterization Module](https://github.com/allogamous/EnvRtype/blob/master/Module2.md)
-* [Maintence (from December 19th to January 10th) 4. Reaction-Norm Module](https://github.com/allogamous/EnvRtype/blob/master/Module3.md)
 
 **Tutorials**
 
 * [Envirotyping pipeline](https://github.com/allogamous/EnvRtype/blob/master/Enviromic_pipeline.md)
 * [Genomic Prediction using Environmental Covariates](https://github.com/allogamous/EnvRtype/blob/master/Genomic%20Prediction.md)
+* [Full examples and R Codes for the G3 Paper](https://raw.githubusercontent.com/allogamous/EnvRtype/master/EnvRtype_full_tutorial.R)
 
 **Information**
 * [Authorship](#P4)
