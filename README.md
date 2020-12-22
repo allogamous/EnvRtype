@@ -20,7 +20,7 @@
   
   > The envirotyping pipeline provided by EnvRtype consists in three modules (sections 2-4). Collectively, the EnvRtyping functions generate a simple workflow to collect, process and integrates envirotyping data into several fields of agricultural research, specially for predictive breeding that may include the use of genomic x enviromic relatedness information.
   
-  <img align="right" src="/fig/workflow.png" width="50%" height="50%">
+  <img align="right" src="/fig/workflow_2.png" width="50%" height="50%">
   
 
 
