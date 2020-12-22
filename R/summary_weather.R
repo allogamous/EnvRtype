@@ -82,10 +82,6 @@ summaryWTH <- function(env.data,id.names=NULL,
 
   }
 
-
-
-
-
   QuantEweather <- function(.GetW,prob=c(.25,.5,.75),by.interval=FALSE){
 
     e <- v <- s <- i <- NULL #supressor
@@ -135,10 +131,6 @@ summaryWTH <- function(env.data,id.names=NULL,
     }
 
   }
-
-
-
-
 
   meltWTH <- function(.GeTw,var.id=NULL, by.interval=FALSE,days=NULL,time.window=NULL,names.window=NULL,id.names=NULL,env.id=NULL){
 

@@ -29,18 +29,18 @@ kernel_model(
 where is included the regression kernels. The later is the \code{Type}, specifying if the matrix is either \code{D} Dense or
 \code{BD} Block Diagonal. A number of regression kernels or random effects to be fitted are specified in this list.}
 
-\item{fixed}{matrix Design matrix (\eqn{n \times p}) for fixed effects}
+\item{fixed}{matrix Design matrix (\eqn{n \times p}) for fixed effects (NULL by default)}
 
 \item{env}{character. denotes the name of the column respectively to environments}
 
 \item{verbose}{Should iteration history be printed on console? If TRUE or 1 then it is printed,
 otherwise, if another number $n$ is choosen the history is printed every $n$ times. The default is \code{FALSE}}
 
-\item{iterations}{numeric Number of iterations.}
+\item{iterations}{numeric Number of iterations (1000 by default)}
 
-\item{burnin}{numeric Number of iterations to be discarded as burn-in.}
+\item{burnin}{numeric, number of iterations to be discarded as burn-in (200 by default).}
 
-\item{thining}{numeric Thinin interval.}
+\item{thining}{numeric, number of thining used in Markov Chains (10 by default)}
 
 \item{tol}{a numeric tolerance level. Eigenvalues lower than \code{tol} are discarded. Default is \code{1e-10}.}
 
@@ -49,8 +49,9 @@ otherwise, if another number $n$ is choosen the history is printed every $n$ tim
 \item{digits}{numeric. Digits for round variance components.}
 }
 \value{
-A list with estimated posterior means of residual and genetic variance component for each term in the linear model and the genetic value predicted. Also the
- values along with the chains are released.
+A list contaning predicted phenotypes (yHat), posterior means of residual (VarE) and
+ genetic/enviromic variance component for each term in the linear model with the respective confidence intervals (VarComp). Also the
+ values along with the chains are released (BGGE).
 }
 \description{
 Runs Bayesian Linear-Mixed Models for Multiple Environments using kernels from get_kernel function

@@ -1,7 +1,7 @@
 Package: EnvRtype
 Type: Package
 Title: Envirotyping Tools for Crop Research and Genetic Improvment
-Version: 1.0.1
+Version: 1.0.0
 Author: Germano Costa Neto, Giovanni Galli and Roberto Fritsche Neto
 Maintainer: Germano Costa Neto <germano.cneto@usp.br>
 Description: Provide tools for collecting environmental data from GIS-based platforms,enabling environmental characterization studies, providing environmental relatedness kinships and kernels for genomic prediction of reaction norms.
@@ -12,7 +12,6 @@ RoxygenNote: 7.1.1
 Imports:
     nasapower,
     plyr,
-    BGGE,
     rgdal,
     doParallel,
     foreach,

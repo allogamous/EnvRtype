@@ -11,10 +11,10 @@
 #' @param random list A two-level list Specify the regression kernels (co-variance matrix). The former is the \code{Kernel},
 #' where is included the regression kernels. The later is the \code{Type}, specifying if the matrix is either \code{D} Dense or
 #' \code{BD} Block Diagonal. A number of regression kernels or random effects to be fitted are specified in this list.
-#' @param fixed matrix Design matrix (\eqn{n \times p}) for fixed effects
-#' @param iterations numeric Number of iterations.
-#' @param burnin numeric Number of iterations to be discarded as burn-in.
-#' @param thining numeric Thinin interval.
+#' @param fixed matrix Design matrix (\eqn{n \times p}) for fixed effects (NULL by default)
+#' @param iterations numeric Number of iterations (1000 by default)
+#' @param burnin numeric, number of iterations to be discarded as burn-in (200 by default).
+#' @param thining numeric, number of thining used in Markov Chains (10 by default)
 #' @param digits numeric. Digits for round variance components.
 #' @param verbose Should iteration history be printed on console? If TRUE or 1 then it is printed,
 #' otherwise, if another number $n$ is choosen the history is printed every $n$ times. The default is \code{FALSE}
@@ -26,8 +26,9 @@
 #'
 
 #' @return
-#'  A list with estimated posterior means of residual and genetic variance component for each term in the linear model and the genetic value predicted. Also the
-#'  values along with the chains are released.
+#'  A list contaning predicted phenotypes (yHat), posterior means of residual (VarE) and
+#'  genetic/enviromic variance component for each term in the linear model with the respective confidence intervals (VarComp). Also the
+#'  values along with the chains are released (BGGE).
 
 
 kernel_model <- function(y, data=NULL, random = NULL, fixed = NULL,env, gid, verbose=FALSE, iterations=1E3, burnin=2E2, thining=10, tol=1e-20, R2=0.5, digits=4 ){
@@ -478,8 +479,10 @@ kernel_model <- function(y, data=NULL, random = NULL, fixed = NULL,env, gid, ver
   end = Sys.time()
 
   cat(paste0('Start at: ', start,' | Ended at: ', end,'\n'))
+  ret = list(yHat = fit$yHat,varE = fit$varE,random = fit$K, BGGE = fit,
+             VarComp = Vcomp.BGGE(model = fit,env = Y$env,gid = Y$gid, digits=digits))
 
-  return(list(fitted = fit, VarComps = Vcomp.BGGE(model = fit,env = Y$env,gid = Y$gid, digits=digits)))
+  return(ret)
 
 }
 

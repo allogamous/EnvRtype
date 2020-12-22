@@ -69,6 +69,122 @@ env_typing <- function(env.data,var.id,env.id,cardinals=NULL,days.id=NULL,
                       id.names=NULL,by.interval=FALSE,scale=FALSE,
                       format=NULL){
 
+  SumEweather <- function(.GetW,by.interval=FALSE){
+
+    env <- variable  <- value <- interval <- NULL #supressor
+
+    if(isFALSE(by.interval)){
+      return(plyr::ddply(.GetW,plyr::.(env,variable),plyr::summarise,sum=sum(value,na.rm=TRUE)))
+    }
+    if(isTRUE(by.interval)){
+
+      return(plyr::ddply(.GetW,plyr::.(env,interval,variable),plyr::summarise,sum=sum(value,na.rm=TRUE)))
+    }
+
+  }
+
+  MeanEweather <- function(.GetW,by.interval=FALSE){
+
+    env <- variable <- summarise <- value <- interval <- NULL
+
+    if(isFALSE(by.interval)){
+      return(plyr::ddply(.GetW,plyr::.(env,variable),plyr::summarise,mean=mean(value,na.rm=TRUE)))
+    }
+    if(isTRUE(by.interval)){
+
+      return(plyr::ddply(.GetW,plyr::.(env,interval,variable),plyr::summarise,mean=mean(value,na.rm=TRUE)))
+    }
+
+  }
+
+  QuantEweather <- function(.GetW,prob=c(.25,.5,.75),by.interval=FALSE){
+
+    e <- v <- s <- i <- NULL #supressor
+
+    #creating local functions based on '%:%' and '%dopar%'
+    '%:%' <- foreach::'%:%'
+    '%dopar%' <- foreach::'%dopar%'
+
+    (envs <-unique(.GetW$env))
+    (vars <- unique(.GetW$variable))
+
+    if(isFALSE(by.interval)){
+
+      Q.t <- foreach::foreach(e=1:length(envs), .combine = "rbind") %:%
+        foreach::foreach(v=1:length(vars), .combine = "rbind") %:%
+        foreach::foreach(s=1:length(prob), .combine = "rbind") %dopar% {
+
+
+          quantil <- data.frame(qt=quantile(x=.GetW$value[.GetW$env %in% envs[e] & .GetW$variable %in% vars[v]],prob[s]),
+                                prob=paste0('prob_',prob[s]),
+                                env=envs[e],var=vars[v])
+          return(quantil)
+        }
+      Q.t <- reshape2::dcast(Q.t ,env+var~prob,value.var='qt')
+      names(Q.t)[1:2] <- c('env','variable')
+      return(Q.t)
+    }
+    if(isTRUE(by.interval)){
+
+      (inters <- unique(.GetW$interval))
+
+      Q.t <- foreach::foreach(e=1:length(envs),    .combine = "rbind") %:%
+        foreach::foreach(i=1:length(inters),  .combine = "rbind") %:%
+        foreach::foreach(v=1:length(vars) ,   .combine = "rbind") %:%
+        foreach::foreach(s=1:length(prob),    .combine = "rbind") %dopar% {
+
+
+          quantil <- data.frame(qt=quantile(x=.GetW$value[.GetW$env %in% envs[e] & .GetW$interval %in% inters[i] & .GetW$variable %in% vars[v]],prob[s]),
+                                prob=paste0('prob_',prob[s]),
+                                env=envs[e],var=vars[v],
+                                interval=inters[i])
+          return(quantil)
+        }
+      Q.t <- reshape2::dcast(Q.t ,env+var+interval~prob,value.var='qt')
+      names(Q.t)[1:3] <- c('env','variable','interval')
+      return(Q.t)
+    }
+
+  }
+
+  meltWTH <- function(.GeTw,var.id=NULL, by.interval=FALSE,days=NULL,time.window=NULL,names.window=NULL,id.names=NULL,env.id=NULL){
+
+    if(is.null(env.id)) env.id <- '.id'
+    if(is.null(days)) days <- "daysFromStart"
+
+    names(.GeTw)[names(.GeTw) %in% env.id] <- 'env'
+    names(.GeTw)[names(.GeTw) %in% days  ] <- "daysFromStart"
+    if(is.null(id.names)) id.names <- c('env','LON','LAT','YEAR','MM','DD','DOY','YYYYMMDD',"daysFromStart")
+    if(is.null(var.id)) var.id <- names(.GeTw)[!names(.GeTw)%in%id.names]
+    if(isFALSE(by.interval)){
+
+      ts <- suppressWarnings(reshape2::melt(.GeTw,measure.vars=var.id,id.vars = id.names))
+      ts$value <- suppressWarnings(as.numeric(ts$value))
+      return(ts)
+    }
+    if(isTRUE(by.interval)){
+
+      .GeTw$interval <- stage.by.dae(.dae = .GeTw[,'daysFromStart'],
+                                     .breaks = time.window,
+                                     .names = names.window)
+
+      id.names <-c(id.names,'interval')
+      ts <- suppressWarnings(reshape2::melt(.GeTw,measure.vars=var.id,id.vars = id.names))
+      ts$value <- suppressWarnings(as.numeric(ts$value))
+      return(ts)
+    }
+  }
+
+  stage.by.dae = function(.dae=NULL, .breaks=NULL, .names=NULL){
+    if(is.null(.dae)) stop(".dae is missing")
+    if(is.null(.breaks)) .breaks <-seq(from=1-min(.dae),to=max(.dae)+10,by=10)
+    if(is.null(.names))  .names  <-paste0("Interval_",.breaks)
+    .breaks <- c(.breaks,Inf)
+    pstage = cut(x = .dae,breaks=.breaks,right = FALSE)
+    levels(pstage) = .names
+    return(pstage)
+  }
+
   x <- j <- s <- median <-  NULL #supressor
 
   #creating local functions based on '%:%' and '%dopar%'

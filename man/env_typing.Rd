@@ -26,7 +26,7 @@ env_typing(
 
 \item{env.id}{vector (character). Indicates the name of the columns to be used as id for environments.}
 
-\item{cardinals}{vector (numeric). It can be a list of cardinals for each variable. Indicates the cardinal limtis for each environmental type. If is NULL, see quantles argument.}
+\item{cardinals}{list (numeric). A list of cardinals (vector of numeric thresholds) for each variable. Indicates the cardinal limtis for each environmental type. If is NULL, see quantles argument.}
 
 \item{days.id}{character. Name of the columns indicating the days from start.}
 
