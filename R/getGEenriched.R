@@ -11,7 +11,7 @@
 #' @param model character. Model structure for genomic predicion. It can be \code{c('MM','MDs','E-MM','E-MDs')}, in which MM (main effect model \eqn{Y=fixed + G}) and MDs (\eqn{Y=fixed+G+GxE}).
 #' @param reaction boolean. Indicates the inclusion of a reaction norm based GxE kernel (default = FALSE).
 #' @param intercept.random boolean. Indicates the inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.
-#' @param dimension_KE character. \code{size_E=c('q','n')}. In the first, 'k' means taht the environmental relationship kernel has the dimensions of q x q observations,in which q is the number of environments. If 'n', the relationship kernel has the dimension n=pq, in which p is the number of genotypes
+#' @param dimension_KE character. \code{size_E=c('q','n')}. In the first, 'q' means taht the environmental relationship kernel has the dimensions of q x q observations,in which q is the number of environments. If 'n', the relationship kernel has the dimension n=pq, in which p is the number of genotypes
 #' @param ne numeric. denotes the number of environments (q)
 #' @param ng numeric. denotes the number of genotypes (p)
 #' @return
