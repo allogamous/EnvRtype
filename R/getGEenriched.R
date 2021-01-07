@@ -281,11 +281,11 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
   if(dimension_KE == 'q'){
     K_Em = list()
     for(q in 1:length(K_E)) K_Em[[q]] <- K_E[[q]] %x% matrix(1,ncol=ng,nrow = ng)
-
-    h <- length(K_E);
-    n <- length(K);
   }
   if(dimension_KE =='n') K_Em <- K_E
+           
+    h <- length(K_E);
+    n <- length(K);
 
   K_e <- c()
   for(q in 1:h) K_e[[q]] = list(Kernel = K_Em[[q]], Type = "D")
