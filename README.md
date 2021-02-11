@@ -48,7 +48,7 @@
 
 ```{r}
 library(devtools)
-install_github('allogamous/EnvRtype') # current version:  0.1.6 (December 14th 2020)
+install_github('allogamous/EnvRtype') # current version:  1.0.0 (December 14th 2020)
 require(EnvRtype)
   ```
 ### Manually installing
@@ -60,7 +60,7 @@ setwd("~/EnvRtype-master.zip") # ~ is the path from where you saved the file.zip
 unzip("EnvRtype-master.zip") 
 file.rename("EnvRtype-master", "EnvRtype") 
 shell("R CMD build EnvRtype") # or system("R CMD build EnvRtype")
-install.packages("EnvRtype_0.1.6.tar.gz", repos = NULL, type="source") # Make sure to use the current verision
+install.packages("EnvRtype_1.0.0.tar.gz", repos = NULL, type="source") # Make sure to use the current verision
 ```
  
  ### Required packages
@@ -154,7 +154,7 @@ Costa-Neto G, Fritsche-Neto R, Crossa J (2020). Nonlinear kernels, dominance, an
   
   ## Updates and Maintence
   
-  > The current version of the pacakge is 0.1.9.
+  > The current version of the package is 1.0.0 (January 22th 2021)
   > From December 15th 2020 to January 10th 2021 this page will be under maintence. This means that we are now working in several updates and some changes will be made in some functions.
 
 
