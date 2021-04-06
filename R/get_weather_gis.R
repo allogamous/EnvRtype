@@ -121,7 +121,7 @@ get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
     names(.C)[[.E]] = env.id[.E]
 
     # if save is true, write the weather into csv files
-    if(isTRUE(save)){utils::write.csv(file=paste(env.id[.E],".csv",sep=""), x = CL)}
+    if(isTRUE(save)){utils::write.csv(file=paste(env.id[.E],".csv",sep="",row.names = F), x = CL)}
 
     cat(paste0('Environment ', env.id[.E], ' downloaded \n'))
 
