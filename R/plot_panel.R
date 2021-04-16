@@ -19,7 +19,7 @@ plot_panel = function(ECs,title,palette = 'magma',n=100){
               bottom.label.size = 0.3,
               bottom.label.text.angle = 90,
               #heat.pal = viridis::inferno(100),
-              heat.pal = viridis::viridis(n)
+           #   heat.pal = viridis::viridis(n)
               legend.text.size = 10,
               #   X.text = round(as.matrix(a),1),X.text.col="white",
               legend.height=0.08
