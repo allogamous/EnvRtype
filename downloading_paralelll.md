@@ -6,7 +6,7 @@
 
 # Contents
 
-* [Case 1: More than 50 environments](#P1)
+* [Case 1: More than 20 environments](#P1)
 * [Case 2: Diverse locations across diverse countries arround the world](#P2)
 * [Case 3 : A wide number of environments for a same given location](#P3)
 * [Case 4: Using WorldClim data base](#P4)
