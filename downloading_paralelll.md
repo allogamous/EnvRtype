@@ -9,7 +9,8 @@
 * [Case 1: More than 20 environments](#P1)
 * [Case 2: Diverse locations across diverse countries arround the world](#P2)
 * [Case 3 : A wide number of environments for a same given location](#P3)
-* [Case 4: Using WorldClim data base](#P4)
+* [Case 4: Creating multiple environment scenarios](#P4)
+* [Case 5: Using WorldClim data base](#P5)
 
 <div id="P1" />
 
@@ -82,19 +83,14 @@ stopCluster(cl)
 
 <div id="P4" />
 
-# Case 4: Using WorldClim data base
+
+# Case 4: Creating multiple environment scenarios
+
+<div id="P5" />
+
+# Case 5: Using WorldClim data base
 
 
 
 
               
-
-
-
-# Software
-
-```{r, eval=FALSE}
-library(devtools)
-install_github('allogamous/EnvRtype')
-library(EnvRtype)
-```
