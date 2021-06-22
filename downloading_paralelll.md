@@ -1,4 +1,4 @@
-# **Download weather and elevation data into a faster way **
+# Download weather and elevation data into a faster way
 
 *last update: June 21th 2021 by Germano Costa Neto (germano.cneto@gmail.com)*
 
