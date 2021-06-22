@@ -18,6 +18,10 @@
 - Below we give a short example using 132 environments in South America. The coordinates can be download [here](https://github.com/allogamous/EnvRtype/blob/master/Supplementary%20Source%20and%20Data/Brazil_city.csv) or directly in R as described below. First, the user needs to download the packages **foreach** and **doParallel** in order to implement an paralelizaiton of the get_weather function.
 
 ```{r}
+
+require("EnvRtype")
+require("foreach") # install foreach
+require('doParallel') # install doParallel
 #'-----------------------------------------
 # coordinates
 id_info <- read.csv(file = 'https://raw.githubusercontent.com/allogamous/EnvRtype/master/Supplementary%20Source%20and%20Data/Brazil_city.csv')
@@ -42,16 +46,17 @@ id_info$environment = paste(id_info$city,id_info$season,id_info$month,sep = '_')
 #id_info <- id_info[1:10,]
 
 #'-----------------------------------------
-## Step 5: Using get_weather
-require("EnvRtype")
-require("foreach") # install foreach
-require('doParallel') # install doParallel
+## Step 5: Defining the number of clusters
 
 # running in parallel is faster!
 nclust = 3
 cl <- makeCluster(nclust,outfile="environments.txt")
 registerDoParallel(cl)
 
+#'-----------------------------------------
+## Step 6: Using foreach to run get_weather
+
+.Ne <- length(id_info$environment)
 climate = foreach(E = 1:.Ne,.combine="rbind") %dopar% 
   {
     cat(id_info$environment[E])
