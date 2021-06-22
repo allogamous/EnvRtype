@@ -1,6 +1,6 @@
 # Download weather and elevation data into a faster way
 
-*last update: June 21th 2021 by Germano Costa Neto (germano.cneto@gmail.com)*
+*last update: June 21th 2021 by [Germano Costa Neto](https://github.com/gcostaneto)
 
 - This tutorial aims to provide tools for speeding up the download of a wide number of environments using ```get_wether``` function. We will also mention other practical aspects that facilitate the download of weather data and its use in envirotyping.
 
