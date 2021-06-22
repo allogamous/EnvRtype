@@ -60,7 +60,6 @@ registerDoParallel(cl)
 .Ne <- length(id_info$environment)
 climate = foreach(E = 1:.Ne,.combine="rbind") %dopar% 
   {
-    cat(id_info$environment[E])
     climate = EnvRtype::get_weather(env.id = id_info$environment[E],lat = id_info$Latitude[E],
                                     lon = id_info$Longitude[E],start.day = id_info$start[E],
                                     end.day =  id_info$end[E],country = 'BRA')
