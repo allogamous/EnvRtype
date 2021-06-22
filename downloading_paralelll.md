@@ -15,7 +15,7 @@
 
 # Case 1 : More than 50 environments
 
-- Below we give a short example using 132 environments in South America. The coordinates can be download [here](https://github.com/allogamous/EnvRtype/blob/master/Supplementary%20Source%20and%20Data/Brazil_city.csv) or directly in R as described below. First, the user needs to download the packages **foreach** and **doParallel** in order to implement an paralelizaiton of the get_weather function. I also put some 'errors' in the data set just to run with you the possible correction we can made.
+- Below we give a short example using 132 environments in South America. The coordinates can be download [here](https://github.com/allogamous/EnvRtype/blob/master/Supplementary%20Source%20and%20Data/Brazil_city.csv) or directly in R as described below. First, the user needs to download the packages **foreach** and **doParallel** in order to implement an paralelizaiton of the get_weather function. I also put some 'errors' in the data set just to run with you the possible corrections we can made.
 
 ```{r}
 
