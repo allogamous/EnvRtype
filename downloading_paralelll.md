@@ -18,28 +18,31 @@
 - Below we give a short example using 132 environments in South America. The coordinates can be download [here](https://github.com/allogamous/EnvRtype/blob/master/Supplementary%20Source%20and%20Data/Brazil_city.csv) or directly in R as described below. First, the user needs to download the packages **foreach** and **doParallel** in order to implement an paralelizaiton of the get_weather function.
 
 ```{r}
+#'-----------------------------------------
 # coordinates
 id_info <- read.csv(file = 'https://raw.githubusercontent.com/allogamous/EnvRtype/master/Supplementary%20Source%20and%20Data/Brazil_city.csv')
 # step 1: check coordinates
 # step 2: check identifications of city
 str(id_info)
-
-
+#'-----------------------------------------
 # step 3: check dates
 id_info$start
 levels(id_info$start)
 id_info    =   droplevels(id_info[!id_info$start %in% levels(id_info$start)[1],])
 
+#'-----------------------------------------
 # step 4: translate dates using as.Date
 id_info$start = as.Date(id_info$start)
 id_info$end = id_info$start+120
 
+#'-----------------------------------------
 # step 4: create an environment identification
 id_info$environment = paste(id_info$city,id_info$season,id_info$month,sep = '_')
 
 #id_info <- id_info[1:10,]
 
-## download covariables
+#'-----------------------------------------
+## Step 5: Using get_weather
 require("EnvRtype")
 require("foreach") # install foreach
 require('doParallel') # install doParallel
