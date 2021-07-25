@@ -72,7 +72,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
   # Start Step
   #
   #if (is.null(K_G))   stop('Missing the list of genomic kernels')
-
+  
   if(is.null(model)) model <- 'MM'
   if(model == 'MM'   ){reaction <- FALSE; model_b <- 'MM';K_E=NULL}
   if(model == 'MDs'  ){reaction <- FALSE; model_b <-'MDs';K_E=NULL}
@@ -80,45 +80,45 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
   if(model == 'EMDs' ){reaction <- FALSE; model_b <-'MDs'}
   if(model == 'RNMM' ){reaction <- TRUE; model_b <- 'MM'}
   if(model == 'RNMDs'){reaction <- TRUE; model_b <- 'MDs'}
-
+  
   #----------------------------------------------------------------------------
   # getting genomic kernels
   #----------------------------------------------------------------------------
-#  names(Y)[1:2] = c('env','gid')
- # Y <- droplevels(Y)
-
+  #  names(Y)[1:2] = c('env','gid')
+  # Y <- droplevels(Y)
+  
   Y <- data.frame(env=data[,env],gid=data[,gid],value=data[,y])
-
+  
   if(is.null(ne)) ne = length(unique(Y$env))
-
+  
   Zg <- stats::model.matrix(~0+gid,Y)
   colnames(Zg) = gsub(colnames(Zg),pattern = 'gid',replacement = '')
   ng <- length(unique(Y$gid))
-
+  
   if(is.null(K_G)){
     cat("----------------------------------------------------- \n")
     cat('ATTENTION \n')
     cat(paste0('K_G = NULL, no K_G was provided','\n'))
     cat(paste0('Genomic effects assumed as an identity matrix Ig','\n'))
     K_G <- list(G = crossprod(Zg)/ne)
-    }
-
+  }
+  
   getK <- function(Y, X, kernel = c("GK", "GB"), setKernel = NULL, bandwidth = 1, model = c("SM", "MM", "MDs", "MDe"), quantil = 0.5,
                    intercept.random = FALSE)
   {
     #Force to data.frame
     Y <- as.data.frame(Y)
-
+    
     Y[colnames(Y)[1:2]] <- lapply(Y[colnames(Y)[1:2]], factor)
-
+    
     subjects <- levels(Y[,2])
     env <- levels(Y[,1])
     nEnv <- length(env)
-
+    
     # check for repeated genotypes
     if(any(table(Y[,c(1:2)]) > 1))
       warning("There are repeated genotypes in some environment. They were kept")
-
+    
     switch(model,
            'SM' = {
              if (nEnv > 1)
@@ -131,16 +131,16 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
              Ze <- model.matrix(~factor(Y[,1L]) - 1)
              Zg <- model.matrix(~factor(Y[,2L]) - 1)
            })
-
+    
     if(is.null(setKernel)){
       if(is.null(rownames(X)))
         stop("Genotype names are missing")
-
+      
       if (!all(subjects %in% rownames(X)))
         stop("Not all genotypes presents in the phenotypic file are in marker matrix")
-
+      
       X <- X[subjects,]
-
+      
       switch(kernel,
              'GB' = {
                # case 'G-BLUP'...
@@ -151,7 +151,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
              'GK' = {
                # case 'GK'...
                D <- (as.matrix(dist(X))) ^ 2
-
+               
                G <- list()
                for(i in 1:length(bandwidth)){
                  ker.tmp <- exp(-bandwidth[i] * D / quantile(D, quantil))
@@ -162,28 +162,28 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
              {
                stop("kernel selected is not available. Please choose one method available or make available other kernel through argument K")
              })
-
+      
       names(G) <- seq(length(G))
-
+      
     }else{
       ## check kernels
       nullNames <- sapply(setKernel, function(x) any(sapply(dimnames(x), is.null)))
       if(any(nullNames))
         stop("Genotype names are missing in some kernel")
-
+      
       # Condition to check if all genotype names are compatible
       equalNames <- sapply(setKernel, function(x) mapply(function(z, y) all(z %in% y), z=list(subjects), y=dimnames(x)) )
       if(!all(equalNames))
         stop("Not all genotypes presents in phenotypic file are in the kernel matrix.
              Please check dimnames")
-
+      
       K <- lapply(setKernel, function(x) x[subjects, subjects]) # reordering kernel
-
+      
       ker.tmp <- K
       #G <- list(Zg %*% tcrossprod(ker.tmp, Zg))
       G <- lapply(ker.tmp, function(x) list(Kernel = Zg %*% tcrossprod(x, Zg), Type = "D") )
-
-
+      
+      
       # Setting names
       if(is.null(names(K))){
         names(G) <- seq(length(G))
@@ -191,21 +191,21 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
         names(G) <- names(setKernel)
       }
     }
-
+    
     tmp.names <- names(G)
     names(G) <- if(length(G) > 1) paste("G", tmp.names, sep ="_") else "G"
-
-
+    
+    
     switch(model,
-
+           
            'SM' = {
              out <- G
            },
-
+           
            'MM' = {
              out <- G
            },
-
+           
            'MDs' = {
              E <- tcrossprod(Ze)
              #GE <- Map('*', G, list(E))
@@ -213,12 +213,12 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
              names(GE) <- if(length(G) > 1) paste("GE", tmp.names, sep ="_") else "GE"
              out <- c(G, GE)
            },
-
+           
            'MDe' = {
              ZEE <- matrix(data = 0, nrow = nrow(Ze), ncol = ncol(Ze))
-
+             
              out.tmp <- list()
-
+             
              for(j in 1:length(G)){
                out.tmp <- c(out.tmp, lapply(1:nEnv, function(i){
                  ZEE[,i] <- Ze[,i]
@@ -238,19 +238,23 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
            {
              stop("Model selected is not available ")
            })
-
+    
     if(intercept.random){
       Gi <- list(Kernel = Zg %*% tcrossprod(diag(length(subjects)), Zg), Type = "D")
       out <- c(out, list(Gi = Gi))
     }
-
+    
     return(out)
   }
-
+  
   K = getK(Y = Y, setKernel = K_G, model = model_b,intercept.random = intercept.random);
   names(K)   <- paste0('KG_',names(K))
-
-
+  
+  obs_GxE = paste0(Y$env,':',Y$gid)
+  for(j in 1:length(K)) colnames(K[[j]]$Kernel) = rownames(K[[j]]$Kernel) = obs_GxE
+  
+  
+  
   #----------------------------------------------------------------------------
   # If K_E is null, return benchmark genomic model
   #----------------------------------------------------------------------------
@@ -270,37 +274,53 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
       return(K)
     }
     return(K)
-
+    
   }
   #----------------------------------------------------------------------------
   # Envirotype-enriched models (for E effects)
   #----------------------------------------------------------------------------
   if(is.null(dimension_KE)) dimension_KE <- 'q'
   # main envirotype effect
-
+  
   if(dimension_KE == 'q'){
     K_Em = list()
-    for(q in 1:length(K_E)) K_Em[[q]] <- K_E[[q]] %x% matrix(1,ncol=ng,nrow = ng)
+    Jg = matrix(1,ncol=ng,nrow = ng);
+    colnames(Jg) = rownames(Jg) = levels(Y$gid)
+    
+    for(q in 1:length(K_E)) K_Em[[q]]  =  kronecker(K_E[[q]], Jg,make.dimnames = T)
+    for(q in 1:length(K_Em)) K_Em[[q]] = K_Em[[q]][rownames(K_Em[[q]]) %in% obs_GxE,colnames(K_Em[[q]]) %in% obs_GxE]
+    
   }
-  if(dimension_KE =='n') K_Em <- K_E
-           
-    h <- length(K_E);
-    n <- length(K);
-
+  if(dimension_KE =='n') 
+    {
+    K_Em <- K_E
+    for(j in 1:length(K_Em)) colnames(K_Em[[j]]) = rownames(K_Em[[j]]) = obs_GxE
+    for(q in 1:length(K_Em)) K_Em[[q]] = K_Em[[q]][rownames(K_Em[[q]]) %in% obs_GxE,colnames(K_Em[[q]]) %in% obs_GxE]
+    
+  }
+    
+    
+  
+  h <- length(K_E);
+  n <- length(K);
+  
   K_e <- c()
   for(q in 1:h) K_e[[q]] = list(Kernel = K_Em[[q]], Type = "D")
   names(K_e) <- paste0('KE_',names(K_E))
 
-
   K_f <- Map(c,c(K,K_e))
-
+  
   #----------------------------------------------------------------------------
   # Envirotype-enriched models (for GE+E effects)
   #----------------------------------------------------------------------------
   if(isTRUE(reaction)){
     if(dimension_KE == 'n'){
       Ng<-names(K_G)
-      for(i in 1:ng) K_G[[i]] <- matrix(1,ncol=ne,nrow=ne) %x% K_G[[i]]#tcrossprod(Zg%*%K_G[[i]])
+      Je <- matrix(1,ncol=ne,nrow=ne)
+      colnames(Je) = rownames(Je) = levels(Y$env)
+      for(i in 1:ng) K_G[[i]] = kronecker(Je, K_G[[i]],make.dimnames = T)#tcrossprod(Zg%*%K_G[[i]])
+      for(i in 1:ng) K_G[[i]] = K_G[[i]][rownames(K_G[[i]]) %in% obs_GxE,]
+      
       ne <- length(K_E)
       A<-c()
       nome<-c()
@@ -327,14 +347,14 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
       names(K_GE) <- nome
       K_f <- Map(c,c(K,K_e,K_GE))
     }
-
+    
   }
-
+  
   if(isTRUE(intercept.random)) K_f<-K_f[-grep(names(K_f),pattern = 'GE_Gi')]
   #----------------------------------------------------------------------------
   # Reporting status
   #----------------------------------------------------------------------------
-
+  
   cat("----------------------------------------------------- \n")
   cat(paste0('Model: ',model_b,'\n'))
   cat(paste0('Reaction Norm for E effects: ',TRUE,'\n'))
