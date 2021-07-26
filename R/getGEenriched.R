@@ -292,14 +292,14 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
     
   }
   if(dimension_KE =='n') 
-    {
+  {
     K_Em <- K_E
     for(j in 1:length(K_Em)) colnames(K_Em[[j]]) = rownames(K_Em[[j]]) = obs_GxE
     for(q in 1:length(K_Em)) K_Em[[q]] = K_Em[[q]][rownames(K_Em[[q]]) %in% obs_GxE,colnames(K_Em[[q]]) %in% obs_GxE]
     
   }
-    
-    
+  
+  
   
   h <- length(K_E);
   n <- length(K);
@@ -307,7 +307,7 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
   K_e <- c()
   for(q in 1:h) K_e[[q]] = list(Kernel = K_Em[[q]], Type = "D")
   names(K_e) <- paste0('KE_',names(K_E))
-
+  
   K_f <- Map(c,c(K,K_e))
   
   #----------------------------------------------------------------------------
@@ -326,22 +326,39 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
       nome<-c()
       Ne = names(K_E)
       ng = length(K_G)
-      for(g in 1:ng){for(e in 1:ne) {A <- cbind(A,list(K_G[[g]]*K_E[[e]])); nome <- c(nome,paste0('KGE_',Ng[g],Ne[e]))}}
+      for(g in 1:ng){
+        for(e in 1:ne) {
+          myGE = K_G[[g]]*K_E[[e]]
+          myGE = myGE[rownames(myGE) %in% obs_GxE,colnames(myGE) %in% obs_GxE]
+          A <- cbind(A,list(myGE))
+          nome <- c(nome,paste0('KGE_',Ng[g],Ne[e]))
+        }
+      }
+      
       K_GE <- c()
       for(ge in 1:length(A)) K_GE[[ge]] <- list(Kernel=A[[ge]],Type='D')
       names(K_GE) <- nome
       K_f <- Map(c,c(K,K_e,K_GE))
     }
     if(dimension_KE == 'q'){
-      Ng<-names(K_G)
-      #   for(i in 1:ng) K_G[[i]] <- matrix(1,ncol=ne,nrow=ne) %x% K_G[[i]]#tcrossprod(Zg%*%K_G[[i]])
-      #  ne <- length(K_E)
-      A<-c()
-      nome<-c()
-      Ne<-names(K_E)
+      Ng = names(K_G)
+      Ne = names(K_E)
+      ng = length(K_G)
+      ne = length(K_E)
+      A    = c()
+      nome = c()
+
       ne = length(K_E)
       ng = length(K_G)
-      for(g in 1:ng){for(e in 1:ne) {A <- cbind(A,list(K_E[[e]]%x%K_G[[g]])); nome <- c(nome,paste0('KGE_',Ng[g],Ne[e]))}}
+      
+      for(g in 1:ng){
+        for(e in 1:ne) {
+          myGE = kronecker(K_E[[e]],K_G[[g]],make.dimnames = T)
+          myGE = myGE[rownames(myGE) %in% obs_GxE,colnames(myGE) %in% obs_GxE]
+          A <- cbind(A,list(myGE))
+          nome <- c(nome,paste0('KGE_',Ng[g],Ne[e]))
+        }
+      }
       K_GE <- c()
       for(ge in 1:length(A)) K_GE[[ge]] <- list(Kernel=A[[ge]],Type='D')
       names(K_GE) <- nome
@@ -364,3 +381,4 @@ get_kernel <-function(K_E = NULL,                    #' environmental kernel ()
   cat("----------------------------------------------------- \n")
   return(K_f)
 }
+
