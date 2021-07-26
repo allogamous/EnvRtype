@@ -100,7 +100,7 @@ summaryWTH <- function(env.data,id.names=NULL,
         foreach::foreach(s=1:length(prob), .combine = "rbind") %dopar% {
 
 
-          quantil <- data.frame(qt=quantile(x=.GetW$value[.GetW$env %in% envs[e] & .GetW$variable %in% vars[v]],prob[s]),
+          quantil <- data.frame(qt=quantile(x=.GetW$value[.GetW$env %in% envs[e] & .GetW$variable %in% vars[v]],prob[s],na.rm=T),
                                 prob=paste0('prob_',prob[s]),
                                 env=envs[e],var=vars[v])
           return(quantil)
