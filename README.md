@@ -154,11 +154,13 @@ Costa-Neto G, Fritsche-Neto R, Crossa J (2020). Nonlinear kernels, dominance, an
   
   ## Updates and Maintence
   
-  > Coming soon (April 2021): tutorial for using environmental covariables in asreml and BGLR
+  > get_weather (nasapower) error " Error: Unprocessable Entity (HTTP 422) ". Naspower is off so get_weather is not working for now, sorry :,(
   
-  > Coming soon (April 2021): tutorial for using external sources of environmental data (from field micro-stations) 
+  > Coming soon (Sept 2021): tutorial for using environmental covariables in asreml and BGLR
   
-  > Coming soon (April 2021): tutorial for colecting soil data from SoilGrids data base
+  > Coming soon (Sept 2021): tutorial for using external sources of environmental data (from field micro-stations) 
+  
+  > Coming soon (Sept 2021): tutorial for colecting soil data from SoilGrids data base
 
   > The current version of the package is 1.0.0 (January 22th 2021)
   
