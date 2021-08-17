@@ -84,7 +84,7 @@ or
               
 source("https://raw.githubusercontent.com/gcostaneto/Funcoes_naive/master/instpackage.R");
               
-inst.package(c("BGGE",'foreach','doParalell','raster','rgdal','nasapower'));
+inst.package(c("BGGE",'foreach','doParallel','raster','rgdal','nasapower'));
 
 library(EnvRtype)
               
