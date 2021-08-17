@@ -48,7 +48,7 @@
 
 ```{r}
 library(devtools)
-install_github('allogamous/EnvRtype') # current version:  1.0.0 (December 14th 2020)
+install_github('allogamous/EnvRtype',force=TRUE) # current version:  1.0.0 (December 14th 2020)
 require(EnvRtype)
   ```
 ### Manually installing
