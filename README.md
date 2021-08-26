@@ -70,7 +70,8 @@ the get_weather() function, based on nasapower::get_power(), is currently offlin
 
 ```{r}
 library(devtools)
-install_github('allogamous/EnvRtype',force=TRUE) # current version:  1.0.0 (December 14th 2020)
+devtools::install_github("ropensci/nasapower",force = TRUE) # aug 2021
+devtools::install_github('allogamous/EnvRtype',force=TRUE) # current version:  1.0.0 (May 2021)
 require(EnvRtype)
   ```
 ### Manually installing
