@@ -27,14 +27,10 @@
   ---------------------------------------------
 
   ## Updates and Maintence
-  
-  > Dear EnvRtype users:
-the get_weather() function, based on nasapower::get_power(), is currently offline due some modifications made in the "mother package function" get_power. Below follows a tutorial for downloading weather data directly from NASA POWER. But we have good news: now NASA POWER has the ability to download climatic data at daily (since 1981s) and HOURLY levels (since 2001). In the next few days we will fix the get_weather(), but for now, if you want to download any climatic data, please check the (git hub of the R nasapower developers)[https://docs.ropensci.org/nasapower/] that have done a very great job! This will be very helpful for all of us!
+ 
 
 > PRECTOT variable (rainfall precipitation) is currently off from NASA POWER
 
-  
-  > get_weather (nasapower) error " Error: Unprocessable Entity (HTTP 422) ". Naspower is off so get_weather is not working for now, sorry :,(
   
   > Coming soon (Sept 2021): tutorial for using environmental covariables in asreml and BGLR
   
