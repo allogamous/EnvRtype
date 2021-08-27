@@ -71,7 +71,7 @@ param_atmospheric <- function(env.data, PREC=NULL, Tdew=NULL,
   #if(isFALSE(Alt  %in% names(env.data))){Alt <- 600; cat('Missing ALT value. We adopted 600m. Please use the Extract_GIS funciton to collect ALT from SRTM files \n')}
 
   if(is.null(RH))  RH <-'RH2M'; RH<- env.data[,RH]
-  if(is.null(Rad)) Rad <- 'SRAD';Rad <- env.data[,Rad]
+  if(is.null(Rad)) Rad <- 'ALLSKY_SFC_SW_DWN';Rad <- env.data[,Rad]
 
 
   Tmed <- (Tmin+Tmax)/2
