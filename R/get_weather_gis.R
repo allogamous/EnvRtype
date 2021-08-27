@@ -106,6 +106,8 @@ get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
                         "ALLSKY_SFC_SW_DWN")
   }
   
+  variables.names[grepl(variables.names,pattern = 'PRECTOT')] = "PRECTOTCORR"
+  
   # preapring outputs
   env.id = as.factor(env.id)
   .Ne    = length(env.id)
@@ -116,6 +118,10 @@ get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
                                          pars = variables.names,
                                          dates = c(start.day[.E],end.day[.E]),
                                          temporal_api = "daily"))
+    
+    cor_rain_name = which(names(CL) %in% 'PRECTOTCORR')
+    names(CL)[cor_rain_name] = 'PRECTOT'
+    
     CL$daysFromStart = 1:nrow(CL)
     .C[[.E]] = CL
     names(.C)[[.E]] = env.id[.E]
@@ -129,7 +135,8 @@ get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
   
   names(.C) = env.id
   
-  cat('ATTENTION: PRECTOT variable is currently under maintence (-999). Sorry :,( \n')
+  cat('ATTENTION: PRECTOT variable is currently unavailable. Sorry :,( \n')
+  cat('Please try the platform https://climateserv.servirglobal.net/\n')
   cat('------------------------------------------------  \n')
   
   #Talvez seja interessante trabalhar somente com dataframe (facilita o binding com a altitude)
@@ -148,5 +155,11 @@ get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
     srtm <- raster::getData('alt', country=country,mask=TRUE)
     df<-extract_GIS(covraster = srtm, env.data = df) #nao ha input para covname, talvez seja interessante remove-lo
   })
+  
+   # replacing -999 by NA
+  variables.names[grepl(variables.names,pattern = 'PRECTOTCORR')] = "PRECTOT"
+  ids = which(names(df) %in% variables.names)
+  df[,ids][df[,ids] == -999] = NA
+  
   return(df)
 }
