@@ -52,21 +52,24 @@ param_radiation <-function(env.data, merge=FALSE){
   RadN <-Ra(J = DOY,lat = LAT)
   LWD <- env.data$ALLSKY_SFC_LW_DWN
   DWN <- env.data$ALLSKY_SFC_SW_DWN
-  LWD[LWD == -99] <- NA
-  DWN[DWN == -99] <- NA
+ # LWD[LWD == -999] <- NA
+ # DWN[DWN == -99] <- NA
   LWD[is.na(LWD)] <- median(LWD,na.rm=TRUE)
   DWN[is.na(DWN)] <- median(DWN,na.rm=TRUE)
   
-  Srad <- LWD-DWN
-  n <- RadN$N*(Srad/RadN$Ra)
+ # Srad <- LWD-DWN
+  n <- RadN$N*(DWN/RadN$Ra)
   
   cat('Actual duration of sunshine (n, hours) \n')
-  cat('Solar Radiation (SRAD, MJ/m^2/day) \n')
+ # cat('Solar Radiation (SRAD, MJ/m^2/day) \n') # wrong concept!!
   cat('---------------------------------------------------------------------- \n')
   cat('\n')
   
-  if(!isTRUE(merge)) return(data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad))
-  if(isTRUE(merge)) return(data.frame(env.data,data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad)))
+  #if(!isTRUE(merge)) return(data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad))
+  #if(isTRUE(merge)) return(data.frame(env.data,data.frame(n=n,N=RadN$N,RTA=RadN$Ra, SRAD=Srad)))
+  
+  if(!isTRUE(merge)) return(data.frame(n=n,N=RadN$N,RTA=RadN$Ra))
+  if(isTRUE(merge)) return(data.frame(env.data,data.frame(n=n,N=RadN$N,RTA=RadN$Ra)))
   
 }
 
