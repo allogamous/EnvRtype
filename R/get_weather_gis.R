@@ -129,6 +129,9 @@ get_weather = function(env.id = NULL,lat   = NULL,lon   = NULL,
   
   names(.C) = env.id
   
+  cat('ATTENTION: PRECTOT variable is currently under maintence (-999). Sorry :,( \n')
+  cat('------------------------------------------------  \n')
+  
   #Talvez seja interessante trabalhar somente com dataframe (facilita o binding com a altitude)
   # if asdataframe is true, df_convert function will be used
   # if(isTRUE(asdataframe))
