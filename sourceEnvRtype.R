@@ -1,3 +1,5 @@
+print("it is ugly, but works! (if you have installed the dependences)")
+
 source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/AtmosphericPAram.R')
 source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/SradPARAM.R')
 source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/SupportFUnction.R')
