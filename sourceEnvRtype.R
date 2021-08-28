@@ -1,11 +1,10 @@
 cat("it is ugly, but works! :) \n")
 
-if (!requireNamespace('nasapower', quietly = TRUE)) {utils::install.packages("nasapower")} 
-if (!requireNamespace('plyr', quietly = TRUE)) {utils::install.packages("plyr")}
-if (!requireNamespace('BGGE', quietly = TRUE)) {utils::install.packages("BGGE")}
-if (!requireNamespace('foreach', quietly = TRUE)) {utils::install.packages("foreach")}
-if (!requireNamespace('reshape2', quietly = TRUE)) {utils::install.packages("reshape2")}
-if (!requireNamespace('raster', quietly = TRUE)) {utils::install.packages("raster")}
+if (!requireNamespace('nasapower', quietly = TRUE)) {utils::install.packages("nasapower");require("nasapower")} 
+if (!requireNamespace('plyr', quietly = TRUE)) {utils::install.packages("plyr");require("plyr")}
+if (!requireNamespace('foreach', quietly = TRUE)) {utils::install.packages("foreach");require("foreach")}
+if (!requireNamespace('reshape2', quietly = TRUE)) {utils::install.packages("reshape2");require("reshape2")}
+if (!requireNamespace('raster', quietly = TRUE)) {utils::install.packages("raster");require("raster")}
 
 source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/AtmosphericPAram.R')
 source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/SradPARAM.R')
