@@ -5,7 +5,7 @@ if (!requireNamespace('plyr', quietly = TRUE)) {utils::install.packages("plyr")}
 if (!requireNamespace('BGGE', quietly = TRUE)) {utils::install.packages("BGGE")}
 if (!requireNamespace('foreach', quietly = TRUE)) {utils::install.packages("foreach")}
 if (!requireNamespace('reshape2', quietly = TRUE)) {utils::install.packages("reshape2")}
-if (!requireNamespace('raster', quietly = TRUE)) {utils::install.packages("raster)}
+if (!requireNamespace('raster', quietly = TRUE)) {utils::install.packages("raster")}
 
 source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/AtmosphericPAram.R')
 source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/SradPARAM.R')
