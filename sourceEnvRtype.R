@@ -1,4 +1,4 @@
-cat("it is ugly, but works! (if you have installed the dependences)")
+cat("it is ugly, but works! :)")
 
 if (!requireNamespace('nasapower', quietly = TRUE)) {utils::install.packages("nasapower")} 
 if (!requireNamespace('plyr', quietly = TRUE)) {utils::install.packages("plyr")}
