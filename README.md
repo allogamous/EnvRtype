@@ -28,6 +28,7 @@
 
   ## Updates and Maintence
  
+ > Join our [DISCUSSION FORUM](https://groups.google.com/u/1/g/envrtype)
 
 > PRECTOT variable (rainfall precipitation) is currently off from NASA POWER
 
@@ -55,7 +56,7 @@
 * [Authorship](#P4)
 * [Acknowledgments](#P5)
 * [Publications](#P6)
-* [Updates and Maintence](#P7)
+* [Getting help](https://groups.google.com/u/1/g/envrtype)
 
               
 <div id="Instal" />
