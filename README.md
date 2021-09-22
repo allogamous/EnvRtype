@@ -3,6 +3,8 @@
 
 *An Interplay between Quantitative Genetics and Ecophysiology for GxE analysis.*
 
+Version: 1.0.0 (August 2021)
+
 <div id="menu" />
   
   ---------------------------------------------
