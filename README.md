@@ -30,20 +30,21 @@ Version: 1.0.0 (August 2021)
 
   ## Updates and Maintence
  
- > Join our [DISCUSSION FORUM](https://groups.google.com/u/1/g/envrtype)
+> Date 10-14-2021: NASA POWER server off "Error: Something went wrong with the query, no data were returned. Please see <https://power.larc.nasa.gov> for potential server issues."
+> Join our [DISCUSSION FORUM](https://groups.google.com/u/1/g/envrtype)
 
-> PRECTOT variable (rainfall precipitation) is currently off from NASA POWER
+> ~~PRECTOT variable (rainfall precipitation) is currently off from NASA POWER
 
   
-  > Coming soon (Sept 2021): tutorial for using environmental covariables in asreml and BGLR
+  > Coming soon (Dec 2021): tutorial for using environmental covariables in asreml and BGLR
   
-  > Coming soon (Sept 2021): tutorial for using external sources of environmental data (from field micro-stations) 
+  > Coming soon (Dec 2021): tutorial for using external sources of environmental data (from field micro-stations) 
   
-  > Coming soon (Sept 2021): tutorial for colecting soil data from SoilGrids data base
+  > Coming soon (Dec 2021): tutorial for colecting soil data from SoilGrids data base
 
-  > The current version of the package is 1.0.0 (January 22th 2021)
+  > The current version of the package is 1.0.0 (May 22th 2021)
   
-  > From December 15th 2020 to January 10th 2021 this page will be under maintence. This means that we are now working in several updates and some changes will be made in some functions.
+  > ~~From December 15th 2020 to January 10th 2021 this page will be under maintence. This means that we are now working in several updates and some changes will be made in some functions.
 
   ---------------------------------------------
 
