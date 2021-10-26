@@ -11,6 +11,9 @@ Version: 1.0.0 (August 2021)
   [![SUPPORT](https://img.shields.io/badge/SUPPORT-R-yellowgreen)](https://github.com/gcostaneto/EnvRtype_course/blob/main/README.md)
  
  
+ 
+ 
+ 
   ## Background
   
 Envirotyping has proven useful in identifying the non-genetic drivers of phenotypic adaptation in plants cultivaded in diverse growing conditions. Combined with phenotyping and genotyping data, the use of envirotyping data may leverage the molecular breeding strategies to cope with environmental changing scenarios. Over the last ten years, this data has been incorporated in genomic-enabled prediction models aiming to better model genotype x environment interaction (GE) as a function of reaction-norm. However, there is difficult for most breeders to deal with the interplay between envirotyping, ecophysiology, and genetics. 
