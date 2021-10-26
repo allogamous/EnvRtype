@@ -124,16 +124,16 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 **Developer**
 
- * [Germano Costa Neto](https://github.com/gcostaneto), PhD Candidate in Genetics and Plant Breeding
+ * [Germano Costa Neto](https://github.com/gcostaneto), University of Sao Paulo/ Cornell University
 
 
 **Maintence**
 
- * [Germano Costa Neto](https://github.com/gcostaneto), PhD Candidate in Genetics and Plant Breeding
+ * [Germano Costa Neto](https://github.com/gcostaneto)
 
- * [Giovanni Galli](https://github.com/giovannigalli), PhD in Genetics and Plant Breeding
+ * [Giovanni Galli](https://github.com/giovannigalli)
 
- * [Humberto Fanelli](https://github.com/humbertofanelli), PhD in Genetics and Plant Breeding
+ * [Humberto Fanelli](https://github.com/humbertofanelli)
 
 
 <div id="P5" />
@@ -155,13 +155,13 @@ Costa-Neto G, Fritsche-Neto R, Crossa J (2020). Nonlinear kernels, dominance, an
 
 ## Acknowledgments
 
- * [Giovanni Galli](https://github.com/giovannigalli), PhD in Genetics and Plant Breeding
+ * [Giovanni Galli](https://github.com/giovannigalli)
 
- * [Humberto Fanelli](https://github.com/humbertofanelli), PhD in Genetics and Plant Breeding
+ * [Humberto Fanelli](https://github.com/humbertofanelli)
 
  * Jose Crossa, Biometrics and Statistic Unit at CIMMYT.
 
- * [Roberto Fritsche-Neto](roberto.neto@usp.br), Professor in Genetics and Plant Breeding, Head of Allogamous Plant Breedig Lab (ESALQ/USP)
+ * [Roberto Fritsche-Neto](roberto.neto@usp.br)
 
  * [University of São Paulo (ESALQ/USP)](https://www.esalq.usp.br/)
 
