@@ -7,7 +7,7 @@ Version: 1.0.0 (August 2021)
 
 <div id="menu" />
   
-  [![DOI](https://zenodo.org/badge/361578809.svg)](https://doi.org/10.1093/g3journal/jkab040)
+  [![DOI]](https://doi.org/10.1093/g3journal/jkab040)
   
   ---------------------------------------------
   
