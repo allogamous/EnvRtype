@@ -1,5 +1,6 @@
+<img align="left" src="/fig/logo3_300.png" width="20%" height="20%">
 
-#  <img align="left" src="/fig/logo3_300.png" width="20%" height="20%"> *EnvRtype*: Envirotyping Tools in R
+#  *EnvRtype*: Envirotyping Tools in R
 
 *An Interplay between Quantitative Genetics and Ecophysiology for GxE analysis.*
 
