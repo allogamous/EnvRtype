@@ -165,8 +165,11 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 ## Publications
 
+Last update: 2021-10-10
 
-Costa-Neto G, Galli G, Fanelli H, Crossa J, Fritsche-Neto R (2020). EnvRtype : a software to interplay enviromics and quantitative genomics in agriculture. bioRxiv [in press](https://www.biorxiv.org/content/10.1101/2020.10.14.339705v1)
+Costa-Neto, G., Crossa, J., and Fritsche-Neto, R. (2021). Enviromic Assembly Increases Accuracy and Reduces Costs of the Genomic Prediction for Yield Plasticity in Maize. **Frontiers in Plant Science** 12. doi:10.3389/fpls.2021.717552.
+
+Costa-Neto, G., Galli, G., Carvalho, H. F., Crossa, J., and Fritsche-Neto, R. (2021). EnvRtype: a software to interplay enviromics and quantitative genomics in agriculture. **G3 Genes|Genomes|Genetics**. doi:10.1093/g3journal/jkab040.
 
 Galli G, Horne DW, Collins SD, Jung J, Chang A, Fritsche‐Neto R, et al. (2020). Optimization of UAS‐based high‐throughput phenotyping to estimate plant health and grain yield in sorghum. **Plant Phenome** J 3: 1–14.
 
