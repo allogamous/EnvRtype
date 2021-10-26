@@ -1,7 +1,6 @@
 <img align="left" src="/fig/logo3_300.png" width="20%" height="20%">
 
 #  [*EnvRtype*: Envirotyping Tools in R](https://github.com/allogamous/EnvRtype/blob/master/README.md)
-
 *An Interplay between Quantitative Genetics and Ecophysiology for GxE analysis.*
 
 Version: 1.0.0 (August 2021)
