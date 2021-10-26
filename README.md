@@ -13,11 +13,11 @@ Version: 1.0.0 (August 2021)
  
   ## Background
   
-  > Envirotyping has proven useful in identifying the non-genetic drivers of phenotypic adaptation in plants cultivaded in diverse growing conditions. Combined with phenotyping and genotyping data, the use of envirotyping data may leverage the molecular breeding strategies to cope with environmental changing scenarios. Over the last ten years, this data has been incorporated in genomic-enabled prediction models aiming to better model genotype x environment interaction (GE) as a function of reaction-norm. However, there is difficult for most breeders to deal with the interplay between envirotyping, ecophysiology, and genetics. 
+Envirotyping has proven useful in identifying the non-genetic drivers of phenotypic adaptation in plants cultivaded in diverse growing conditions. Combined with phenotyping and genotyping data, the use of envirotyping data may leverage the molecular breeding strategies to cope with environmental changing scenarios. Over the last ten years, this data has been incorporated in genomic-enabled prediction models aiming to better model genotype x environment interaction (GE) as a function of reaction-norm. However, there is difficult for most breeders to deal with the interplay between envirotyping, ecophysiology, and genetics. 
   
-> It also can be useful for several fields of agricultural, livestook and ecology research, by delivering high-quality environmental information and environmental grouping appraoches.
+It also can be useful for several fields of agricultural, livestook and ecology research, by delivering high-quality environmental information and environmental grouping appraoches.
 
-> Here we present the EnvRtype R package as a new toolkit developed to facilitate the interplay between envirotyping and fields of plant research such as genomic prediction. This package offers three modules: (1) collection and processing data set, (2) environmental characterization, (3) build of ecophysiological enriched predictive models accounting for three different structures of reaction-norm over different sources of genomic relatedness. Thus, EnvRtype is useful for exploratory purposes and predctive breeding for multiple growing conditions.
+Here we present the EnvRtype R package as a new toolkit developed to facilitate the interplay between envirotyping and fields of plant research such as genomic prediction. This package offers three modules: (1) collection and processing data set, (2) environmental characterization, (3) build of ecophysiological enriched predictive models accounting for three different structures of reaction-norm over different sources of genomic relatedness. Thus, EnvRtype is useful for exploratory purposes and predctive breeding for multiple growing conditions.
 
 <div id="menu" />
   
@@ -26,7 +26,7 @@ Version: 1.0.0 (August 2021)
   
   > The envirotyping pipeline provided by EnvRtype consists in three modules (1 - Environmental Sensing, 2- Macro-Environmental Characterization and 3 - Enviromic Similarity and Phenotype Prediction). Collectively, the EnvRtyping functions generate a simple workflow to collect, process and integrates envirotyping data into several fields of agricultural research, specially for predictive breeding that may include the use of genomic x enviromic relatedness information.
   
-  <img align="center" src="/fig/workflow_2.png" width="70%" height="70%">
+  <img align="center" src="/fig/workflow_2.png" width="90%" height="90%">
   
  
 
@@ -87,12 +87,12 @@ install.packages("EnvRtype_1.0.0.tar.gz", repos = NULL, type="source") # Make su
  
  ### Required packages
  
-> * **[EnvRtype](https://github.com/allogamous/EnvRtype)** 
-> * **[raster](https://CRAN.R-project.org/package=raster)** 
-> * **[nasapower](https://github.com/ropensci/nasapower)** 
-> * **[BGGE](https://github.com/italo-granato/BGGE)**
-> * **[foreach](https://github.com/cran/foreach)**
-> * **[doParalell](https://github.com/cran/doparallel)**
+ * **[EnvRtype](https://github.com/allogamous/EnvRtype)** 
+ * **[raster](https://CRAN.R-project.org/package=raster)** 
+ * **[nasapower](https://github.com/ropensci/nasapower)** 
+ * **[BGGE](https://github.com/italo-granato/BGGE)**
+ * **[foreach](https://github.com/cran/foreach)**
+ * **[doParalell](https://github.com/cran/doparallel)**
                 
 ```{r}
 install.packages("foreach")
@@ -138,7 +138,20 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 <div id="P5" />
 
-------------------------------------------------------------
+## Publications
+
+Last update: 2021-10-10
+
+Costa-Neto, G., Crossa, J., and Fritsche-Neto, R. (2021). Enviromic Assembly Increases Accuracy and Reduces Costs of the Genomic Prediction for Yield Plasticity in Maize. **Frontiers in Plant Science** 12. doi:10.3389/fpls.2021.717552.
+
+Costa-Neto, G., Galli, G., Carvalho, H. F., Crossa, J., and Fritsche-Neto, R. (2021). EnvRtype: a software to interplay enviromics and quantitative genomics in agriculture. **G3 Genes|Genomes|Genetics**. doi:10.1093/g3journal/jkab040.
+
+Galli G, Horne DW, Collins SD, Jung J, Chang A, Fritsche‐Neto R, et al. (2020). Optimization of UAS‐based high‐throughput phenotyping to estimate plant health and grain yield in sorghum. **Plant Phenome** J 3: 1–14.
+
+Costa-Neto G, Fritsche-Neto R, Crossa J (2020). Nonlinear kernels, dominance, and envirotyping data increase the accuracy of genome-based prediction in multi-environment trials. **Heredity** (Edinb).
+
+  
+  <div id="P7" />
 
 ## Acknowledgments
 
@@ -157,25 +170,6 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
  * [Pedro L. Longhin](https://github.com/pedro-longhin) for additional support in Git Hub
 
 <div id="P6" />
-
-------------------------------------------------------------
-
-## Publications
-
-Last update: 2021-10-10
-
-Costa-Neto, G., Crossa, J., and Fritsche-Neto, R. (2021). Enviromic Assembly Increases Accuracy and Reduces Costs of the Genomic Prediction for Yield Plasticity in Maize. **Frontiers in Plant Science** 12. doi:10.3389/fpls.2021.717552.
-
-Costa-Neto, G., Galli, G., Carvalho, H. F., Crossa, J., and Fritsche-Neto, R. (2021). EnvRtype: a software to interplay enviromics and quantitative genomics in agriculture. **G3 Genes|Genomes|Genetics**. doi:10.1093/g3journal/jkab040.
-
-Galli G, Horne DW, Collins SD, Jung J, Chang A, Fritsche‐Neto R, et al. (2020). Optimization of UAS‐based high‐throughput phenotyping to estimate plant health and grain yield in sorghum. **Plant Phenome** J 3: 1–14.
-
-Costa-Neto G, Fritsche-Neto R, Crossa J (2020). Nonlinear kernels, dominance, and envirotyping data increase the accuracy of genome-based prediction in multi-environment trials. **Heredity** (Edinb).
-
-  
-  <div id="P7" />
-  
-  ---------------------------------------------
   
 
 
