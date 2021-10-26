@@ -10,8 +10,7 @@ Version: 1.0.0 (August 2021)
   [![DOI](https://img.shields.io/badge/DOI-G3-green)](https://doi.org/10.1093/g3journal/jkab040)
   [![SUPPORT](https://img.shields.io/badge/SUPPORT-R-yellowgreen)](https://github.com/gcostaneto/EnvRtype_course/blob/main/README.md)
  
-  ---------------------------------------------
-  
+ 
   ## Background
   
   > Envirotyping has proven useful in identifying the non-genetic drivers of phenotypic adaptation in plants cultivaded in diverse growing conditions. Combined with phenotyping and genotyping data, the use of envirotyping data may leverage the molecular breeding strategies to cope with environmental changing scenarios. Over the last ten years, this data has been incorporated in genomic-enabled prediction models aiming to better model genotype x environment interaction (GE) as a function of reaction-norm. However, there is difficult for most breeders to deal with the interplay between envirotyping, ecophysiology, and genetics. 
@@ -22,18 +21,18 @@ Version: 1.0.0 (August 2021)
 
 <div id="menu" />
   
-  ---------------------------------------------
+
   ## Resources
   
   > The envirotyping pipeline provided by EnvRtype consists in three modules (1 - Environmental Sensing, 2- Macro-Environmental Characterization and 3 - Enviromic Similarity and Phenotype Prediction). Collectively, the EnvRtyping functions generate a simple workflow to collect, process and integrates envirotyping data into several fields of agricultural research, specially for predictive breeding that may include the use of genomic x enviromic relatedness information.
   
   <img align="center" src="/fig/workflow_2.png" width="70%" height="70%">
   
-  ---------------------------------------------
+ 
 
   ## Updates and Maintence
  
-* Date 10-14-2021: NASA POWER server off "Error: Something went wrong with the query, no data were returned. Please see <https://power.larc.nasa.gov> for potential server issues."
+* Date 2021-10-14: NASA POWER server off "Error: Something went wrong with the query, no data were returned. Please see <https://power.larc.nasa.gov> for potential server issues."
 * Join our [DISCUSSION FORUM](https://groups.google.com/u/1/g/envrtype)
 
 * ~~PRECTOT variable (rainfall precipitation) is currently off from NASA POWER
@@ -47,8 +46,6 @@ Version: 1.0.0 (August 2021)
 * The current version of the package is 1.0.0 (May 22th 2021)
   
 * ~~From December 15th 2020 to January 10th 2021 this page will be under maintence. This means that we are now working in several updates and some changes will be made in some functions.
-
-  ---------------------------------------------
 
 
  ## Tutorials
@@ -119,7 +116,7 @@ library(EnvRtype)
                   
  <div id="P1" />
   
-------------------------------------------------------------
+
 
 ## Authorship
 
@@ -127,16 +124,16 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 **Developer**
 
-> * [Germano Costa Neto](https://github.com/gcostaneto), PhD Candidate in Genetics and Plant Breeding
+ * [Germano Costa Neto](https://github.com/gcostaneto), PhD Candidate in Genetics and Plant Breeding
 
 
 **Maintence**
 
-> * [Germano Costa Neto](https://github.com/gcostaneto), PhD Candidate in Genetics and Plant Breeding
+ * [Germano Costa Neto](https://github.com/gcostaneto), PhD Candidate in Genetics and Plant Breeding
 
-> * [Giovanni Galli](https://github.com/giovannigalli), PhD in Genetics and Plant Breeding
+ * [Giovanni Galli](https://github.com/giovannigalli), PhD in Genetics and Plant Breeding
 
-> * [Humberto Fanelli](https://github.com/humbertofanelli), PhD in Genetics and Plant Breeding
+ * [Humberto Fanelli](https://github.com/humbertofanelli), PhD in Genetics and Plant Breeding
 
 
 <div id="P5" />
@@ -145,19 +142,19 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
 ## Acknowledgments
 
-> * [Giovanni Galli](https://github.com/giovannigalli), PhD in Genetics and Plant Breeding
+ * [Giovanni Galli](https://github.com/giovannigalli), PhD in Genetics and Plant Breeding
 
-> * [Humberto Fanelli](https://github.com/humbertofanelli), PhD in Genetics and Plant Breeding
+ * [Humberto Fanelli](https://github.com/humbertofanelli), PhD in Genetics and Plant Breeding
 
-> * **Jose Crossa**, Biometrics and Statistic Unit at CIMMYT.
+ * Jose Crossa, Biometrics and Statistic Unit at CIMMYT.
 
-> * [Roberto Fritsche-Neto](roberto.neto@usp.br), Professor in Genetics and Plant Breeding, Head of Allogamous Plant Breedig Lab (ESALQ/USP)
+ * [Roberto Fritsche-Neto](roberto.neto@usp.br), Professor in Genetics and Plant Breeding, Head of Allogamous Plant Breedig Lab (ESALQ/USP)
 
-> * [University of São Paulo (ESALQ/USP)](https://www.esalq.usp.br/)
+ * [University of São Paulo (ESALQ/USP)](https://www.esalq.usp.br/)
 
-> * [Conselho Nacional de Desenvolvimento Científico e Tecnológico](http://www.cnpq.br/) for the PhD scholarship granted to the authors of the package
+ * [Conselho Nacional de Desenvolvimento Científico e Tecnológico](http://www.cnpq.br/) for the PhD scholarship granted to the authors of the package
 
-> * [Pedro L. Longhin](https://github.com/pedro-longhin) for additional support in Git Hub
+ * [Pedro L. Longhin](https://github.com/pedro-longhin) for additional support in Git Hub
 
 <div id="P6" />
 
