@@ -134,8 +134,6 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
  * [Giovanni Galli](https://github.com/giovannigalli)
 
- * [Humberto Fanelli](https://github.com/humbertofanelli)
-
 
 <div id="P5" />
 
