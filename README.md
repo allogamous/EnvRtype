@@ -7,7 +7,7 @@ Version: 1.0.0 (August 2021)
 
 <div id="menu" />
   
-  [![DOI](https://img.shields.io/badge/DOI-G3-green)](https://doi.org/10.1093/g3journal/jkab040)
+  [![DOI](https://img.shields.io/badge/DOI-doi.org%2F10.1093%2Fg3journal%2Fjkab040-orange)](https://doi.org/10.1093/g3journal/jkab040)
   [![SUPPORT](https://img.shields.io/badge/SUPPORT-R-yellowgreen)](https://github.com/gcostaneto/EnvRtype_course/blob/main/README.md)
  
 
