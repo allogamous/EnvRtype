@@ -1,5 +1,12 @@
-#' Title get_weather_v2
-#' Created by Tiago Olivoto
+#' ------------------------------------------------------------------------------------------------
+#' 
+#' Function: get_weather()
+#' Author: Germano Costa Neto
+#' Created at 2020-12-12
+#' Updated at 2022-01-01 by Tiago Olivoto
+#' version: second version get_weather2()
+#' ------------------------------------------------------------------------------------------------
+
 
 #' @param env.id vector (character or level). Identification of the site/environment (e.g. Piracicaba01).
 #' @param lat vector (numeric). Latitude values of the site/environment (e.g. -13.05) in WGS84.
@@ -9,7 +16,7 @@
 #' @param end.day vector (character). Last date in which weather/geographic data
 #'   should be collected (e.g. "2015-06-15").
 #' @param variables.names vector (character). Name of the variables. Should be
-#'   "T2M","T2M_MAX","T2M_MIN","PRECTOT", "WS2M","RH2M","T2MDEW",
+#'   "T2M","T2M_MAX","T2M_MIN","PRECTOT", "WS2M","RH2M","T2MDEW","ALT"
 #'   "ALLSKY_SFC_LW_DWN", "ALLSKY_SFC_SW_DWN", and/or "ALLSKY_TOA_SW_DWN". See
 #'   Details for more information.
 #' @param dir.path character. Directory for the output. If not informed, the
@@ -57,6 +64,10 @@ get_weather2 <- function(env.id = NULL,
   cat("------------------------------------------------ \n")
   cat("ATTENTION: This function requires internet access \n")
   cat("------------------------------------------------  \n")
+  cat('Connecting to the NASA POWER API Client, Sparks et al 2018 \n')
+  cat('https://docs.ropensci.org/nasapower \n')
+  cat("------------------------------------------------  \n")
+  
   if (is.null(env.id)) {
     env.id <- paste0("env", seq_along(lat))
   }
@@ -84,8 +95,8 @@ get_weather2 <- function(env.id = NULL,
   }
   if (is.null(variables.names)) {
     variables.names = c("T2M", "T2M_MAX", "T2M_MIN",
-                 "PRECTOTCORR", "WS2M", "RH2M",
-                 "T2MDEW", "ALLSKY_SFC_LW_DWN", "ALLSKY_SFC_SW_DWN")
+                        "PRECTOTCORR", "WS2M", "RH2M",
+                        "T2MDEW", "ALLSKY_SFC_LW_DWN", "ALLSKY_SFC_SW_DWN")
   }
   variables.names[grepl(variables.names, pattern = "PRECTOT")] = "PRECTOTCORR"
   env.id = as.factor(env.id)
@@ -115,7 +126,7 @@ get_weather2 <- function(env.id = NULL,
                    save = save)
       msg <- paste0("Env ", env.id[i], " (", i, "/", length(env.id), ") ", "downloaded")
       run_progress(pb, actual = i, text = msg)
-
+      
     }
   }
   # parallel strategy
@@ -161,15 +172,49 @@ get_weather2 <- function(env.id = NULL,
         Sys.sleep(sleep)
       }
     }
-    message("\nDone!")
+    message("\nNASA POWER: Done!")
   }
   df <-  plyr::ldply(results)
+  
   try(if (!is.null(country)) {
+    
+    
     if (!requireNamespace("raster"))
       utils::install.packages("raster")
-    srtm <- raster::getData("alt", country = "BRAZIL",
-                            mask = TRUE)
-    df <- extract_GIS(covraster = srtm, env.data = df)
+    suppressMessages('raster')
+    suppressWarnings('raster')
+    
+    cat('Connecting to https://biogeo.ucdavis.edu/data/ using Hijmans 2021')
+    cat("------------------------------------------------  \n")
+    
+    unique_country <- unique(country)
+    raster_alt <- vector(mode = 'list',length = length(unique_country))
+    names(raster_alt) = unique_country
+    
+    for(n in 1:length(unique_country))
+    {
+      if(!is.null(grep(x = unique_country[n],pattern = 'USA')))
+      {
+        id_region = as.numeric(gsub(x = unique_country[n],pattern = 'USA',replacement = ''))
+        raster_alt[[n]] <- suppressMessages(raster::getData("alt", country = 'USA',mask = TRUE)[[id_region]])
+      }
+      if(is.null(grep(x = unique_country[n],pattern = 'USA')))
+      {
+        raster_alt[[n]] <-  suppressMessages(raster::getData("alt", country = unique_country[n], mask = TRUE))
+      }
+    }
+      
+    
+    df_no_alt <- df
+    df <- c()
+    for(i in 1:length(env.id))
+    {
+      country_raster <-raster_alt[[which(names(raster_alt)%in% country[i])]]
+      df <- rbind(df,extract_GIS(covraster = country_raster, env.data = df_no_alt[i,],name.out = 'ALT'))
+    }
+
+    variables.names <- c(variables.names,'ALT')
+    message("\nSRTM: Done!")
   })
   variables.names[grepl(variables.names, pattern = "PRECTOTCORR")] = "PRECTOT"
   ids = which(names(df) %in% variables.names)
