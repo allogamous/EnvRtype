@@ -32,7 +32,7 @@ get_kernel(
 
 \item{reaction}{boolean. Indicates the inclusion of a reaction norm based GxE kernel (default = FALSE).}
 
-\item{dimension_KE}{character. \code{size_E=c('q','n')}. In the first, 'k' means taht the environmental relationship kernel has the dimensions of q x q observations,in which q is the number of environments. If 'n', the relationship kernel has the dimension n=pq, in which p is the number of genotypes}
+\item{dimension_KE}{character. \code{size_E=c('q','n')}. In the first, 'q' means taht the environmental relationship kernel has the dimensions of q x q observations,in which q is the number of environments. If 'n', the relationship kernel has the dimension n=pq, in which p is the number of genotypes}
 
 \item{ne}{numeric. denotes the number of environments (q)}
 
