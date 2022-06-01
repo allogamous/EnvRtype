@@ -4,8 +4,9 @@
 *A R Interplay between Quantitative Genetics and Ecophysiology for GxE analysis.*
 
 
-Version: 1.1.0 (June 2022)
-Last Version: Version: 1.0.0 (August 2021)
+**Version**: 1.1.0 (1st June 2022)
+
+Last Version: Version: 1.0.0 (31th August 2021)
 
 <div id="menu" />
   
@@ -42,7 +43,12 @@ Here we present the EnvRtype R package as a new toolkit developed to facilitate 
 
   ## Updates and Maintence
  
-* Date 2021-10-14: NASA POWER server off "Error: Something went wrong with the query, no data were returned. Please see <https://power.larc.nasa.gov> for potential server issues."
+* EnvRtype 1.1.0 is online (1st June 2022)
+
+* New version of the get_weather() function -- now running in parallel (Jun 2022)
+
+*~~Date 2021-10-14: NASA POWER server off "Error: Something went wrong with the query, no data were returned. Please see <https://power.larc.nasa.gov> for potential server issues."
+
 * Join our [DISCUSSION FORUM](https://groups.google.com/u/1/g/envrtype)
 
 * ~~PRECTOT variable (rainfall precipitation) is currently off from NASA POWER
@@ -92,7 +98,7 @@ setwd("~/EnvRtype-master.zip") # ~ is the path from where you saved the file.zip
 unzip("EnvRtype-master.zip") 
 file.rename("EnvRtype-master", "EnvRtype") 
 shell("R CMD build EnvRtype") # or system("R CMD build EnvRtype")
-install.packages("EnvRtype_1.0.0.tar.gz", repos = NULL, type="source") # Make sure to use the current verision
+install.packages("EnvRtype_1.1.0.tar.gz", repos = NULL, type="source") # Make sure to use the current verision
 ```
  
  ### Required packages
@@ -142,7 +148,6 @@ This package is a initiative from the [Allogamous Plant Breeding Lab (University
 
  * [Germano Costa Neto](https://github.com/gcostaneto)
 
- * [Giovanni Galli](https://github.com/giovannigalli)
 
 
 <div id="P5" />
