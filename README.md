@@ -48,6 +48,8 @@ Here we present the EnvRtype R package as a new toolkit developed to facilitate 
 
 * New version of the get_weather() function -- now running in parallel (Jun 2022)
 
+* Coming Soon: get_soil() function and EPA() [environmental-phenotype associations]
+
 *~~Date 2021-10-14: NASA POWER server off "Error: Something went wrong with the query, no data were returned. Please see <https://power.larc.nasa.gov> for potential server issues."
 
 * Join our [DISCUSSION FORUM](https://groups.google.com/u/1/g/envrtype)
@@ -56,7 +58,7 @@ Here we present the EnvRtype R package as a new toolkit developed to facilitate 
   
 * Coming soon: tutorial for using external sources of environmental data (from field micro-stations) 
   
-*~~Coming soon (Dec 2021): tutorial for colecting soil data from SoilGrids data base
+* ~~Coming soon (Dec 2021): tutorial for colecting soil data from SoilGrids data base
 
 * The current version of the package is 0.0.2 (May 22th 2021)
   
