@@ -84,7 +84,7 @@ Here we present the EnvRtype R package as a new toolkit developed to facilitate 
 
 ```{r}
 library(devtools)
-devtools::install_github('allogamous/EnvRtype',force=TRUE) # current version:  1.0.0 (May 2021)
+devtools::install_github('allogamous/EnvRtype',force=TRUE) # current version:  1.1.0 (June 2022)
 require(EnvRtype)
   ```
 ### Manually installing
