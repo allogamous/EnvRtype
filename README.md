@@ -4,9 +4,9 @@
 *A R Interplay between Quantitative Genetics and Ecophysiology for GxE analysis.*
 
 
-**Version**: 1.1.0 (1st June 2022)
+## **Version**: 1.1.0 (1st June 2022)
 
-Last Version: Version: 1.0.0 (31th August 2021)
+Last Version: 1.0.0 (31th August 2021)
 
 <div id="menu" />
   
