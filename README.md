@@ -50,7 +50,7 @@ Here we present the EnvRtype R package as a new toolkit developed to facilitate 
 
 * Coming Soon: get_soil() function and EPA() [environmental-phenotype associations]
 
-*~~Date 2021-10-14: NASA POWER server off "Error: Something went wrong with the query, no data were returned. Please see <https://power.larc.nasa.gov> for potential server issues."
+* ~~Date 2021-10-14: NASA POWER server off "Error: Something went wrong with the query, no data were returned. Please see <https://power.larc.nasa.gov> for potential server issues."
 
 * Join our [DISCUSSION FORUM](https://groups.google.com/u/1/g/envrtype)
 
