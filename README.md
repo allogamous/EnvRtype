@@ -3,7 +3,9 @@
 #  [*EnvRtype*: Envirotyping Tools in R](https://github.com/allogamous/EnvRtype/blob/master/README.md)
 *A R Interplay between Quantitative Genetics and Ecophysiology for GxE analysis.*
 
-Version: 1.0.0 (August 2021)
+
+Version: 1.1.0 (June 2022)
+Last Version: Version: 1.0.0 (August 2021)
 
 <div id="menu" />
   
