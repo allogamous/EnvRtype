@@ -84,7 +84,6 @@ Here we present the EnvRtype R package as a new toolkit developed to facilitate 
 
 ```{r}
 library(devtools)
-devtools::install_github("ropensci/nasapower",force = TRUE) # aug 2021
 devtools::install_github('allogamous/EnvRtype',force=TRUE) # current version:  1.0.0 (May 2021)
 require(EnvRtype)
   ```
@@ -101,6 +100,8 @@ install.packages("EnvRtype_1.1.0.tar.gz", repos = NULL, type="source") # Make su
 ```
  
  ### Required packages
+ 
+ For some users, it seems that the packages below must downloaded...(I am not a IT guy, I am really don't know why, sorry).
  
  * **[EnvRtype](https://github.com/allogamous/EnvRtype)** 
  * **[raster](https://CRAN.R-project.org/package=raster)** 
