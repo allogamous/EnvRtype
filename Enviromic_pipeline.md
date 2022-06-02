@@ -20,6 +20,32 @@ install_github('allogamous/EnvRtype')
 library(EnvRtype)
 ```
 
+# Demo
+
+```{r, eval=FALSE}
+require(EnvRtype)
+data(G2F_2014_17)
+
+data = G2F_2014_17
+env   = data$env
+lon   = data$lon
+lat   = data$lat
+env   = data$env
+start = data$start
+end = data$end
+country = rep('USA1',length(lon))
+
+env.data =
+  EnvRtype::get_weather(env.id = env,
+                        lat = lat,
+                        lon = lon,
+                        start.day = start,
+                        end.day = end,
+                        country = country,
+                        parallel = TRUE)
+                      
+                        
+```
 
 
 # Raw-Data Collection
