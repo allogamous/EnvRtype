@@ -40,7 +40,7 @@ get_weather(
 
 \item{temporal.scale}{character. Default = 'DAILY'. See \code{get_power()} function in nasapower package for more details.}
 
-\item{country}{character. Country in which the lat and lon values are positioned (e.g. 'BRA'). A single country should be informed. Wrapper of raster::getData.}
+\item{country}{vector (character). Country in which the lat and lon values are positioned (e.g. 'BRA'). For USA continental area, use USA1. Wrapper of raster::getData.}
 
 \item{parallel}{bollean. If TRUE, a parallel strategy is implemented. The
 vectors are split into chunks with `chunk_size` elements (30 by default)

@@ -14,7 +14,7 @@
 #' @param dir.path character. Directory for the output. If not informed, the output will be saved in the current workind directory.
 #' @param save bollean. If TRUE, save each environmental data.frame as .csv in dir.path.
 #' @param temporal.scale character. Default = 'DAILY'. See \code{get_power()} function in nasapower package for more details.
-#' @param country character. Country in which the lat and lon values are positioned (e.g. 'BRA'). A single country should be informed. Wrapper of raster::getData.
+#' @param country vector (character). Country in which the lat and lon values are positioned (e.g. 'BRA'). For USA continental area, use USA1. Wrapper of raster::getData.
 #' @param parallel bollean. If TRUE, a parallel strategy is implemented. The
 #'   vectors are split into chunks with `chunk_size` elements (30 by default)
 #'   where the data is downloaded. The function then sleeps for `sleep` seconds
@@ -314,12 +314,12 @@ get_weather <- function(env.id = NULL,
 
     for(n in 1:length(unique_country))
     {
-      if(!is.null(grep(x = unique_country[n],pattern = 'USA')))
+      if(!is.null(grepl(x = unique_country[n],pattern = 'USA')))
       {
         id_region = as.numeric(gsub(x = unique_country[n],pattern = 'USA',replacement = ''))
         raster_alt[[n]] <- suppressMessages(raster::getData("alt", country = 'USA',mask = TRUE)[[id_region]])
       }
-      if(is.null(grep(x = unique_country[n],pattern = 'USA')))
+      if(is.null(grepl(x = unique_country[n],pattern = 'USA')))
       {
         raster_alt[[n]] <-  suppressMessages(raster::getData("alt", country = unique_country[n], mask = TRUE))
       }
@@ -331,7 +331,8 @@ get_weather <- function(env.id = NULL,
     for(i in 1:length(env.id))
     {
       country_raster <-raster_alt[[which(names(raster_alt)%in% country[i])]]
-      df <- rbind(df,extract_GIS(covraster = country_raster, env.data = df_no_alt[i,],name.out = 'ALT'))
+      id <- which(df_no_alt$env %in% env.id[i])
+      df <- rbind(df,extract_GIS(covraster = country_raster, env.data = df_no_alt[id,],name.out = 'ALT'))
     }
 
     variables.names <- c(variables.names,'ALT')

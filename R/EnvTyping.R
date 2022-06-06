@@ -128,7 +128,8 @@ env_typing <- function(env.data,var.id,env.id,cardinals=NULL,days.id=NULL,
 
       (inters <- unique(.GetW$interval))
 
-      Q.t <- foreach::foreach(e=1:length(envs),    .combine = "rbind") %:%
+      Q.t <-
+        foreach::foreach(e=1:length(envs),    .combine = "rbind") %:%
         foreach::foreach(i=1:length(inters),  .combine = "rbind") %:%
         foreach::foreach(v=1:length(vars) ,   .combine = "rbind") %:%
         foreach::foreach(s=1:length(prob),    .combine = "rbind") %dopar% {
