@@ -7,7 +7,7 @@
 #' Specific projects within G2F involve collaboration from research fields such as genetics, genomics, plant physiology, agronomy, climatology and crop modeling,
 #' computational sciences, statistics, and engineering. See https://bmcresnotes.biomedcentral.com/articles/10.1186/s13104-020-4922-8.
 #'
-#' Here we used the geographic coordinates from 93 environments (diverse locations across 4 years)
+#' Here we used the geographic coordinates from 98 environments (diverse locations across 4 years)
 #'
 #'
 #'@format A data.frame containing environmental identifications (env), geographic coordinates (lat, lon) and the time window (start, end) given in YYYY-MM-DD.
@@ -29,7 +29,6 @@
 #' end = data$end
 #' country = rep('USA1',length(lon))
 #'
-#' require(parallel)
 #' env.data =
 #'   EnvRtype::get_weather(env.id = env,
 #'                         lat = lat,
@@ -40,6 +39,6 @@
 #'                         parallel = TRUE)
 #'
 #'head(env.data)
-#' @format data.frame file
+#' @format A .tif raster file
 
 "G2F_2014_17"

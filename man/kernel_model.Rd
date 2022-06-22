@@ -21,7 +21,7 @@ kernel_model(
 )
 }
 \arguments{
-\item{y}{numeric. denotes the name of the column respectively to phenotype values}
+\item{y}{character. denotes the name of the column respectively to phenotype values}
 
 \item{data}{data.frame. Should contain the following colunms: environemnt, genotype, phenotype.}
 
@@ -32,8 +32,6 @@ where is included the regression kernels. The later is the \code{Type}, specifyi
 \item{fixed}{matrix Design matrix (\eqn{n \times p}) for fixed effects (NULL by default)}
 
 \item{env}{character. denotes the name of the column respectively to environments}
-
-\item{gid}{character. denotes the name of the column respectively to the genotype identification (names)}
 
 \item{verbose}{Should iteration history be printed on console? If TRUE or 1 then it is printed,
 otherwise, if another number $n$ is choosen the history is printed every $n$ times. The default is \code{FALSE}}
