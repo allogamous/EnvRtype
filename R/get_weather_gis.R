@@ -332,7 +332,7 @@ get_weather <- function(env.id = NULL,
         id_region = as.numeric(gsub(x = unique_country[n],pattern = 'USA',replacement = ''))
         raster_alt[[n]] <- suppressMessages(raster::getData("alt", country = 'USA',mask = TRUE)[[id_region]])
       }
-      if(isFALSE(grepl(x = unique_country[n],pattern = 'USA')))
+      else
       {
         raster_alt[[n]] <-  suppressMessages(raster::getData("alt", country = unique_country[n], mask = TRUE))
       }
