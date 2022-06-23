@@ -298,6 +298,17 @@ get_weather <- function(env.id = NULL,
   }
   df <-  plyr::ldply(results)
 
+  if(is.null(country))
+  {
+
+    cat("\n")
+    cat('country = NULL ; Not possible to download ALT data. Please provide a country ID (e.g., USA1, BRA, FRA)')
+
+    variables.names[grepl(variables.names, pattern = "PRECTOTCORR")] = "PRECTOT"
+    ids = which(names(df) %in% variables.names)
+    df[, ids][df[, ids] == -999] = NA
+    return(df)
+  }
   try(if (!is.null(country)) {
 
 
@@ -339,11 +350,13 @@ get_weather <- function(env.id = NULL,
 
     variables.names <- c(variables.names,'ALT')
     message("\nSRTM: Done!")
+
+    variables.names[grepl(variables.names, pattern = "PRECTOTCORR")] = "PRECTOT"
+    ids = which(names(df) %in% variables.names)
+    df[, ids][df[, ids] == -999] = NA
+    return(df)
   })
-  variables.names[grepl(variables.names, pattern = "PRECTOTCORR")] = "PRECTOT"
-  ids = which(names(df) %in% variables.names)
-  df[, ids][df[, ids] == -999] = NA
-  return(df)
+
 }
 
 
