@@ -309,7 +309,7 @@ get_weather <- function(env.id = NULL,
     df[, ids][df[, ids] == -999] = NA
     return(df)
   }
-  try(if (!is.null(country)) {
+  if (!is.null(country)) {
 
 
     if (!requireNamespace("raster"))
@@ -327,12 +327,12 @@ get_weather <- function(env.id = NULL,
 
     for(n in 1:length(unique_country))
     {
-      if(!is.null(grepl(x = unique_country[n],pattern = 'USA')))
+      if(isTRUE(grepl(x = unique_country[n],pattern = 'USA')))
       {
         id_region = as.numeric(gsub(x = unique_country[n],pattern = 'USA',replacement = ''))
         raster_alt[[n]] <- suppressMessages(raster::getData("alt", country = 'USA',mask = TRUE)[[id_region]])
       }
-      if(is.null(grepl(x = unique_country[n],pattern = 'USA')))
+      if(isFALSE(grepl(x = unique_country[n],pattern = 'USA')))
       {
         raster_alt[[n]] <-  suppressMessages(raster::getData("alt", country = unique_country[n], mask = TRUE))
       }
@@ -355,7 +355,7 @@ get_weather <- function(env.id = NULL,
     ids = which(names(df) %in% variables.names)
     df[, ids][df[, ids] == -999] = NA
     return(df)
-  })
+  }
 
 }
 
