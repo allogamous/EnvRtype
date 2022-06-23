@@ -54,6 +54,7 @@ Returns environmental typologies that can be used as envirotype markers. This ty
 TODO
 }
 \examples{
+\dontrun{
 ### Fetching weather information from NASA-POWER
 env.data = get_weather(lat = -13.05, lon = -56.05)
 
@@ -87,7 +88,7 @@ env_typing(env.data = env.data,
                            PRECTOT = c(0, 5, 10),
                            WS2M = NULL),
           env.id = 'env')
-
+}
 }
 \author{
 Germano Costa Neto

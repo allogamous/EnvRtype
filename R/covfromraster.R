@@ -18,13 +18,14 @@
 #' TODO
 #'
 #' @examples
-#' # TODO
+#'\dontrun{
 #' # Extraction of clay soil content for Nairobi, Kenya
 #'require(EnvRtype)
 #'data("clay_5_15")
 #'env.data = data.frame(LAT = -1.367, LON = 36.834, env = 'NAIROBI')
 #'env.data = extract_GIS(covraster = clay_5_15,name.out = 'clay_5_15',env.data = env.data)
 #'head(env.data)
+#'}
 #'
 #' @importFrom raster extract merge
 #' @importFrom sp proj4string CRS coordinates<- proj4string<- coordinates

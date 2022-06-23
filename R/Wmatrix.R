@@ -28,6 +28,7 @@
 #' TODO
 #'
 #' @examples
+#'\dontrun{
 #'data("maizeWTH")
 #'env.data = maizeWTH[maizeWTH$daysFromStart < 100,]
 #' ### Mean-centered and scaled matrix
@@ -57,6 +58,8 @@
 #' ### Combining summaryWTH by using is.processed = TRUE
 #'data <- summaryWTH(env.data, env.id = 'env', statistic = 'quantile')
 #' W <- W_matrix(env.data = data, is.processed = TRUE)
+#'
+#' }
 
 #' @importFrom stats sd
 #' @importFrom reshape2 acast

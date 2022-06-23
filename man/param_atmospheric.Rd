@@ -58,14 +58,22 @@ The calculated variables are:
  }
 }
 \examples{
+\dontrun{
 ### Fetching weather information from NASA-POWER
 env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 
 ### Calculating solar radiation
-env.data = Param_Radiation(env.data, merge = TRUE)
+env.data = param_radiation(env.data, merge = TRUE)
 
 ### Calculating solar radiation
 param_atmospheric(env.data)
+
+## or simply:
+require(tidyverse)
+env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA') \%>\%
+           param_radiation(merge = TRUE) \%>\%
+           param_atmospheric(merge=T)
+}
 }
 \author{
 Germano Costa Neto

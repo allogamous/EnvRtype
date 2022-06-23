@@ -46,6 +46,7 @@
 #' }
 #'
 #' @examples
+#'\dontrun{
 #' ## Temperature for a single location:
 #' get_weather(env.id = "NM", lat = -13.05, lon = -56.05,
 #'             start.day = "2015-02-15", end.day = "2015-06-15",
@@ -58,6 +59,7 @@
 #' harv.date = rep("2015-06-15", 2)
 #' get_weather(env.id = env, lat = lat, lon = lon,
 #'             start.day = plant.date, end.day = harv.date)
+#'}
 #'
 #' @references
 #' Sparks A (2018). _nasapower: NASA-POWER Data from R_. R package version 1.1.3, <URL:https://CRAN.R-project.org/package=nasapower>.

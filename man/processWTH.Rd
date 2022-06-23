@@ -57,7 +57,7 @@ Returns a \code{get_wheather()} object with an additional set of parameters calc
 A wraper of \code{param_padiation()}, \code{param_atmospheric()}, and \code{param_temperature()} for evaluating get_weather() datasets. Calculates a series of parameters based on the \code{get_weather()} object.
 }
 \details{
-This function requires a dataframe with all parameters listed above. If any is missing, an error will be returned.
+This function is old. P requires a dataframe with all parameters listed above. If any is missing, an error will be returned.
 The estimated variables are:
 \itemize{
  \item n: Actual duration of sunshine (hour)
@@ -74,12 +74,13 @@ The estimated variables are:
 }
 }
 \examples{
+\dontrun{
 ### Fetching weather information from NASA-POWER
 env.data = get_weather(lat = -13.05, lon = -56.05)
 
 ### Returning calculated parameters merged to the \code{get_weather()} dataframe
 processWTH(env.data)
-
+}
 }
 \author{
 Germano Costa Neto

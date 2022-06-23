@@ -7,10 +7,11 @@
 #'@usage data(clay_5_15)
 #'
 #'@examples
+#'\dontrun{
 #' data(clay_5_15)
 #' require(raster)
 #' plot(clay_5_15)
-#'
+#'}
 #' @format A .tif raster file
 
 "clay_5_15"

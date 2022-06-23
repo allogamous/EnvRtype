@@ -23,7 +23,7 @@
 #' Returns a \code{get_wheather()} object with an additional set of parameters calculated from the nasapower data.
 #'
 #' @details
-#' This function requires a dataframe with all parameters listed above. If any is missing, an error will be returned.
+#' This function is old. P requires a dataframe with all parameters listed above. If any is missing, an error will be returned.
 #' The estimated variables are:
 #' \itemize{
 #'  \item n: Actual duration of sunshine (hour)
@@ -40,12 +40,13 @@
 #' }
 #'
 #' @examples
+#'\dontrun{
 #' ### Fetching weather information from NASA-POWER
 #' env.data = get_weather(lat = -13.05, lon = -56.05)
 #'
 #' ### Returning calculated parameters merged to the \code{get_weather()} dataframe
 #' processWTH(env.data)
-#'
+#'}
 #' @export
 
 processWTH <- function(env.data,PREC=NULL, Tdew=NULL,

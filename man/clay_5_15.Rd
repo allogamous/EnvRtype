@@ -14,9 +14,10 @@ data(clay_5_15)
 Soil profile for clay content (g/kg) for Nairobi using a raster file was downloaded from SoilGrids (https://soilgrids.org/).
 }
 \examples{
+\dontrun{
 data(clay_5_15)
 require(raster)
 plot(clay_5_15)
-
+}
 }
 \keyword{datasets}

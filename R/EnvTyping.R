@@ -24,6 +24,7 @@
 #' TODO
 #'
 #' @examples
+#'\dontrun{
 #' ### Fetching weather information from NASA-POWER
 #' env.data = get_weather(lat = -13.05, lon = -56.05)
 #'
@@ -57,7 +58,7 @@
 #'                            PRECTOT = c(0, 5, 10),
 #'                            WS2M = NULL),
 #'           env.id = 'env')
-#'
+#'}
 #' @importFrom stats quantile
 #' @importFrom foreach %dopar% %:% foreach
 #' @importFrom reshape2 acast

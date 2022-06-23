@@ -20,13 +20,13 @@ get_kernel(
 )
 }
 \arguments{
-\item{K_E}{list. Contains nmatrices of envirotype-related kernels (n x n genotypes-environment). If NULL, benchmarck genomic kernels are built.}
+\item{K_E}{list. Contains n matrices of envirotype-related kernels (n x n genotypes-environment). If NULL, benchmarck genomic kernels are built.}
 
-\item{K_G}{list. Constains matrices of genomic enabled kernels (p x p genotypes). See BGGE::getK for more information.}
+\item{K_G}{list. Contains matrices of genomic enabled kernels (p x p genotypes). See BGGE::getK for more information.}
 
 \item{data}{data.frame. Should contain the following colunms: environemnt, genotype, phenotype.}
 
-\item{model}{character. Model structure for genomic predicion. It can be \code{c('MM','MDs','E-MM','E-MDs')}, in which MM (main effect model \eqn{Y=fixed + G}) and MDs (\eqn{Y=fixed+G+GxE}).}
+\item{model}{character. Model structure for genomic predicion. It can be \code{c('MM','MDs','EMM','EMDs')}, in which MM (main effect model \eqn{y = m + Z_{E} + G}) and MDs (\eqn{y = m + Z_{E} + G + GE}).}
 
 \item{intercept.random}{boolean. Indicates the inclusion of a genomic random intercept (default = FALSE). For more details, see BGGE package vignette.}
 
@@ -51,9 +51,10 @@ A list of kernels (relationship matrices) to be used in genomic models.
 Get multiple genomic and/or envirotype-informed kernels for bayesian genomic prediciton.
 }
 \details{
-TODO Define models.
+Detail on the model structures is given in the GitHub page: {https://github.com/allogamous/EnvRtype/blob/master/Prediction.md}
 }
 \examples{
+\dontrun{
 ### Loading the genomic, phenotype and weather data
 data('maizeG'); data('maizeYield'); data("maizeWTH")
 
@@ -79,6 +80,7 @@ RNMDs = get_kernel(K_G = KG, K_E = KE, y = y,gid = gid,env = env,  data = maizeY
 ## Examples of Models without any genetic relatedness, which G = I a identity for genotypes
 MDs   = get_kernel(K_G = NULL, y = y,gid = gid,env = env,  data = maizeYield, model = "MDs")
 EMDs  = get_kernel(K_G = NULL, K_E = KE, y = y,gid = gid,env = env,  data = maizeYield, model = "EMDs")
+}
 
 }
 \seealso{

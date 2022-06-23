@@ -23,6 +23,7 @@
 #' TODO
 #'
 #' @examples
+#'\dontrun{
 #' ### Loading the genomic, phenotype and weather data
 #' data('maizeYield'); data("maizeWTH")
 #'
@@ -40,7 +41,7 @@
 #'           Y = maizeYield,
 #'           merge = FALSE,
 #'           gaussian = TRUE)
-#'
+#'}
 #' @seealso W_matrix
 #'
 #' @importFrom stats sd dist

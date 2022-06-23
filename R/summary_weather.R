@@ -20,6 +20,7 @@
 #' TODO
 #'
 #' @examples
+#'\dontrun{
 #' ### Fetching weather information from NASA-POWER
 #' env.data = get_weather(lat = -13.05, lon = -56.05)
 #'
@@ -33,7 +34,7 @@
 #' summaryWTH(env.data, env.id = 'env', by.interval = TRUE,
 #'            time.window = c(0, 14, 35, 60, 90, 120),
 #'            names.window = c('P-E', 'E-V1', 'V1-V4', 'V4-VT', 'VT-GF', 'GF-PM'))
-#'
+#'}
 #'
 #' @importFrom utils install.packages
 #' @importFrom reshape2 melt dcast

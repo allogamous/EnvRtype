@@ -4,12 +4,18 @@
 \alias{param_radiation}
 \title{Support functions to estimate basic radiation parameters}
 \usage{
-param_radiation(env.data, merge = FALSE)
+param_radiation(
+  env.data,
+  day.id = "DOY",
+  latitude = "LAT",
+  solarRadiation = NULL,
+  merge = TRUE
+)
 }
 \arguments{
 \item{env.data}{data.frame. A \code{get_weather()} output or A \code{get_weather()}-like dataframe.}
 
-\item{merge}{boolean. If \code{TRUE}, calculated variables are merged to the original dataframe.}
+\item{merge}{boolean. If \code{TRUE}, calculated variables are merged to the original dataframe. Default is TRUE}
 }
 \value{
 Returns a dataframe with parameters related to solar radiation. See details for further information.
@@ -27,12 +33,19 @@ This functions requires day of the year, latitude, thermal radiative flux, and s
  }
 }
 \examples{
+\dontrun{
 ### Fetching weather information from NASA-POWER
 env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA')
 
 ### Calculating solar radiation
 param_radiation(env.data)
 
+env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA') \%>\%
+           param_radiation()
+
+#' env.data = get_weather(lat = -13.05, lon = -56.05, country = 'BRA') \%>\%
+           param_radiation(day.id='DOY',latitude='LAT')
+}
 }
 \author{
 Germano Costa Neto

@@ -7,8 +7,9 @@
 #'@usage data(maizeWTH)
 #'
 #'@examples
+#'\dontrun{
 #' data(maizeWTH); head(maizeWTH)
-#'
+#'}
 #' @format A data.frame containing weather variables for each environment in HEL dataset
 
 "maizeWTH"

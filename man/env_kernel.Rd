@@ -54,6 +54,7 @@ Returns environmental kinships for reaction norm models. Output is a list contai
 TODO
 }
 \examples{
+\dontrun{
 ### Loading the genomic, phenotype and weather data
 data('maizeYield'); data("maizeWTH")
 
@@ -71,7 +72,7 @@ env_kernel(env.data = W.cov,
           Y = maizeYield,
           merge = FALSE,
           gaussian = TRUE)
-
+}
 }
 \seealso{
 W_matrix
