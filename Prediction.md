@@ -1,6 +1,6 @@
 # General Model
 
-$$ \boldsymbol{y}=1 \boldsymbol{\mu}+\boldsymbol{Z}_{E} \boldsymbol{\beta}+\sum_{s=1}^{k} g_{s}+\sum_{s=1}^{k} g E_{s}+\sum_{r=1}^{l} W_{r}+\sum_{s=1}^{k} \sum_{r=1}^{l} g W_{s r}+\boldsymbol{\varepsilon} $$
+$$ \boldsymbol{y}=1 \boldsymbol{\mu}+\boldsymbol{Z}_{e} \boldsymbol{\beta}+\sum_{s=1}^{k} g_{s}+\sum_{s=1}^{k} g E_{s}+\sum_{r=1}^{l} W_{r}+\sum_{s=1}^{k} \sum_{r=1}^{l} g W_{s r}+\boldsymbol{\varepsilon} $$
 
 ## MM (Main Genetic Effect, no GxE, no enviromics)
 
