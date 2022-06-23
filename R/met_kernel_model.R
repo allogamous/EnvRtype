@@ -6,13 +6,14 @@
 #' @author Germano Costa Neto (Adapted from Granato et al. 2018, BGGE package)
 
 #' @param env character. denotes the name of the column respectively to environments
-#' @param y character. denotes the name of the column respectively to phenotype values
+#' @param y numeric. denotes the name of the column respectively to phenotype values
 #' @param data data.frame. Should contain the following colunms: environemnt, genotype, phenotype.
 #' @param random list A two-level list Specify the regression kernels (co-variance matrix). The former is the \code{Kernel},
 #' where is included the regression kernels. The later is the \code{Type}, specifying if the matrix is either \code{D} Dense or
 #' \code{BD} Block Diagonal. A number of regression kernels or random effects to be fitted are specified in this list.
 #' @param fixed matrix Design matrix (\eqn{n \times p}) for fixed effects (NULL by default)
 #' @param iterations numeric Number of iterations (1000 by default)
+#' @param gid character. denotes the name of the column respectively to the genotype identification (names)
 #' @param burnin numeric, number of iterations to be discarded as burn-in (200 by default).
 #' @param thining numeric, number of thining used in Markov Chains (10 by default)
 #' @param digits numeric. Digits for round variance components.

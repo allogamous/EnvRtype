@@ -7,7 +7,7 @@
 \format{
 A data.frame containing environmental identifications (env), geographic coordinates (lat, lon) and the time window (start, end) given in YYYY-MM-DD.
 
-A .tif raster file
+data.frame file
 }
 \usage{
 data(G2F_2014_17)
@@ -20,11 +20,11 @@ the development and deployment of tools and resources that help address fundamen
 Specific projects within G2F involve collaboration from research fields such as genetics, genomics, plant physiology, agronomy, climatology and crop modeling,
 computational sciences, statistics, and engineering. See https://bmcresnotes.biomedcentral.com/articles/10.1186/s13104-020-4922-8.
 
-Here we used the geographic coordinates from 98 environments (diverse locations across 4 years)
+Here we used the geographic coordinates from 93 environments (diverse locations across 4 years)
 }
 \examples{
 require(EnvRtype)
-data(G2F_2014_17)
+data('G2F_2014_17')
 
 data = G2F_2014_17
 env   = data$env
@@ -34,6 +34,7 @@ env   = data$env
 start = data$start
 end = data$end
 country = rep('USA1',length(lon))
+
 
 env.data =
   EnvRtype::get_weather(env.id = env,
