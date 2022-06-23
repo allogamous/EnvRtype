@@ -23,8 +23,9 @@ computational sciences, statistics, and engineering. See https://bmcresnotes.bio
 Here we used the geographic coordinates from 93 environments (diverse locations across 4 years)
 }
 \examples{
+\dontrun{
 require(EnvRtype)
-data('G2F_2014_17')
+data(G2F_2014_17)
 
 data = G2F_2014_17
 env   = data$env
@@ -46,5 +47,6 @@ env.data =
                         parallel = TRUE)
 
 head(env.data)
+}
 }
 \keyword{datasets}

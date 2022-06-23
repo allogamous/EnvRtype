@@ -17,8 +17,9 @@
 #'@usage data(G2F_2014_17)
 #'
 #'@examples
+#'\dontrun{
 #' require(EnvRtype)
-#' data('G2F_2014_17')
+#' data(G2F_2014_17)
 #'
 #' data = G2F_2014_17
 #' env   = data$env
@@ -40,6 +41,7 @@
 #'                         parallel = TRUE)
 #'
 #'head(env.data)
+#'}
 #' @format data.frame file
 
 "G2F_2014_17"
