@@ -63,7 +63,7 @@ Here we present the EnvRtype R package as a new toolkit developed to facilitate 
 
 * [Envirotyping pipeline](https://github.com/allogamous/EnvRtype/blob/master/Enviromic_pipeline.md)
 * [Genomic Prediction using Environmental Covariates](https://github.com/allogamous/EnvRtype/blob/master/Genomic%20Prediction.md)
-* [Full examples and R Codes for the G3 Paper](https://raw.githubusercontent.com/allogamous/EnvRtype/master/EnvRtype_full_tutorial.R)
+* [Full examples and R Codes for the G3 Paper](https://github.com/allogamous/EnvRtype/blob/master/EnvRtype_full_tutorial.R)
 
 **Information**
 * [Authorship](#P4)
