@@ -18,6 +18,7 @@ require("EnvRtype")
 data("maizeYield") # toy set of phenotype data (grain yield per environment)
 data("maizeG") # toy set of genomic relationship for additive effects 
 data("maizeWTH") # toy set of environmental data
+maizeYield <- droplevels(maizeYield) # make sure the nlevels of GID matchs with the G matrix dimension
 
 ################ BOX 3: Practical use of get_weather ################
 
@@ -84,6 +85,7 @@ data("maizeWTH")   # toy set of environmental data
 y   = "value"      # name of the vector of phenotypes
 gid = "gid"        # name of the vector of genotypes
 env = "env"        # name of the vector of environments
+maizeYield <- droplevels(maizeYield) # make sure the nlevels of GID matchs with the G matrix dimension
 
 ECs  = W_matrix(env.data = maizeWTH, var.id = c("FRUE",'PETP',"SRAD","T2M_MAX"),statistic = 'mean')
 ## KG and KE might be a list of kernels
@@ -177,6 +179,8 @@ data("maizeWTH")   # toy set of environmental data
 y   = "value"      # name of the vector of phenotypes
 gid = "gid"        # name of the vector of genotypes
 env = "env"        # name of the vector of environments
+maizeYield <- droplevels(maizeYield) # make sure the nlevels of GID matchs with the G matrix dimension
+
 ### 1- Environmental Covariables (ECs)
 stages    = c('VE','V1_V6','V6_VT','VT_R1','R1_R3','R3_R6',"H")
 interval  = c(0,7,30,65,70,84,105)
