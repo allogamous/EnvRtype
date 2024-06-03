@@ -9,6 +9,7 @@
 
 Last Version: 1.0.0 (31th August 2021)
 
+Please consider migrating to [envirotypeR repo](https://github.com/gcostaneto/envirotypeR)
 <div id="menu" />
   
   [![DOI](https://img.shields.io/badge/DOI-doi.org%2F10.1093%2Fg3journal%2Fjkab040-orange)](https://doi.org/10.1093/g3journal/jkab040)
