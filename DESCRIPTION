@@ -3,7 +3,7 @@ Type: Package
 Title: Envirotyping Tools for Crop Research and Genetic Improvment
 Version: 1.1.1
 Author: Germano Costa Neto, Giovanni Galli and Roberto Fritsche Neto
-Maintainer: Germano Costa Neto <gmc222@cornell.edu>
+Maintainer: Germano Costa Neto <germano.cneto@gmail.com>
 Description: Provide tools for collecting environmental data from GIS-based platforms,enabling environmental characterization studies, providing environmental relatedness kinships and kernels for genomic prediction of reaction norms.
 License: MIT
 Encoding: UTF-8
