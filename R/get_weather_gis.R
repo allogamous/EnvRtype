@@ -1,20 +1,29 @@
-#'@title  Easily Collection of Worldwide Daily Weather Data
+#==================================================================================================
+# Title.    : Collecting daily weather from NASA POWER
+# Author.   : G Costa-Neto
+# Created at: 2020-12-30
+# Updated at: 2023-11-21 
+# Previous versions: EnvRtype::extract_GIS()
+# 
+#
+# get_weather(), based on nasapower::get_power() from Sparks et al 2018
+#==================================================================================================
+#'
+#'@title  Easily Collection of Worldwide Daily Weather Data.
 #'
 #'
 #' @description Imports daily-scale weather data from the NASA-POWER GIS and geographic data from SRTM database.
 #'
-#' @author Germano Costa Neto, modified by Tiago Olivoto
+#' @author Germano Costa Neto and Giovanni Galli, modified by Tiago Olivoto
 #'
-#' @param env.id vector (character or level). Identification of the site/environment (e.g. Piracicaba01).
+#' @param env.id vector (character or level). Identifies  the site/environment (e.g. Piracicaba01).
 #' @param lat vector (numeric). Latitude values of the site/environment (e.g. -13.05) in WGS84.
 #' @param lon vector (numeric). Longitude values site/environment (e.g. -56.05) in WGS84.
-#' @param variables.names vector (character). Name of the variables. Should be "T2M","T2M_MAX","T2M_MIN","PRECTOT", "WS2M","RH2M","T2MDEW", "ALLSKY_SFC_LW_DWN", "ALLSKY_SFC_SW_DWN", and/or "ALLSKY_TOA_SW_DWN". See Details for more information.
+#' @param variables.names vector (character). Name of the variables. Should be "T2M","T2M_MAX","T2M_MIN","PRECTOT", etc. See Details for more information.
 #' @param start.day vector (character). First date in which weather/geographic data should be collected (e.g. "2015-02-15").
 #' @param end.day vector (character). Last date in which weather/geographic data should be collected (e.g. "2015-06-15").
-#' @param dir.path character. Directory for the output. If not informed, the output will be saved in the current workind directory.
+#' @param dir.path character. Directory for the output. If not informed, the output will be saved in the current working directory.
 #' @param save bollean. If TRUE, save each environmental data.frame as .csv in dir.path.
-#' @param temporal.scale character. Default = 'DAILY'. See \code{get_power()} function in nasapower package for more details.
-#' @param country vector (character). Country in which the lat and lon values are positioned (e.g. 'BRA'). For USA continental area, use USA1. Wrapper of raster::getData.
 #' @param parallel bollean. If TRUE, a parallel strategy is implemented. The
 #'   vectors are split into chunks with `chunk_size` elements (30 by default)
 #'   where the data is downloaded. The function then sleeps for `sleep` seconds
@@ -31,28 +40,49 @@
 #' @return A data.frame with selected \code{variable.names} collected from a \code{start.day} to a \code{end.day} at the informed \code{lat} and \code{lon}.
 #'
 #' @details
-#' The available variables are:
+#' The available variables are (from NASAPOWER & Computed):
 #' \itemize{
-#'  \item T2M: Temperature at 2 Meters
-#'  \item T2M_MAX: Maximum Temperature at 2 Meters
-#'  \item T2M_MIN: Minimum Temperature at 2 Meters
-#'  \item PRECTOT: Precipitation
-#'  \item WS2M: Wind Speed at 2 Meters
-#'  \item RH2M: Relative Humidity at 2 Meters
-#'  \item T2MDEW: Dew/Frost Point at 2 Meters
+#'  \item T2M: Temperature at 2 Meters. C
+#'  \item T2M_MAX: Maximum Temperature at 2 Meters, C
+#'  \item T2M_MIN: Minimum Temperature at 2 Meters, C
+#'  \item PRECTOT: Precipitation (mm)
+#'  \item WS2M: Wind Speed at 2 Meters, m/s
+#'  \item RH2M: Relative Humidity at 2 Meters, percentage
+#'  \item QV2M: Specific Humidity, the ratio of the mass of water vapor to the total mass of air at 2 meters (kg water/kg total air).
+#'  \item T2MDEW: Dew/Frost Point at 2 Meters, C
 #'  \item ALLSKY_SFC_LW_DWN: Downward Thermal Infrared (Longwave) Radiative Flux
 #'  \item ALLSKY_SFC_SW_DWN: All Sky Insolation Incident on a Horizontal Surface
-#'  \item ALLSKY_TOA_SW_DWN: Top-of-atmosphere Insolation
+#'  \item ALLSKY_SFC_SW_DNI All Sky Surface Shortwave Downward Direct Normal Irradiance
+#'  \item ALLSKY_SFC_UVA: All Sky Surface Ultraviolet A (315nm-400nm)  Irradiance
+#'  \item ALLSKY_SFC_UVB: All Sky Surface Ultraviolet B (280nm-315nm)  Irradiance
+#'  \item ALLSKY_SFC_PAR_TOT: All Sky Surface Photosynthetically Active Radiation (PAR) Total
+#'  \item FROST_DAYS: If it was a frost day (temperature less than 0C or 32F)
+#'  \item GWETROOT: Root Zone Soil Wetness (layer from 0 to 100cm),ranging from 0 (water-free soil) to 1 (completely saturated soil).
+#'  \item GWETTOP: Surface Soil Wetness (layer from 0 to 5cm),ranging from 0 (water-free soil) to 1 (completely saturated soil).
+#'  \item EVPTRNS: Evapotranspiration energy flux at the surface of the earth.
+#'  \item P-ETP: Computed difference between preciptation and evapotranspiration.
+#'  \item VPD: Vapour pressure deficit (kPa), computed from T2MDEW,T2M_MAX and T2M_MIN
+#'  \item N: Photoperiod (in h), computed from latitude and julian day (day of the year)
+#'  \item n: number of sunny hours in the day for a clear sky (no clouds)
+#'  \item RTA: Radiation on the top of the atmosphere, computed from latitude and julian day (day of the year)
+#'  \item TH1: Temperature-Humidity Index by NRC 1971
+#'  \item TH2: Temperature-Humidity Index by Yousef 1985
+#'  \item PAR_TEMP: computed ratio between ALLSKY_SFC_PAR_TOT and  T2M
 #' }
 #'
 #' @examples
 #'\dontrun{
-#' ## Temperature for a single location:
+#' ## Temperature for a single location
 #' get_weather(env.id = "NM", lat = -13.05, lon = -56.05,
 #'             start.day = "2015-02-15", end.day = "2015-06-15",
 #'             variables.names = c("T2M"))
 #'
-#' ## All variables for two locations:
+#' ## GWETROOT (Root Zone Soil Wetness) for a single location
+#' get_weather(env.id = "NM", lat = -13.05, lon = -56.05,
+#'             start.day = "2015-02-15", end.day = "2015-06-15",
+#'             variables.names = c("GWETROOT"))
+#'
+#' ## All variables for two locations
 #' env = c("NM","SO")
 #' lat = c(-13.05,-12.32); lon = c(-56.05,-55.42)
 #' plant.date = c("2015-02-15",'2015-02-13')
@@ -63,7 +93,8 @@
 #'
 #' @references
 #' Sparks A (2018). _nasapower: NASA-POWER Data from R_. R package version 1.1.3, <URL:https://CRAN.R-project.org/package=nasapower>.
-#'
+#' Yousef M.K.(1985) _Stress Physiology in Livestock_, CRC Press, Boca Raton, FL
+#' NRC (1971) _A guide to environmental research on animals_, Natl. Acad. Sci., Washington, DC (1971)
 #' @importFrom utils write.csv
 #' @importFrom nasapower get_power
 #' @importFrom plyr ldply
@@ -77,19 +108,17 @@
 # adaptation from nansapower package's get_power function
 #----------------------------------------------------------------------------------------
 get_weather <- function(env.id = NULL,
-                         lat = NULL,
-                         lon = NULL,
-                         start.day = NULL,
-                         end.day = NULL,
-                         variables.names = NULL,
-                         dir.path = NULL,
-                         save = FALSE,
-                         temporal.scale = "daily",
-                         country = NULL,
-                         parallel = TRUE,
-                         workers = NULL,
-                         chunk_size = 29,
-                         sleep = 60)
+                        lat = NULL,
+                        lon = NULL,
+                        start.day = NULL,
+                        end.day = NULL,
+                        variables.names = NULL,
+                        dir.path = NULL,
+                        save = FALSE,
+                        parallel = TRUE,
+                        workers = NULL,
+                        chunk_size = 29,
+                        sleep = 60)
 {
   if (!requireNamespace("doParallel", quietly = TRUE)) {
     utils::install.packages("doParallel")
@@ -169,12 +198,12 @@ get_weather <- function(env.id = NULL,
            text = paste(text, paste(pb$leftd, '%s%s', pb$rightd, sep = ""), '% s%%', elapsed))
     )
     step <- round(actual / pb$max * (pb$width - temp$extra))
-    cat(sprintf(temp$text,
+    message(sprintf(temp$text,
                 strrep(pb$char, step),
                 strrep(' ', pb$width - step - temp$extra),
                 round(actual / pb$max * 100, digits = digits)), "\r")
     if(actual == pb$max){
-      cat("\n")
+      message("\n")
     }
   }
   # split a vector into chunks with a given length
@@ -182,12 +211,14 @@ get_weather <- function(env.id = NULL,
     split(vec, ceiling(seq_along(vec) / length))
   }
 
-  cat("------------------------------------------------ \n")
-  cat("ATTENTION: This function requires internet access \n")
-  cat("------------------------------------------------  \n")
-  cat('Connecting to the NASA POWER API Client, Sparks et al 2018 \n')
-  cat('https://docs.ropensci.org/nasapower \n')
-  cat("------------------------------------------------  \n")
+
+
+
+  message("---------------------------------------------------------------")
+  message('get_weater() - Pulling Daily Weather Features from NASA POWER')
+  message('Connecting to the API client')
+  message('https://docs.ropensci.org/nasapower')
+  message("---------------------------------------------------------------")
 
   if (is.null(env.id)) {
     env.id <- paste0("env", seq_along(lat))
@@ -207,21 +238,47 @@ get_weather <- function(env.id = NULL,
   }
   if (is.null(start.day)) {
     start.day <- Sys.Date() - 1000
-    cat(paste0("start.day is NULL", "\n"))
-    cat(paste0("matched as ", start.day, "\n"))
+    message(paste0("start.day is NULL", "\n"))
+    message(paste0("matched as ", start.day, "\n"))
   }
   if (is.null(end.day)) {
     end.day <- start.day + 30
-    cat(paste0("end.day is NULL", "\n"))
-    cat(paste0("matched as ", end.day, "\n"))
+    message(paste0("end.day is NULL", "\n"))
+    message(paste0("matched as ", end.day, "\n"))
   }
   if (is.null(variables.names)) {
-    variables.names = c("T2M", "T2M_MAX", "T2M_MIN",
-                        "PRECTOTCORR", "WS2M", "RH2M",
-                        "T2MDEW", "ALLSKY_SFC_LW_DWN", "ALLSKY_SFC_SW_DWN")
+  # variables.names = c("T2M", "T2M_MAX", "T2M_MIN",
+  #                      "PRECTOTCORR", "WS2M", "RH2M",
+  #                      "T2MDEW", "ALLSKY_SFC_LW_DWN",
+   #                     "ALLSKY_SFC_SW_DWN",
+  #                      'GWETROOT','GWETPROF','GWETTOP',
+   #                     'EVLAND','FROST_DAYS','FRSEAICE',
+  #                      'FRSNO','SNODP','QV2M','EVPTRNS','CDD10','TO3')
+
+    variables.names = c("T2M", "T2M_MAX", "T2M_MIN","T2MDEW",#'CDD10',#'TS',
+                       "ALLSKY_SFC_LW_DWN",
+                        "ALLSKY_SFC_SW_DWN",'ALLSKY_SFC_SW_DNI',
+                        'ALLSKY_SFC_PAR_TOT',
+                       'ALLSKY_SFC_UVA','ALLSKY_SFC_UVB',
+                        "PRECTOTCORR",'EVPTRNS','QV2M', "RH2M",
+                        'GWETROOT',#'GWETPROF',
+                        'GWETTOP',
+                    #    'EVLAND',
+                        'FROST_DAYS',#'FRSEAICE',
+                        #'FRSNO','SNODP',
+                         "WS2M")
   }
   variables.names[grepl(variables.names, pattern = "PRECTOT")] = "PRECTOTCORR"
+  envs_to_pull = length(unique(env.id))
   env.id = as.factor(env.id)
+
+  envs_to_pull <- unique(env.id)
+  startTime <- Sys.time()
+  message(paste0('Start at...........................', format(startTime, "%a %b %d %X %Y"),'\n'))
+  message(paste0('Number of Environmental Units ........',length( envs_to_pull)))
+  message(paste0('Parallelization.....................[ ',ifelse(isTRUE(parallel),'x',''),' ]'))
+
+
   # sequential strategy
   # sleeps for 'sleep' s after 30 or more queries in 60 s
   if(parallel == FALSE){
@@ -263,6 +320,8 @@ get_weather <- function(env.id = NULL,
     nworkers <- ifelse(is.null(workers),
                        trunc(parallel::detectCores() * 0.9), workers)
     clust <- parallel::makeCluster(nworkers)
+    message(paste0('Number of threads.....................',nworkers))
+
     on.exit(parallel::stopCluster(clust))
     results <- list()
     pb <- progress(max = length(env.id_par), style = 4)
@@ -273,9 +332,9 @@ get_weather <- function(env.id = NULL,
       start.day_par_tmp <- start.day_par[[i]]
       end.day_par_tmp <- end.day_par[[i]]
       parallel::clusterExport(clust,
-                    varlist = c("get_helper", "lat_par_tmp", "lon_par_tmp", "variables.names",
-                                "start.day_par_tmp", "end.day_par_tmp", "env.id_par_tmp"),
-                    envir = environment())
+                              varlist = c("get_helper", "lat_par_tmp", "lon_par_tmp", "variables.names",
+                                          "start.day_par_tmp", "end.day_par_tmp", "env.id_par_tmp"),
+                              envir = environment())
       length_chunk <- length(env.id_par[[i]])
       temp <- parallel::parLapply(clust, 1:length_chunk, function(j) {
         get_helper(lon = lon_par_tmp[j],
@@ -289,75 +348,144 @@ get_weather <- function(env.id = NULL,
       results[[i]] <- plyr::ldply(temp)
       if(i < length(env.id_par)){
         message("Waiting ", sleep, "s for a new query to the API.")
-        msg <- paste0("Chunk ", i, "/", length(env.id_par), " (",length_chunk,  " points) downloaded")
-        run_progress(pb, actual = i, text = msg)
+      #  msg <- paste0("Chunk ", i, "/", length(env.id_par), " (",length_chunk,  " points) downloaded")
+       # run_progress(pb, actual = i, text = msg)
         Sys.sleep(sleep)
       }
     }
-    message("\nNASA POWER: Done!")
+ #   message("NASA POWER: Done!")
   }
-  df <-  plyr::ldply(results)
+  .output_weather <-  plyr::ldply(results)
 
-  if(is.null(country))
+  message(paste0('NASA POWER done! Thank you, Sparks et al 2018! \n'))
+
+
+  variables.names[grepl(variables.names, pattern = "PRECTOTCORR")] = "PRECTOT"
+
+  comp1 <-''
+
+  if(isTRUE("PRECTOT" %in% variables.names) & isTRUE('EVPTRNS' %in% variables.names))
   {
+   # message(paste0('Computing P-ETP......................'))
 
-    cat("\n")
-    cat('country = NULL ; Not possible to download ALT data. Please provide a country ID (e.g., USA1, BRA, FRA)')
-
-    variables.names[grepl(variables.names, pattern = "PRECTOTCORR")] = "PRECTOT"
-    ids = which(names(df) %in% variables.names)
-    df[, ids][df[, ids] == -999] = NA
-    return(df)
+    .output_weather$P_ETP <- .output_weather$PRECTOT - .output_weather$EVPTRNS
+    variables.names <- c( variables.names,'P_ETP')
+    comp1 <- 'x'
   }
-  if (!is.null(country)) {
 
+  message(paste0('Computing P-ETP.....................[ ',comp1,' ]'))
+  comp1 <-''
 
-    if (!requireNamespace("raster"))
-      utils::install.packages("raster")
-    suppressMessages('raster')
-    suppressWarnings('raster')
+  if(isTRUE("T2MDEW" %in% variables.names) & isTRUE("T2M_MIN" %in% variables.names) & isTRUE("T2M_MAX" %in% variables.names))
+  {
+    teten <- function(Temp) return(.61078*exp((17.27*Temp)/(Temp+237.3)))
 
-    cat("\n")
-    cat('Connecting to https://biogeo.ucdavis.edu/data/ using Hijmans 2021')
-    cat("------------------------------------------------  \n")
-
-    unique_country <- unique(country)
-    raster_alt <- vector(mode = 'list',length = length(unique_country))
-    names(raster_alt) = unique_country
-
-    for(n in 1:length(unique_country))
-    {
-      if(isTRUE(grepl(x = unique_country[n],pattern = 'USA')))
-      {
-        id_region = as.numeric(gsub(x = unique_country[n],pattern = 'USA',replacement = ''))
-        raster_alt[[n]] <- suppressMessages(raster::getData("alt", country = 'USA',mask = TRUE)[[id_region]])
-      }
-      else
-      {
-        raster_alt[[n]] <-  suppressMessages(raster::getData("alt", country = unique_country[n], mask = TRUE))
-      }
-    }
-
-
-    df_no_alt <- df
-    df <- c()
-    for(i in 1:length(env.id))
-    {
-      country_raster <-raster_alt[[which(names(raster_alt)%in% country[i])]]
-      id <- which(df_no_alt$env %in% env.id[i])
-      df <- rbind(df,extract_GIS(covraster = country_raster, env.data = df_no_alt[id,],name.out = 'ALT'))
-    }
-
-    variables.names <- c(variables.names,'ALT')
-    message("\nSRTM: Done!")
-
-    variables.names[grepl(variables.names, pattern = "PRECTOTCORR")] = "PRECTOT"
-    ids = which(names(df) %in% variables.names)
-    df[, ids][df[, ids] == -999] = NA
-    return(df)
+    .output_weather$VPD <- ((teten(.output_weather$T2M_MIN) +teten(.output_weather$T2M_MAX))/2)-teten(.output_weather$T2MDEW)
+    comp1 <-'x'
+    variables.names <- c( variables.names,'VPD')
   }
+  message(paste0('Computing VPD.......................[ ',comp1,' ]'))
+  comp1 <-''
+  ## computing global radiation and day lenght
+  Ra_fun <- function(J,lat){
+
+    deg2rad <- function(deg) (deg * pi) / (180)
+
+
+    rlat = deg2rad(lat)
+    fi = .409*sin((2*pi/365)*J-1.39)
+    dr = 1+ .033*cos((2*pi/365)*J)
+    ws = acos(-tan(rlat)*tan(fi))
+    Ra = (1440/pi)*.0820*dr*(ws*sin(rlat)*sin(fi)+cos(rlat)*cos(fi)*sin(ws))
+  #  N = (24/pi)*ws
+    # Forsythe, William C., Edward J. Rykiel Jr., Randal S. Stahl, Hsin-i Wu and Robert M. Schoolfield, 1995.
+    #A model comparison for daylength as a function of latitude and day of the year. Ecological Modeling 80:87-95
+    P <- asin(0.39795 * cos(0.2163108 + 2 * atan(0.9671396 * tan(0.00860*(J-186)))))
+    P <-  (sin(0.8333 * pi/180) + sin(lat * pi/180) * sin(P)) / (cos(lat * pi/180) * cos(P))
+    P <- pmin(pmax(P, -1), 1)
+    DL <- 24 - (24/pi) * acos(P)
+
+    return(data.frame(Ra=Ra,N=DL))
+  }
+
+  comp1 <-''
+
+  DL <-    Ra_fun(J =.output_weather$DOY,lat=.output_weather$LAT)
+  .output_weather$N <- round(DL$N,3)
+  .output_weather$RTA <- round(DL$Ra,3)
+  variables.names <- c(variables.names,'N','RTA')
+
+  if(isTRUE("RTA" %in% variables.names) & isTRUE('ALLSKY_SFC_SW_DNI' %in% variables.names))
+  {
+    .output_weather$n <-  round(abs(.output_weather$N*(.output_weather$ALLSKY_SFC_SW_DNI /.output_weather$RTA)),3)
+    variables.names <- c(variables.names,'n')
+    comp1 <-'x'
+  }
+  message(paste0('Computing N,n,RTA...................[ ',comp1,' ]'))
+
+
+  comp1 <-''
+
+  if(isTRUE('T2M' %in% variables.names)& isTRUE('RH2M' %in% variables.names))
+  {
+    # THI1 = [1.8 × (AT) + 32] − [0.55 − 0.0055 × (RH)] × [1.8 × (AT) − 26];
+    .output_weather$TH1 <- (1.8*.output_weather$T2M + 32) - (0.55 - 0.0055* .output_weather$RH2M)*(1.8*.output_weather$T2M-26)
+
+    variables.names <- c(variables.names,'TH1')
+    comp1 <-'x'
+  }
+
+  message(paste0('Computing TH1.......................[ ',comp1,' ]'))
+
+
+  comp1 <-''
+
+  if(isTRUE("T2MDEW" %in% variables.names) & isTRUE('T2M' %in% variables.names))
+  {
+    # THI2 = AT + (0.36 × DP) + 41.2.
+    .output_weather$TH2 <- .output_weather$T2M + (0.36*.output_weather$T2MDEW)+41.2
+
+    variables.names <- c(variables.names,'TH2')
+    comp1 <-'x'
+  }
+
+  message(paste0('Computing TH2.......................[ ',comp1,' ]'))
+
+
+  comp1 <-''
+
+  if(isTRUE("ALLSKY_SFC_PAR_TOT" %in% variables.names) & isTRUE('T2M' %in% variables.names))
+  {
+    # THI2 = AT + (0.36 × DP) + 41.2.
+    .output_weather$PAR_TEMP <- .output_weather$ALLSKY_SFC_PAR_TOT/.output_weather$T2M
+
+    variables.names <- c(variables.names,'PAR_TEMP')
+    comp1 <-'x'
+  }
+  message(paste0('Computing PAR_TEMP..................[ ',comp1,' ]'))
+  comp1 <-''
+
+
+
+  id.var = which(names( .output_weather) %in% variables.names)
+  id.env =  which(names( .output_weather) %in% c("env",'LON','LAT','YYYYMMDD',"DOY",'daysFromStart'))
+  .output_weather[, c(id.var )][ .output_weather[,  c(id.var )] == -999] = NA
+  .output_weather <- .output_weather[,c(id.env,id.var )]
+
+ # ids <- which(names(.output_weather) %in% c("env",'LON','LAT','YYYYMMDD','daysFromStart',variable.names))
+ #.output_weather <- .output_weather[,ids]
+  endTime <- Sys.time()
+  message(paste0('\nEnvironmental Units downloaded.......',  length(unique(  .output_weather$env)),'/',length( envs_to_pull)))
+  message(paste0('Daily Weather Features...............',  length(variables.names)))
+  message(paste0('Environmental data...................',  length(variables.names)* length(unique(  .output_weather$env)),'\n'))
+
+  message(paste0('Done!..............................', format(endTime, "%a %b %d %X %Y")))
+  message(paste0('Total Time.........................',  round(difftime(endTime,startTime,units = 'secs'),2),'s'))
+
+  return(  .output_weather)
 
 }
+
 
 
 
