@@ -44,7 +44,11 @@ Here we present the EnvRtype R package as a new toolkit developed to facilitate 
  
 
   ## Updates and Maintence
- 
+
+* EnvRtype 1.1.1 is online (17 Oct 2024)
+  
+* raster bug fixed (when downloading altitude data)
+  
 * rgdal is retired! We fixed it by Oct 21 2023. More info about rgdal's retirement [here](https://r-spatial.org/r/2022/04/12/evolution.html)
   
 * EnvRtype 1.1.0 is online (1st June 2022)
