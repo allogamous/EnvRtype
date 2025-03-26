@@ -2,9 +2,9 @@
 # Title.    : Collecting daily weather from NASA POWER
 # Author.   : G Costa-Neto
 # Created at: 2020-12-30
-# Updated at: 2023-11-21 
+# Updated at: 2025-03-26 (envirotypeR version 0.1.3)
 # Previous versions: EnvRtype::extract_GIS()
-# 
+# Current Version: 0.1.1 (envirotypeR)
 #
 # get_weather(), based on nasapower::get_power() from Sparks et al 2018
 #==================================================================================================
@@ -485,12 +485,3 @@ get_weather <- function(env.id = NULL,
   return(  .output_weather)
 
 }
-
-
-
-
-
-
-
-
-
