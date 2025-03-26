@@ -5,7 +5,7 @@
 ### A R Interplay between Quantitative Genetics and Ecophysiology for GxE analysis
 
 
-#### **Current Version**: 1.1.1 (17 Oct 2024) | Last Version: 1.1.0 (1st June 2022)
+#### **Current Version**: 1.1.3 (Mar 2025 | Last Version: 11.1.2 (17 Oct 2024) 
 
 Please consider migrating to [envirotypeR repo](https://github.com/gcostaneto/envirotypeR)
 <div id="menu" />
@@ -42,6 +42,8 @@ Here we present the EnvRtype R package as a new toolkit developed to facilitate 
  
 
   ## Updates and Maintence
+
+* EnvRtype 1.1.2 is online (Mar 2025) - correcting bug on get_weather()
 
 * EnvRtype 1.1.1 is online (17 Oct 2024)
   
