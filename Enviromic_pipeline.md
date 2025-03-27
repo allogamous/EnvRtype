@@ -133,7 +133,7 @@ soil_variables =  c("bdod", # soil bulk density,
                     "silt", # sint content
                     "soc") # soil organic carbon (total)
 
-df.soil <- envirotypeR::get_soil(env.id = env.i,lat = lat,lon = lon,
+df.soil <- get_soil(env.id = env.i,lat = lat,lon = lon,
                                  variables.names =  soil_variables )
 
 

@@ -49,9 +49,10 @@ Y  = maizeYield
 
 stages    = c('VE','V1_V6','V6_VT','VT_R1','R1_R3','R3_R6',"H")
 interval = c(0,7,30,65,70,84,105)
-id.vars  = names(maizeWTH)[c(10:15,23,25:30)]
+var.i = c('GWETROOT','VPD','T2MDEW','ALLSKY_SFC_PAR_TOT')
+id.names=c('env','LON','LAT','YYYYMMDD','daysFromStart')
 
-W.matrix = W_matrix(env.data = maizeWTH,env.id = 'env',
+W.matrix = W_matrix(env.data = maizeWTH,env.id = 'env',id.names = id,
                     var.id = id.vars,by.interval = T,time.window = interval,
                     names.window = stages,center = F,scale = F )
 
