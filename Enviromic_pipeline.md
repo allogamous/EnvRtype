@@ -147,7 +147,9 @@ df.soil <- envirotypeR::get_soil(env.id = env.i,lat = lat,lon = lon,
 ```{r, eval=FALSE}
 source('https://raw.githubusercontent.com/allogamous/EnvRtype/master/R/plot_panel.R')
 
-(var.i = names(df.clim)[c(2,10:16,21:31)])
+var.i = c('GWETROOT','VPD','T2MDEW','ALLSKY_SFC_PAR_TOT')
+id.names=c('env','LON','LAT','YYYYMMDD','daysFromStart')
+
 
 ET = env_typing(env.data = df.clim,env.id = 'env',var.id = var.i,format = 'wide')
 
@@ -162,7 +164,9 @@ plot_panel(ET,title = 'Panel of Environmental Types')
 > * the function W_matrix allow the creation of panels of environmental covariables and a matrix of ECs for predictive breeding (**W**):
 
 ```{r, eval=FALSE}
-(var.i = names(df.clim)[c(2,10:16,21:31)])
+var.i = c('GWETROOT','VPD','T2MDEW','ALLSKY_SFC_PAR_TOT')
+id.names=c('env','LON','LAT','YYYYMMDD','daysFromStart')
+
 
 EC = W_matrix(env.data = df.clim,env.id = 'env',var.id = var.i,statistic = 'mean')
 
