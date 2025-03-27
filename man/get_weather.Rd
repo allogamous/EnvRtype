@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_weather_gis.R
 \name{get_weather}
 \alias{get_weather}
-\title{Easily Collection of Worldwide Daily Weather Data}
+\title{Easily Collection of Worldwide Daily Weather Data.}
 \usage{
 get_weather(
   env.id = NULL,
@@ -13,8 +13,6 @@ get_weather(
   variables.names = NULL,
   dir.path = NULL,
   save = FALSE,
-  temporal.scale = "daily",
-  country = NULL,
   parallel = TRUE,
   workers = NULL,
   chunk_size = 29,
@@ -22,7 +20,7 @@ get_weather(
 )
 }
 \arguments{
-\item{env.id}{vector (character or level). Identification of the site/environment (e.g. Piracicaba01).}
+\item{env.id}{vector (character or level). Identifies  the site/environment (e.g. Piracicaba01).}
 
 \item{lat}{vector (numeric). Latitude values of the site/environment (e.g. -13.05) in WGS84.}
 
@@ -32,15 +30,11 @@ get_weather(
 
 \item{end.day}{vector (character). Last date in which weather/geographic data should be collected (e.g. "2015-06-15").}
 
-\item{variables.names}{vector (character). Name of the variables. Should be "T2M","T2M_MAX","T2M_MIN","PRECTOT", "WS2M","RH2M","T2MDEW", "ALLSKY_SFC_LW_DWN", "ALLSKY_SFC_SW_DWN", and/or "ALLSKY_TOA_SW_DWN". See Details for more information.}
+\item{variables.names}{vector (character). Name of the variables. Should be "T2M","T2M_MAX","T2M_MIN","PRECTOT", etc. See Details for more information.}
 
-\item{dir.path}{character. Directory for the output. If not informed, the output will be saved in the current workind directory.}
+\item{dir.path}{character. Directory for the output. If not informed, the output will be saved in the current working directory.}
 
 \item{save}{bollean. If TRUE, save each environmental data.frame as .csv in dir.path.}
-
-\item{temporal.scale}{character. Default = 'DAILY'. See \code{get_power()} function in nasapower package for more details.}
-
-\item{country}{vector (character). Country in which the lat and lon values are positioned (e.g. 'BRA'). For USA continental area, use USA1. Wrapper of raster::getData.}
 
 \item{parallel}{bollean. If TRUE, a parallel strategy is implemented. The
 vectors are split into chunks with `chunk_size` elements (30 by default)
@@ -66,28 +60,49 @@ A data.frame with selected \code{variable.names} collected from a \code{start.da
 Imports daily-scale weather data from the NASA-POWER GIS and geographic data from SRTM database.
 }
 \details{
-The available variables are:
+The available variables are (from NASAPOWER & Computed):
 \itemize{
- \item T2M: Temperature at 2 Meters
- \item T2M_MAX: Maximum Temperature at 2 Meters
- \item T2M_MIN: Minimum Temperature at 2 Meters
- \item PRECTOT: Precipitation
- \item WS2M: Wind Speed at 2 Meters
- \item RH2M: Relative Humidity at 2 Meters
- \item T2MDEW: Dew/Frost Point at 2 Meters
+ \item T2M: Temperature at 2 Meters. C
+ \item T2M_MAX: Maximum Temperature at 2 Meters, C
+ \item T2M_MIN: Minimum Temperature at 2 Meters, C
+ \item PRECTOT: Precipitation (mm)
+ \item WS2M: Wind Speed at 2 Meters, m/s
+ \item RH2M: Relative Humidity at 2 Meters, percentage
+ \item QV2M: Specific Humidity, the ratio of the mass of water vapor to the total mass of air at 2 meters (kg water/kg total air).
+ \item T2MDEW: Dew/Frost Point at 2 Meters, C
  \item ALLSKY_SFC_LW_DWN: Downward Thermal Infrared (Longwave) Radiative Flux
  \item ALLSKY_SFC_SW_DWN: All Sky Insolation Incident on a Horizontal Surface
- \item ALLSKY_TOA_SW_DWN: Top-of-atmosphere Insolation
+ \item ALLSKY_SFC_SW_DNI All Sky Surface Shortwave Downward Direct Normal Irradiance
+ \item ALLSKY_SFC_UVA: All Sky Surface Ultraviolet A (315nm-400nm)  Irradiance
+ \item ALLSKY_SFC_UVB: All Sky Surface Ultraviolet B (280nm-315nm)  Irradiance
+ \item ALLSKY_SFC_PAR_TOT: All Sky Surface Photosynthetically Active Radiation (PAR) Total
+ \item FROST_DAYS: If it was a frost day (temperature less than 0C or 32F)
+ \item GWETROOT: Root Zone Soil Wetness (layer from 0 to 100cm),ranging from 0 (water-free soil) to 1 (completely saturated soil).
+ \item GWETTOP: Surface Soil Wetness (layer from 0 to 5cm),ranging from 0 (water-free soil) to 1 (completely saturated soil).
+ \item EVPTRNS: Evapotranspiration energy flux at the surface of the earth.
+ \item P-ETP: Computed difference between preciptation and evapotranspiration.
+ \item VPD: Vapour pressure deficit (kPa), computed from T2MDEW,T2M_MAX and T2M_MIN
+ \item N: Photoperiod (in h), computed from latitude and julian day (day of the year)
+ \item n: number of sunny hours in the day for a clear sky (no clouds)
+ \item RTA: Radiation on the top of the atmosphere, computed from latitude and julian day (day of the year)
+ \item TH1: Temperature-Humidity Index by NRC 1971
+ \item TH2: Temperature-Humidity Index by Yousef 1985
+ \item PAR_TEMP: computed ratio between ALLSKY_SFC_PAR_TOT and  T2M
 }
 }
 \examples{
 \dontrun{
-## Temperature for a single location:
+## Temperature for a single location
 get_weather(env.id = "NM", lat = -13.05, lon = -56.05,
             start.day = "2015-02-15", end.day = "2015-06-15",
             variables.names = c("T2M"))
 
-## All variables for two locations:
+## GWETROOT (Root Zone Soil Wetness) for a single location
+get_weather(env.id = "NM", lat = -13.05, lon = -56.05,
+            start.day = "2015-02-15", end.day = "2015-06-15",
+            variables.names = c("GWETROOT"))
+
+## All variables for two locations
 env = c("NM","SO")
 lat = c(-13.05,-12.32); lon = c(-56.05,-55.42)
 plant.date = c("2015-02-15",'2015-02-13')
@@ -99,7 +114,9 @@ get_weather(env.id = env, lat = lat, lon = lon,
 }
 \references{
 Sparks A (2018). _nasapower: NASA-POWER Data from R_. R package version 1.1.3, <URL:https://CRAN.R-project.org/package=nasapower>.
+Yousef M.K.(1985) _Stress Physiology in Livestock_, CRC Press, Boca Raton, FL
+NRC (1971) _A guide to environmental research on animals_, Natl. Acad. Sci., Washington, DC (1971)
 }
 \author{
-Germano Costa Neto, modified by Tiago Olivoto
+Germano Costa Neto and Giovanni Galli, modified by Tiago Olivoto
 }

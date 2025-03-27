@@ -43,6 +43,9 @@ Here we present the EnvRtype R package as a new toolkit developed to facilitate 
 
   ## Updates and Maintence
 
+* EnvRtype 1.1.2 adding get_soil() function to download data from SoilGrids
+
+
 * EnvRtype 1.1.2 is online (Mar 2025) - correcting bug on get_weather()
 
 * EnvRtype 1.1.1 is online (17 Oct 2024)
