@@ -1,6 +1,8 @@
 # **Envirotyping Pipeline with EnvRtype**
 
-*last update: December 21th 2020*
+*last update: Mar 2025*
+
+*first version: December 21th 2020*
 
 * [Software](#P1)
 * [Daily weather and elevation](#P2)
@@ -33,7 +35,7 @@ lat   = data$lat
 env   = data$env
 start = data$start
 end = data$end
-country = rep('USA1',length(lon))
+#country = rep('USA1',length(lon))
 
 env.data =
   EnvRtype::get_weather(env.id = env,
@@ -41,7 +43,6 @@ env.data =
                         lon = lon,
                         start.day = start,
                         end.day = end,
-                        country = country,
                         parallel = TRUE)
                       
                         
@@ -68,7 +69,7 @@ harv.date = c('2016-08-01',"2016-07-14","2017-07-25","2017-07-15")
 
 ```{r, eval=FALSE}
 # collecting weather data
-df.clim = get_weather(env.id = env.i,lat = lat,lon = lon,start.day = plant.date,end.day = harv.date,country = 'BRA') 
+df.clim = get_weather(env.id = env.i,lat = lat,lon = lon,start.day = plant.date,end.day = harv.date) 
 ```
 
 > * Lets consider tropical maize, with cardinals Tbase1 = 8,Tbase2 = 45,Topt1 = 30,Topt2 = 37
@@ -114,6 +115,29 @@ df.clim = merge(df.clim,soil_data,by='env')
 
 ```
 
+However, if the new update (Mar 2025) you can downlaod soil data at 250m level as:
+
+```{r, eval=FALSE}
+# downloading soil data!
+soil_variables =  c("bdod", # soil bulk density,
+                    "wv0010", # volumetric water content at saturated soil
+                     "wv0033", # volumetric water content at field capacity
+                     "wv1500", # volumetric water content at wilting point
+                    "cec",  # conductivity eletric capacity
+                    "clay",  # clay content
+                    "nitrogen",  # nitrogen content
+                    "ocd", # organic density
+                    "ocs",  # organic content
+                    "phh2o",  # ph
+                    "sand", # sand content
+                    "silt", # sint content
+                    "soc") # soil organic carbon (total)
+
+df.soil <- envirotypeR::get_soil(env.id = env.i,lat = lat,lon = lon,
+                                 variables.names =  soil_variables )
+
+
+```
 <div id="P4" />
 
 # Environmental Typing (ETs)
