@@ -22,7 +22,7 @@ Please consider migrating to new repo and updated package (Latest version, Oct 2
 
 
 
-
+Please migrate to the new repo [EnvRtype 0.1.2](https://github.com/gcostaneto/EnvRtype)
 
 Envirotyping has proven useful in identifying the non-genetic drivers of phenotypic adaptation in plants cultivaded in diverse growing conditions. Combined with phenotyping and genotyping data, the use of envirotyping data may leverage the molecular breeding strategies to cope with environmental changing scenarios. Over the last ten years, this data has been incorporated in genomic-enabled prediction models aiming to better model genotype x environment interaction (GE) as a function of reaction-norm. However, there is difficult for most breeders to deal with the interplay between envirotyping, ecophysiology, and genetics. 
   
@@ -41,35 +41,10 @@ Here we present the EnvRtype R package as a new toolkit developed to facilitate 
   
  
 
-  ## Updates and Maintence
-
-* EnvRtype 1.1.2 adding get_soil() function to download data from SoilGrids
-
-
-* EnvRtype 1.1.2 is online (Mar 2025) - correcting bug on get_weather()
-
-* EnvRtype 1.1.1 is online (17 Oct 2024)
-  
-* raster bug fixed (when downloading altitude data)
-  
-* rgdal is retired! We fixed it by Oct 21 2023. More info about rgdal's retirement [here](https://r-spatial.org/r/2022/04/12/evolution.html)
-  
-* EnvRtype 1.1.0 is online (1st June 2022)
-
-* New version of the get_weather() function -- now running in parallel (Jun 2022)
-
-* Coming Soon: get_soil() function and EPA() [environmental-phenotype associations]
-* [SOLVED] Date 2021-10-14: NASA POWER server off "Error: Something went wrong with the query, no data were returned. Please see <https://power.larc.nasa.gov> for potential server issues."
-* Join our [DISCUSSION FORUM](https://groups.google.com/u/1/g/envrtype)
-* [SOLVED] PRECTOT variable (rainfall precipitation) is currently off from NASA POWER
-* Coming soon: tutorial for using external sources of environmental data (from field micro-stations) 
-* [SOLVED] Coming soon (Dec 2021): tutorial for colecting soil data from SoilGrids data base
-* The current version of the package is 0.0.2 (May 22th 2021)
-* [SOLVED] From December 15th 2020 to January 10th 2021 this page will be under maintence. This means that we are now working in several updates and some changes will be made in some functions.
-* The current version of the package is 0.0.1 (Nov 20th 2020)
-
-
  ## Tutorials
+
+Please migrate to the new repo [EnvRtype 0.1.2](https://github.com/gcostaneto/EnvRtype)
+
 
 * [Envirotyping pipeline](https://github.com/allogamous/EnvRtype/blob/master/Enviromic_pipeline.md)
 * [Genomic Prediction using Environmental Covariates](https://github.com/allogamous/EnvRtype/blob/master/Genomic%20Prediction.md)
