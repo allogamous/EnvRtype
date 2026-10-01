@@ -5,9 +5,9 @@
 ### A R Interplay between Quantitative Genetics and Ecophysiology for GxE analysis
 
 
-#### **Current Version**: 1.1.2 (Mar 2025 | Last Version:  1.1.1  (Oct 2024)
+#### **Current Version of this repo**: 1.1.2 (Mar 2025 | Last Version:  1.1.1  (Oct 2024)
 
-Please consider migrating to [envirotypeR repo](https://github.com/gcostaneto/envirotypeR)
+Please consider migrating to new repo and updated package (Latest version, Oct 2026, and now in CRAN!) [EnvRtype](https://github.com/gcostaneto/EnvRtype)
 <div id="menu" />
   
   [![DOI](https://img.shields.io/badge/DOI-doi.org%2F10.1093%2Fg3journal%2Fjkab040-orange)](https://doi.org/10.1093/g3journal/jkab040)
