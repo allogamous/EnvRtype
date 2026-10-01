@@ -88,23 +88,18 @@ Here we present the EnvRtype R package as a new toolkit developed to facilitate 
 
 ### Using devtools in R
 
-```{r}
-library(devtools)
-devtools::install_github('allogamous/EnvRtype',force=TRUE) # current version:  1.1.0 (June 2022)
-# Enter one or more numbers, or an empty line to skip updates: 3
-require(EnvRtype)
-  ```
+
+```r
+if (!require("devtools")) install.packages("devtools")
+devtools::install_github("gcostaneto/EnvRtype")
+```
+
+```r
+library(EnvRtype)
+```
 ### Manually installing
 
-> If the method above doesn't work, use the next lines by downloading the EnvRtype-master.zip file
-
-```{r}
-setwd("~/EnvRtype-master.zip") # ~ is the path from where you saved the file.zip
-unzip("EnvRtype-master.zip") 
-file.rename("EnvRtype-master", "EnvRtype") 
-shell("R CMD build EnvRtype") # or system("R CMD build EnvRtype")
-install.packages("EnvRtype_1.1.0.tar.gz", repos = NULL, type="source") # Make sure to use the current verision
-```
+Please migrate to the new repo [EnvRtype 0.1.2](https://github.com/gcostaneto/EnvRtype)
  
  ### Required packages
  
